@@ -1,5 +1,11 @@
 Packages
 .build
+.idea
 xcuserdata
 *.xcodeproj
-Config/secrets
+Config/secrets/
+.DS_Store
+node_modules/
+bower_components/
+.swift-version
+CMakeLists.txt
