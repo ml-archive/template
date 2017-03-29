@@ -1,6 +1,6 @@
 import Vapor
 import AppLogic
 
-let drop = Droplet()
+let drop = try Droplet()
 try setup(drop)
-drop.run()
+try drop.run()

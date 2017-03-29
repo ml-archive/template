@@ -15,15 +15,15 @@ class AppLogicTests: XCTestCase {
         let drop = try makeDroplet()
         let request = try Request(method: .get, uri: "/test")
         
-        let response = try drop.respond(to: request)
+        let response =  drop.respond(to: request)
         XCTAssertEqual(response.status, .ok)
-        XCTAssertEqual(response.body.bytes?.string, "Hello, World!")
+        XCTAssertEqual(response.body.bytes?.makeString(), "Hello, World!")
     }
 }
 
 extension AppLogicTests {
     func makeDroplet() throws -> Droplet {
-        let drop = Droplet(arguments: ["/dummy/path/", "prepare"])
+        let drop = try Droplet(arguments: ["/dummy/path/", "prepare"])
         try setup(drop)
         try drop.runCommands()
         return drop
