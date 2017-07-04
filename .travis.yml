@@ -14,7 +14,7 @@ script:
   - swift build
   - swift build -c release
   - swift package generate-xcodeproj --enable-code-coverage
-  - xcodebuild -scheme NodesVaporApp -enableCodeCoverage YES test
+  - xcodebuild -scheme VaporApp-Package -enableCodeCoverage YES test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

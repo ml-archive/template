@@ -1,0 +1,14 @@
+{
+    "apiKey": "$BUGSNAG_KEY",
+  	"endpoint": "https://notify.bugsnag.com",
+    "notifyReleaseStages": [
+        "staging",
+        "production"
+    ],
+    "filters": [
+        "password",
+        "newPassword",
+        "repeat_password"
+    ],
+    "stackTraceSize": 100
+}

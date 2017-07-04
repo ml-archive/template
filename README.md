@@ -11,7 +11,7 @@
 A basic, test-ready Vapor template.
 
 
-## Getting started 🚀
+## 📦 Installation
 
 This template has everything ready to go. Just create a new project using [Vapor toolbox](https://vapor.github.io/documentation/getting-started/install-toolbox.html).
 ```bash
@@ -19,9 +19,35 @@ vapor new MyApp --template=nodes-vapor/template
 ```
 
 
+## Getting started 🚀
+
+### Crypto
+
+The two keys in `crypto.json` needs to be updated. You can use `openssl rand -base64 <length>` to generate random strings. You can use length 10 for the key in the `hash` object and you can use length 32 for the key in the `cipher` object.
+
+
+### Environment variables
+
+Before running your project, you need to make sure you have the following environment variables setup. For more information on how do this, have a look at our guide [here](https://github.com/nodes-vapor/readme/blob/master/Documentation/how-to-setup-environment-variables.md).
+
+- `app.json`
+    - `$PROJECT_NAME`: Name of your project.
+    - `$PROJECT_URL`: Url for your project - there should most likely be one value per environment.
+- `bugsnag.json`
+    - `$BUGSNAG_KEY`: API key for Bugsnag.
+- `mysql.json`
+    - `$DATABASE_HOSTNAME`: Hostname for MySQL (this will fallback to `127.0.0.1`).
+    - `$DATABASE_USER`: User for MySQL (this will fallback to `root`).
+    - `$DATABASE_PASSWORD`: Password for MySQL (this will fallback to ``, which is the empty string).
+    - `$DATABASE_DB`: Database name for project in MySQL (this will fallback to `my-project`).
+- `redis.json`
+    - `$REDIS_HOSTNAME`: Hostname for Redis (this will fallback to `127.0.0.1`).
+    - `$REDIS_DATABASE`: Redis database.
+
+
 ## Project layout 🗂
 
-Due to the fact that `Droplet.run` is a blocking call and that XCTest has difficulty testing Applications, the project is split up into two modules: `App` and `AppLogic`. `App` contains the `main.swift` and is used for building the main executable. `AppLogic` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `AppLogic` module.
+Due to the fact that `Droplet.run` is a blocking call and that XCTest has difficulty testing Applications, the project is split up into two modules: `Run` and `App`. `Run` contains the `main.swift` and is used for building the main executable. `App` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `AppLogic` module.
 
 
 ## Xcode project  🔨 
@@ -32,18 +58,11 @@ vapor xcode -y
 ```
 
 ### Starting your server  🏁 
-In Xcode, select the `App`<sup>fig.1</sup> scheme if you want to startup your server.
+In Xcode, select the `Run` scheme if you want to startup your server.
 
-![Image of App module](https://cloud.githubusercontent.com/assets/1977704/21701832/eb8c79f0-d35c-11e6-97c7-792f6a888a89.png)
 
 ### Testing your code ⏱
-For testing, make sure to have the `NodesVaporApp`<sup>fig. 2</sup> selected.
-
-![Image of NodesVaporApp module](https://cloud.githubusercontent.com/assets/1977704/21701830/e9975480-d35c-11e6-870e-e31e87240988.png)
-
-Now, you can use `⌘U` like usual.
-
-![Image of example test](https://cloud.githubusercontent.com/assets/1977704/21702082/4b8aaa10-d35e-11e6-9278-fb5c590751f6.png)
+For testing, make sure to have the `App` scheme selected. Then, you can use `⌘U` like usual.
 
 
 ## 🏆 Credits

@@ -1,0 +1,7 @@
+{       
+    "hostname": "$DATABASE_HOSTNAME:127.0.0.1",
+    "user": "$DATABASE_USER:root",
+    "password": "$DATABASE_PASSWORD:",
+    "database": "$DATABASE_DB:my-project",
+    "encoding": "utf8mb4"
+}
