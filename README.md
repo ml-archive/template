@@ -8,7 +8,7 @@
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/template)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/template)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/template/master/LICENSE)
 
-A basic, test-ready Vapor template.
+A Vapor template for convenient and fast scaffolding 🏎
 
 
 ## 📦 Installation
