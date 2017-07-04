@@ -47,7 +47,7 @@ Before running your project, you need to make sure you have the following enviro
 
 ## Project layout 🗂
 
-Due to the fact that `Droplet.run` is a blocking call and that XCTest has difficulty testing Applications, the project is split up into two modules: `Run` and `App`. `Run` contains the `main.swift` and is used for building the main executable. `App` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `AppLogic` module.
+The project is split up into two modules: `Run` and `MyProject-Package`. `Run` contains the `main.swift` and is used for building the main executable. `MyProject-Package` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `MyProject-Package` module.
 
 
 ## Xcode project  🔨 
@@ -62,7 +62,7 @@ In Xcode, select the `Run` scheme if you want to startup your server.
 
 
 ### Testing your code ⏱
-For testing, make sure to have the `App` scheme selected. Then, you can use `⌘U` like usual.
+For testing, make sure to have the `MyProject-Package` scheme selected. Then, you can use `⌘U` like usual.
 
 
 ## 🏆 Credits
