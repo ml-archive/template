@@ -43,6 +43,8 @@ Before running your project, you need to make sure you have the following enviro
 - `redis.json`
     - `$REDIS_HOSTNAME`: Hostname for Redis (this will fallback to `127.0.0.1`).
     - `$REDIS_DATABASE`: Redis database.
+    
+Environment variables related to MySQL and Redis will be set automatically if you use e.g. Vapor Cloud. All other variables needs to be set manually, e.g. through the CLI tool. For more information, have a look at the official [Vapor Cloud docs](docs.vapor.cloud).
 
 
 ## Project layout 🗂
