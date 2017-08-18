@@ -31,14 +31,14 @@ The two keys in `crypto.json` needs to be updated. You can use `openssl rand -ba
 Before running your project, you need to make sure you have the following environment variables setup. For more information on how do this, have a look at our guide [here](https://github.com/nodes-vapor/readme/blob/master/Documentation/how-to-setup-environment-variables.md).
 
 - `app.json`
-    - `$PROJECT_NAME`: Name of your project.
-    - `$PROJECT_URL`: Url for your project - there should most likely be one value per environment.
+    - `$PROJECT_NAME`: Name of your project (this will fallback to `my-project`).
+    - `$PROJECT_URL`: Url for your project - there should most likely be one value per environment. This will fallback to `http://0.0.0.0:8080`.
 - `bugsnag.json`
-    - `$BUGSNAG_KEY`: API key for Bugsnag.
+    - `$BUGSNAG_KEY`: API key for Bugsnag (this will fallback to the empty string).
 - `mysql.json`
     - `$DATABASE_HOSTNAME`: Hostname for MySQL (this will fallback to `127.0.0.1`).
     - `$DATABASE_USER`: User for MySQL (this will fallback to `root`).
-    - `$DATABASE_PASSWORD`: Password for MySQL (this will fallback to ``, which is the empty string).
+    - `$DATABASE_PASSWORD`: Password for MySQL (this will fallback to the empty string).
     - `$DATABASE_DB`: Database name for project in MySQL (this will fallback to `my-project`).
 - `redis.json`
     - `$REDIS_HOSTNAME`: Hostname for Redis (this will fallback to `127.0.0.1`).
