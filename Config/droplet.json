@@ -24,7 +24,8 @@
     "//": "The type of cipher to use for encrypting and decrypting messages.",
     "//": "crypto: Vapor's default cipher powered by OpenSSL (configure in crypto.json)",
     "cipher": "crypto",
-        
+
+    "//": "Make sure we are using Redis as our cache.",
     "cache": "redis",
     "sessions": "cache",
 
