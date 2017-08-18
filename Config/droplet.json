@@ -43,9 +43,5 @@
     "//": "prepare: Supplied by the Fluent provider. Prepares the database (configure in fluent.json)",
     "commands": [
         "prepare"
-    ],
-    
-    "//": "Choose which view renderer to use",
-    "//": "leaf: Vapor's Leaf renderer",
-    "view": "leaf"
+    ]
 }
