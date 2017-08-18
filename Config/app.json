@@ -1,4 +1,4 @@
 {
-	"name": "$PROJECT_NAME",
-	"url": "$PROJECT_URL"
+	"name": "$PROJECT_NAME:my-project",
+	"url": "$PROJECT_URL:http://0.0.0.0:8080"
 }
