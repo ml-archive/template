@@ -1,5 +1,5 @@
 {
-    "apiKey": "$BUGSNAG_KEY:",
+    "apiKey": "$BUGSNAG_KEY:_",
   	"endpoint": "https://notify.bugsnag.com",
     "notifyReleaseStages": [
         "staging",
