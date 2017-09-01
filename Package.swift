@@ -12,7 +12,7 @@ let package = Package(
         .Package(url: "https://github.com/vapor/mysql-provider.git", majorVersion: 2),
         .Package(url: "https://github.com/vapor/redis-provider.git", majorVersion: 2),
         .Package(url: "https://github.com/nodes-vapor/bugsnag.git", majorVersion: 1),
-        .Package(url: "https://github.com/nodes-vapor/sugar", majorVersion: 2)
+        .Package(url: "https://github.com/nodes-vapor/sugar.git", majorVersion: 2)
     ],
     exclude: [
         "Config",
