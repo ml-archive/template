@@ -7,7 +7,8 @@ import FluentProvider
 
 extension Droplet {
     static func testable() throws -> Droplet {
-        let config = try Config(arguments: ["vapor", "--env=test"])
+        var config = try Config(arguments: ["vapor", "--env=test"])
+        config["fluent", "driver"] = "memory"
         try config.setup()
         let drop = try Droplet(config)
         try drop.setup()
