@@ -117,6 +117,12 @@ class PostControllerTests: TestCase {
         let req = Request.makeTest(method: .delete)
         _ = try controller.clear(req: req)
     }
+
+// sourcery:inline:auto:PostControllerTests.Tests
+	static let allTests = [
+		("testPostRoutes", testPostRoutes),
+	]
+// sourcery:end
 }
 
 // MARK: Manifest

@@ -28,6 +28,13 @@ class RouteTests: TestCase {
             .assertBody(contains: "0.0.0.0")
         */
     }
+
+// sourcery:inline:auto:RouteTests.Tests
+	static let allTests = [
+		("testHello", testHello),
+		("testInfo", testInfo),
+	]
+// sourcery:end
 }
 
 // MARK: Manifest
