@@ -1,0 +1,3 @@
+[submodule "sourcery-templates"]
+	path = sourcery
+	url = https://github.com/nodes-vapor/sourcery-templates
