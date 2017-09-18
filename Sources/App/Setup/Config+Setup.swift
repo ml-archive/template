@@ -1,6 +1,7 @@
 import MySQLProvider
 import RedisProvider
 import Bugsnag
+import class Meta.Middleware
 
 extension Config {
     public func setup() throws {
@@ -24,6 +25,7 @@ extension Config {
     /// Configre middlewares
     private func setupMiddlewares() throws {
         addConfigurable(middleware: Bugsnag.Middleware.init, name: "bugsnag")
+        addConfigurable(middleware: Meta.Middleware.init, name: "meta")
     }
     
     /// Add all models that should have their

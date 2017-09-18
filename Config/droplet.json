@@ -1,5 +1,5 @@
 {
-    "//": "The type of server to use for handling requests.",
+	"//": "The type of server to use for handling requests.",
     "//": "engine: Vapor's blazing fast Engine HTTP server.",
     "server": "engine",
 
@@ -37,7 +37,9 @@
         "error",
         "date",
         "file",
-        "sessions"
+        "sessions",
+        "meta",
+        "bugsnag"
     ],
 
     "//": "Choose which commands this application can run",
