@@ -28,23 +28,4 @@ class RouteTests: TestCase {
             .assertBody(contains: "0.0.0.0")
         */
     }
-
-// sourcery:inline:auto:RouteTests.Tests
-	static let allTests = [
-		("testHello", testHello),
-		("testInfo", testInfo),
-	]
-// sourcery:end
-}
-
-// MARK: Manifest
-
-extension RouteTests {
-    /// This is a requirement for XCTest on Linux
-    /// to function properly.
-    /// See ./Tests/LinuxMain.swift for examples
-    static let allTests = [
-        ("testHello", testHello),
-        ("testInfo", testInfo),
-    ]
 }
