@@ -37,7 +37,8 @@
         "error",
         "date",
         "file",
-        "sessions"
+        "sessions",
+        "bugsnag"
     ],
 
     "//": "Choose which commands this application can run",
