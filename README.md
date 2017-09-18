@@ -34,11 +34,11 @@ Before running your project, you need to make sure you have the following enviro
     - `$PROJECT_NAME`: Name of your project (this will fallback to `my-project`).
     - `$PROJECT_URL`: Url for your project - there should most likely be one value per environment. This will fallback to `http://0.0.0.0:8080`.
 - `bugsnag.json`
-    - `$BUGSNAG_KEY`: API key for Bugsnag (this will fallback to the empty string).
+    - `$BUGSNAG_KEY`: API key for Bugsnag (this will fallback to '_').
 - `mysql.json`
     - `$DATABASE_HOSTNAME`: Hostname for MySQL (this will fallback to `127.0.0.1`).
     - `$DATABASE_USER`: User for MySQL (this will fallback to `root`).
-    - `$DATABASE_PASSWORD`: Password for MySQL (this will fallback to the empty string).
+    - `$DATABASE_PASSWORD`: Password for MySQL (this will fallback to 'root').
     - `$DATABASE_DB`: Database name for project in MySQL (this will fallback to `my-project`).
 - `redis.json`
     - `$REDIS_HOSTNAME`: Hostname for Redis (this will fallback to `127.0.0.1`).
