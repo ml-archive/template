@@ -3,10 +3,13 @@
 import XCTest
 @testable import AppTests
 
+// sourcery:inline:auto:LinuxMain
+
 XCTMain([
-    // AppTests
     testCase(PostControllerTests.allTests),
     testCase(RouteTests.allTests)
 ])
+  
+// sourcery:end
 
 #endif

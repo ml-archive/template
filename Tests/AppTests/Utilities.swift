@@ -22,6 +22,7 @@ extension Droplet {
     }
 }
 
+//sourcery:excludeFromLinuxMain
 class TestCase: XCTestCase {
     override func setUp() {
         Node.fuzzy = [Row.self, JSON.self, Node.self]
