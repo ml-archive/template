@@ -38,6 +38,7 @@
         "date",
         "file",
         "sessions",
+        "meta",
         "bugsnag"
     ],
 
