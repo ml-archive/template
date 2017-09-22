@@ -3,10 +3,26 @@
 import XCTest
 @testable import AppTests
 
+// sourcery:inline:auto:LinuxMain
+
+extension PostControllerTests {
+  static var allTests = [
+    ("testPostRoutes", testPostRoutes),
+  ]
+}
+
+extension RouteTests {
+  static var allTests = [
+    ("testHello", testHello),
+    ("testInfo", testInfo),
+  ]
+}
+
 XCTMain([
-    // AppTests
-    testCase(PostControllerTests.allTests),
-    testCase(RouteTests.allTests)
+  testCase(PostControllerTests.allTests),
+  testCase(RouteTests.allTests),
 ])
+  
+// sourcery:end
 
 #endif
