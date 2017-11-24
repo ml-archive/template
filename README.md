@@ -49,7 +49,7 @@ Environment variables related to MySQL and Redis will be set automatically if yo
 
 ## Project layout 🗂
 
-The project is split up into two modules: `Run` and `MyProject-Package`. `Run` contains the `main.swift` and is used for building the main executable. `MyProject-Package` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `MyProject-Package` module.
+The project is split up into two modules: `Run` and `App`. `Run` contains the `main.swift` and is used for building the main executable. `App` is where all of your server's code will be and is the module used for tests. When you add a source file to your project *please* make sure it's a member of the `App` module.
 
 
 ## Xcode project  🔨 
