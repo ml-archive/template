@@ -18,6 +18,11 @@ This template has everything ready to go. Just create a new project using [Vapor
 vapor new MyApp --template=nodes-vapor/template
 ```
 
+If you plan on using the `sourcery` submodule, you'll have to run this due to how the Vapor CLI clones the template:
+```bash
+rm -rf sourcery | git submodule add git@github.com:nodes-vapor/sourcery-templates.git sourcery
+```
+
 
 ## Getting started 🚀
 
