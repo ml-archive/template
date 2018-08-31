@@ -1,15 +1,19 @@
+import AdminPanel
+import JWTKeychain
 import Vapor
 
 /// Register your application's routes here.
-public func routes(_ router: Router) throws {
-    // Basic "Hello, world!" example
-    router.get("hello") { req in
-        return "Hello, world!"
-    }
+public func routes(
+    _ router: Router,
+    adminPanelMiddlewares: AdminPanelMiddlewares,
+    jwtKeychainMiddlewares: JWTKeychainMiddlewares
+) throws {
+    // MARK: API
+    let unprotectedApi = router
+    let protectedApi = unprotectedApi.grouped(jwtKeychainMiddlewares.accessMiddlewares)
 
-    // Example of configuring a controller
-    let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete)
+
+    // MARK: Backend
+    let unprotectedBackend = router
+    let protectedBackend = unprotectedBackend.grouped(adminPanelMiddlewares.secure)
 }
