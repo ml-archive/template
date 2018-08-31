@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/paginator.git", .branch("vapor-3")),
 
         // 3rd Party
-
+        .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
     targets: [
         .target(name: "App", dependencies: [
