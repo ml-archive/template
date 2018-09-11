@@ -12,7 +12,7 @@ import Paginator
 
 internal enum Configs {
     // MARK: App Config
-    
+
     static let appName = "NodesTemplate"
     static var app: AppConfig {
         return AppConfig()
@@ -85,7 +85,7 @@ internal enum Configs {
     static func adminPanel(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
             name: env(EnvironmentKey.Project.name, Configs.appName),
-            baseUrl: env(EnvironmentKey.Project.url, "http://localhost:8080"),
+            baseURL: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             views: AdminPanelViews(
                 login: AdminPanelViews.Login(index: AppViews.AdminPanel.Login.index),
                 dashboard: AdminPanelViews.Dashboard(index: AppViews.AdminPanel.Dashboard.index)
@@ -112,7 +112,7 @@ internal enum Configs {
     static var reset: ResetConfig<AppUser> {
         return ResetConfig(
             name: env(EnvironmentKey.Project.name, Configs.appName),
-            baseUrl: env(EnvironmentKey.Project.url, "http://localhost:8080"),
+            baseURL: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             endpoints: .stark,
             signer: ExpireableJWTSigner(
                 expirationPeriod: 3600, // 1 hour

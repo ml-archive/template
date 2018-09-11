@@ -19,7 +19,7 @@ extension AdminPanelUser: NodesSSOAuthenticatable {
                     return try AdminPanelUser(
                         email: user.email,
                         name: user.name,
-                        avatarUrl: user.imageUrl,
+                        avatarURL: user.imageURL,
                         role: AdminPanelUser.Role.superAdmin,
                         password: try AdminPanelUser.hashPassword(randomPassword)
                         ).save(on: req)
