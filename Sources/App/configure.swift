@@ -88,7 +88,7 @@ private func providers(
 
     // Register provider
     let bugsnagConfig: BugsnagConfig = BugsnagConfig(
-        env(EnvironmentKey.Bugsnag.key, "[YOUR API FALLBACK KEY]"), // TODO: Add fallback api key
+        env(EnvironmentKey.Bugsnag.key, ""),
         releaseStage: environment.name
     )
     services.register(BugsnagClient(bugsnagConfig))
