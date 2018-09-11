@@ -9,6 +9,7 @@ import Redis
 import Reset
 import Sugar
 import Vapor
+import Bugsnag
 
 /// Called before your application initializes.
 public func configure(
@@ -85,6 +86,13 @@ private func providers(
         config: Configs.nodesSSO(adminPanelProvider.middlewares.unsecure, environment: environment))
     )
 
+    // Register provider
+    let bugsnagConfig: BugsnagConfig = BugsnagConfig(
+        env(EnvironmentKey.Bugsnag.key, "[YOUR API FALLBACK KEY]"), // TODO: Add fallback api key
+        releaseStage: environment.name
+    )
+    services.register(BugsnagClient(bugsnagConfig))
+
     return (adminPanelProvider.middlewares, jwtKeychainProvider.middlewares)
 }
 
@@ -109,10 +117,11 @@ private func migrations(_ services: inout Services) {
 // MARK: Middlewares
 private func middlewares(_ services: inout Services) {
     var middlewares = MiddlewareConfig() // Create _empty_ middleware config
-    middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(NMetaMiddleware.self)
+    middlewares.use(BugsnagClient.self)
+    middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     services.register(middlewares)
 }
 
