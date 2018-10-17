@@ -120,7 +120,10 @@ private func middlewares(_ services: inout Services) {
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     middlewares.use(SessionsMiddleware.self)
     middlewares.use(NMetaMiddleware.self)
+    // ⚠️ The BugsnagMiddleware needs to be the second to last middleware (right before
+    // the FileMiddleware).
     middlewares.use(BugsnagClient.self)
+    // ⚠️ The FileMiddleware needs to be the last middleware.
     middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     services.register(middlewares)
 }
