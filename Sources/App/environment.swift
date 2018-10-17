@@ -40,4 +40,8 @@ internal enum EnvironmentKey {
         static let redirectURL = "NODES_SSO_REDIRECT_URL"
         static let salt        = "NODES_SSO_SALT"
     }
+
+    enum Bugsnag {
+        static let key = "BUGSNAG_API_KEY"
+    }
 }

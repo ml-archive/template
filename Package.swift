@@ -17,6 +17,7 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/nodes-sso.git", from: "1.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/paginator.git", .branch("vapor-3")),
+        .package(url: "https://github.com/nodes-vapor/bugsnag.git", .branch("vapor-3")),
 
         // 3rd Party
         .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
@@ -33,7 +34,8 @@ let package = Package(
             "Submissions",
             "Mailgun",
             "NodesSSO",
-            "Paginator"
+            "Paginator",
+            "Bugsnag"
         ]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
