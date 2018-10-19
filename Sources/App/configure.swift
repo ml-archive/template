@@ -46,7 +46,7 @@ public func configure(
     // Look at boot.swift
 }
 
-// MARK: Providers
+// MARK: - Providers
 private func providers(
     _ services: inout Services,
     _ environment: Environment
@@ -96,7 +96,7 @@ private func providers(
     return (adminPanelProvider.middlewares, jwtKeychainProvider.middlewares)
 }
 
-// MARK: Databases
+// MARK: - Databases
 private func databases(_ services: inout Services) throws {
     let mysql = MySQLDatabase(config: Configs.mysql)
 
@@ -107,9 +107,16 @@ private func databases(_ services: inout Services) throws {
     services.register(databases)
 }
 
-// MARK: Migrations
+// MARK: - Migrations
 private func migrations(_ services: inout Services) {
     var migrations = MigrationConfig()
+
+    // MARK: Preparations
+    migrations.add(model: AppUser.self, database: .mysql)
+
+    // MARK: Migrations
+    // Add your migrations like this:
+    // migrations.add(migration: AppUser.AddForeignKeyToAddressId.self, database: .mysql)
 
     services.register(migrations)
 }
@@ -128,7 +135,7 @@ private func middlewares(_ services: inout Services) {
     services.register(middlewares)
 }
 
-// MARK: Routes
+// MARK: - Routes
 private func routes(
     _ services: inout Services,
     adminPanelMiddlewares: AdminPanelMiddlewares,
@@ -143,7 +150,7 @@ private func routes(
     services.register(router, as: Router.self)
 }
 
-// MARK: Commands
+// MARK: - Commands
 private func commands(_ services: inout Services) {
     var commands = CommandConfig.default()
     commands.use(
@@ -154,7 +161,7 @@ private func commands(_ services: inout Services) {
     services.register(commands)
 }
 
-// MARK: Configuration
+// MARK: - Configuration
 private func configure(_ config: inout Config) {
     config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
 }
