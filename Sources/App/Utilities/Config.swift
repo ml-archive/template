@@ -1,48 +1,89 @@
 import AdminPanel
+import Bugsnag
 import FluentMySQL
 import JWTKeychain
 import Leaf
 import NMeta
 import NodesSSO
+import Paginator
 import Redis
 import Reset
 import Sugar
 import Vapor
-import Paginator
 
 internal enum Configs {
     // MARK: App Config
 
-    static let appName = "NodesTemplate"
+//    static let appName = "NodesTemplate"
     static var app: AppConfig {
-        return AppConfig()
+        return AppConfig(
+            name: env(EnvironmentKey.Project.name, "NodesTemplate"),
+            url: env(EnvironmentKey.Project.url, "http://localhost:8080"),
+            resetPasswordEmail: .init(
+                fromEmail: "",
+                subject: ""
+            ),
+            setPasswordEmail: .init(
+                fromEmail: "",
+                subject: ""
+            ),
+            newUserRequestEmail: .init(
+                fromEmail: "",
+                toEmail: "",
+                subject: ""
+            ),
+            newAppUserSetPasswordSigner: ExpireableJWTSigner(
+                expirationPeriod: 2592000, // 30 days
+                signer: .hs256(
+                    key: env(
+                        EnvironmentKey.Reset.setPasswordSignerKey, "secret-reset"
+                    ).convertToData()
+                )
+            )
+
+        )
     }
 
     // MARK: MySQL
 
     static var mysql: MySQLDatabaseConfig {
-        return MySQLDatabaseConfig(
-            hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
-            username: env(EnvironmentKey.MySQL.username, "root"),
-            password: env(EnvironmentKey.MySQL.password, ""),
-            database: env(EnvironmentKey.MySQL.database, Configs.appName.lowercased())
-        )
+        guard
+            let url = env(EnvironmentKey.MySQL.url),
+            let throwableConfig = try? MySQLDatabaseConfig(url: url),
+            let config = throwableConfig
+        else {
+            return MySQLDatabaseConfig(
+                hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
+                username: env(EnvironmentKey.MySQL.username, "root"),
+                password: env(EnvironmentKey.MySQL.password, ""),
+                database: env(EnvironmentKey.MySQL.database, Configs.app.name.lowercased())
+            )
+        }
+
+        return config
     }
 
     // MARK: Redis
 
     static var redis: RedisClientConfig {
-        var components = URLComponents()
-        components.host = env(EnvironmentKey.Redis.hostname, "127.0.0.1")
-        components.port = 6379
-        components.scheme = "redis"
-        components.path = "/" + env(EnvironmentKey.Redis.database, "0")
+        guard
+            let urlString = env(EnvironmentKey.Redis.url),
+            let url = URL(string: urlString)
+        else {
+            var components = URLComponents()
+            components.host = env(EnvironmentKey.Redis.hostname, "127.0.0.1")
+            components.port = 6379
+            components.scheme = "redis"
+            components.path = "/" + env(EnvironmentKey.Redis.database, "0")
 
-        if let url = components.url {
-            return .init(url: url)
-        } else {
-            return .init()
+            if let url = components.url {
+                return .init(url: url)
+            } else {
+                return .init()
+            }
         }
+
+        return RedisClientConfig(url: url)
     }
 
     // MARK: N-Meta
@@ -84,18 +125,18 @@ internal enum Configs {
 
     static func adminPanel(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
-            name: env(EnvironmentKey.Project.name, Configs.appName),
-            baseURL: env(EnvironmentKey.Project.url, "http://localhost:8080"),
+            name: Configs.app.name,
+            baseURL: Configs.app.url,
             views: AdminPanelViews(
-                login: AdminPanelViews.Login(index: AppViews.AdminPanel.Login.index),
-                dashboard: AdminPanelViews.Dashboard(index: AppViews.AdminPanel.Dashboard.index)
+                login: AdminPanelViews.Login(index: View.AdminPanel.Login.index),
+                dashboard: AdminPanelViews.Dashboard(index: View.AdminPanel.Dashboard.index)
             ),
             sidebarMenuPathGenerator: { role in
                 guard let role = role else { return "" }
                 switch role {
-                case .superAdmin: return AppViews.AdminPanel.Layout.Sidebars.superAdmin
-                case .admin: return AppViews.AdminPanel.Layout.Sidebars.admin
-                case .user: return AppViews.AdminPanel.Layout.Sidebars.user
+                case .superAdmin: return View.AdminPanel.Layout.Sidebars.superAdmin
+                case .admin: return View.AdminPanel.Layout.Sidebars.admin
+                case .user: return View.AdminPanel.Layout.Sidebars.user
                 }
             },
             newUserSetPasswordSigner: ExpireableJWTSigner(
@@ -111,8 +152,8 @@ internal enum Configs {
     // MARK: Reset
     static var reset: ResetConfig<AppUser> {
         return ResetConfig(
-            name: env(EnvironmentKey.Project.name, Configs.appName),
-            baseURL: env(EnvironmentKey.Project.url, "http://localhost:8080"),
+            name: Configs.app.name,
+            baseURL: Configs.app.url,
             endpoints: .stark,
             signer: ExpireableJWTSigner(
                 expirationPeriod: 3600, // 1 hour
@@ -120,7 +161,7 @@ internal enum Configs {
                     key: env(EnvironmentKey.Reset.signerKey, "secret-reset"
                 ).convertToData())
             ),
-            responses: .stark
+            responses: .nodes
         )
     }
 
@@ -128,7 +169,7 @@ internal enum Configs {
 
     static func nodesSSO(_ middlewares: [Middleware], environment: Environment) -> NodesSSOConfig {
         return NodesSSOConfig(
-            projectURL: env(EnvironmentKey.NodesSSO.url, "http://localhost:8080"),
+            projectURL: Configs.app.url,
             loginPath: "/admin/sso/login",
             redirectURL: env(EnvironmentKey.NodesSSO.redirectURL, ""),
             callbackPath: "/admin/sso/callback",
@@ -147,10 +188,19 @@ internal enum Configs {
             defaultPage: 1
         )
     }
+
+    // MARK: Bugsnag
+
+    static func bugsnag(_ environment: Environment) -> BugsnagConfig {
+        return BugsnagConfig(
+            apiKey: env(EnvironmentKey.Bugsnag.key, ""),
+            releaseStage: environment.name
+        )
+    }
 }
 
 extension ResetResponses {
-    public static var stark: ResetResponses {
+    public static var nodes: ResetResponses {
         return .init(
             resetPasswordRequestForm: { req in
                 return try HTTPResponse(status: .notFound).encode(for: req)
@@ -161,13 +211,13 @@ extension ResetResponses {
             resetPasswordForm: { req, user in
                 return try req
                     .make(LeafRenderer.self)
-                    .render(AppViews.Reset.form)
+                    .render(View.Reset.form)
                     .encode(for: req)
             },
             resetPasswordSuccess: { req, user in
                 return try req
                     .make(LeafRenderer.self)
-                    .render(AppViews.Reset.success)
+                    .render(View.Reset.success)
                     .encode(for: req)
             }
         )

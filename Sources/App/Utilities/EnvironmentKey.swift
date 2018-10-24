@@ -1,10 +1,11 @@
 internal enum EnvironmentKey {
     enum Project {
         static let name = "PROJECT_NAME"
-        static let url  = "PROJECT_URL"
+        static let url = "PROJECT_URL"
     }
 
     enum MySQL {
+        static let url = "DATABASE_URL"
         static let hostname = "DATABASE_HOSTNAME"
         static let username = "DATABASE_USER"
         static let password = "DATABASE_PASSWORD"
@@ -12,6 +13,7 @@ internal enum EnvironmentKey {
     }
 
     enum Redis {
+        static let url = "REDIS_URL"
         static let hostname = "REDIS_HOSTNAME"
         static let database = "REDIS_DATABASE"
     }
@@ -22,7 +24,7 @@ internal enum EnvironmentKey {
     }
 
     enum JWTKeychain {
-        static let accessTokenSignerKey  = "JWT_ACCESS_SIGNER_KEY"
+        static let accessTokenSignerKey = "JWT_ACCESS_SIGNER_KEY"
         static let refreshTokenSignerKey = "JWT_REFRESH_SIGNER_KEY"
     }
 
@@ -36,9 +38,9 @@ internal enum EnvironmentKey {
     }
 
     enum NodesSSO {
-        static let url         = "PROJECT_URL"
+        static let url = "PROJECT_URL"
         static let redirectURL = "NODES_SSO_REDIRECT_URL"
-        static let salt        = "NODES_SSO_SALT"
+        static let salt = "NODES_SSO_SALT"
     }
 
     enum Bugsnag {

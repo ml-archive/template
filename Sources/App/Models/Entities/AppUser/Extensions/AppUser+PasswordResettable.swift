@@ -38,7 +38,7 @@ extension AppUser: PasswordResettable {
 
         return try req
             .make(LeafRenderer.self)
-            .render(AppViews.Reset.resetPasswordEmail, emailData)
+            .render(View.Reset.resetPasswordEmail, emailData)
             .map(to: String.self) { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""
             }
