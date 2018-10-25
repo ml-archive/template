@@ -33,20 +33,20 @@ extension AppUser: PasswordResettable {
         on req: Request
     ) throws -> Future<Void> {
         let mailgun = try req.make(Mailgun.self)
-        let appConfig = try req.make(AppConfig.self)
+        let projectConfig = try req.make(ProjectConfig.self)
         let emailData = ResetPasswordEmail(url: url, expire: Int(expirationPeriod / 60))
 
         return try req
             .make(LeafRenderer.self)
-            .render(View.Reset.resetPasswordEmail, emailData)
+            .render(ViewPath.Reset.resetPasswordEmail, emailData)
             .map(to: String.self) { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""
             }
             .map(to: Mailgun.Message.self) { html in
                 Mailgun.Message(
-                    from: appConfig.resetPasswordEmail.fromEmail,
+                    from: projectConfig.resetPasswordEmail.fromEmail,
                     to: self.email,
-                    subject: appConfig.resetPasswordEmail.subject,
+                    subject: projectConfig.resetPasswordEmail.subject,
                     text: "Please turn on html to view this email.",
                     html: html
                 )

@@ -9,7 +9,7 @@ internal struct Endpoint {
 
 // MARK: API
 
-extension Endpoint.API {
+internal extension Endpoint.API {
     private static let api = "/api"
 
     enum Users {
@@ -31,9 +31,9 @@ extension Endpoint.API {
 
 // MARK: Backend
 
-extension Endpoint.Backend {
+internal extension Endpoint.Backend {
     private static let backend = "/admin"
-    // FIXME: backend endpoints here
+    // Add your backend endpoints here
 }
 
 // MARK: JWTKeychain

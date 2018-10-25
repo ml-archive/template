@@ -4,8 +4,8 @@ import Vapor
 
 /// Register your application's routes here.
 public func routes(_ router: Router, _ container: Container) throws {
-    let jwtKeychain: JWTKeychainProvider<AppUser> = try container.make()
-    let adminPanel: AdminPanelProvider<AdminPanelUser> = try container.make()
+    let jwtKeychain: AdminPanelMiddlewares = try container.make()
+    let adminPanel: AdminPanelMiddlewares = try container.make()
 
     // MARK: API
     // let unprotectedApi = router

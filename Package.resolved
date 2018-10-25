@@ -87,8 +87,8 @@
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {
           "branch": null,
-          "revision": "413a975c18ae2c1e4af179cef1c5dcdb87ca4603",
-          "version": "3.0.1"
+          "revision": "dc258fe53880f80508df317df3c903ee2c2b9317",
+          "version": "3.1.0"
         }
       },
       {
@@ -240,8 +240,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/sugar.git",
         "state": {
           "branch": null,
-          "revision": "8c6bf109dabc63c9498c903bb33472ea8ae0ef2b",
-          "version": "3.0.0-beta.16"
+          "revision": "c521eb3880b5bd149d8e870c8cc77cb3a344556f",
+          "version": "3.0.0-beta.18"
         }
       },
       {

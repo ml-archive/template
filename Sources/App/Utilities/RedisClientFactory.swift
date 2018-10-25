@@ -1,7 +1,7 @@
 import Redis
 import Vapor
 
-final class RedisClientFactory: Service {
+final internal class RedisClientFactory: Service {
     func make(on container: Container) throws -> Future<RedisClient> {
         let config: RedisClientConfig = try container.make()
         return RedisClient.connect(

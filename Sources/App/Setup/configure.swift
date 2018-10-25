@@ -17,10 +17,12 @@ public func configure(
     _ env: inout Environment,
     _ services: inout Services
 ) throws {
-    /// Register providers first
-    try providers(&services, env)
+    // MARK: Providers
 
-    /// Register routes to the router
+    try setupProviders(services: &services, config: &config, environment: env)
+
+    // MARK: Routes
+
     services.register(Router.self) { container -> EngineRouter in
         let router = EngineRouter.default()
         try routes(router, container)
@@ -45,6 +47,16 @@ public func configure(
     try migrate(migrations: &migrationConfig)
     services.register(migrationConfig)
 
+    // MARK: Repositories
+
+    setupRepositories(services: &services, config: &config)
+
+    // MARK: Content
+
+    var contentConfig = ContentConfig.default()
+    try content(config: &contentConfig)
+    services.register(contentConfig)
+
     // MARK: Commands
 
     var commandsConfig = CommandConfig.default()
@@ -58,50 +70,4 @@ public func configure(
 
     // MARK: Leaf tags
     // Look at boot.swift
-}
-
-// MARK: - Providers
-private func providers(
-    _ services: inout Services,
-    _ environment: Environment
-) throws {
-    // MARK: Vapor
-
-    try services.register(FluentMySQLProvider())
-    try services.register(LeafProvider())
-    try services.register(RedisProvider())
-    services.register(Configs.redis)
-    services.register(RedisClientFactory())
-    services.register(
-        KeyedCache.self
-    ) { container -> DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>> in
-        try container.keyedCache(for: .redis)
-    }
-
-    // MARK: Admin Panel
-
-    let adminPanelProvider = AdminPanelProvider<AdminPanelUser>(
-        config: Configs.adminPanel(environment)
-    )
-    try services.register(adminPanelProvider)
-    try services.register(NodesSSOProvider<AdminPanelUser>(
-        config: Configs.nodesSSO(adminPanelProvider.middlewares.unsecure, environment: environment))
-    )
-
-    // MARK: Mailgun
-
-    services.register(
-        Mailgun(
-            apiKey: env(EnvironmentKey.Mailgun.apiKey, ""),
-            domain: env(EnvironmentKey.Mailgun.domain, "")
-        ),
-        as: Mailgun.self
-    )
-
-    // MARK: Misc
-
-    try services.register(JWTKeychainProvider<AppUser>(config: Configs.jwtKeychain))
-    try services.register(NMetaProvider(config: Configs.nMeta))
-    try services.register(ResetProvider<AppUser>(config: Configs.reset))
-    services.register(BugsnagClient(Configs.bugsnag(environment)))
 }

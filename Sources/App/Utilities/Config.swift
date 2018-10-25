@@ -11,12 +11,11 @@ import Reset
 import Sugar
 import Vapor
 
-internal enum Configs {
+internal enum AppConfig {
     // MARK: App Config
 
-//    static let appName = "NodesTemplate"
-    static var app: AppConfig {
-        return AppConfig(
+    static var app: ProjectConfig {
+        return ProjectConfig(
             name: env(EnvironmentKey.Project.name, "NodesTemplate"),
             url: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             resetPasswordEmail: .init(
@@ -56,7 +55,7 @@ internal enum Configs {
                 hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
                 username: env(EnvironmentKey.MySQL.username, "root"),
                 password: env(EnvironmentKey.MySQL.password, ""),
-                database: env(EnvironmentKey.MySQL.database, Configs.app.name.lowercased())
+                database: env(EnvironmentKey.MySQL.database, AppConfig.app.name.lowercased())
             )
         }
 
@@ -125,18 +124,18 @@ internal enum Configs {
 
     static func adminPanel(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
-            name: Configs.app.name,
-            baseURL: Configs.app.url,
+            name: AppConfig.app.name,
+            baseURL: AppConfig.app.url,
             views: AdminPanelViews(
-                login: AdminPanelViews.Login(index: View.AdminPanel.Login.index),
-                dashboard: AdminPanelViews.Dashboard(index: View.AdminPanel.Dashboard.index)
+                login: AdminPanelViews.Login(index: ViewPath.AdminPanel.Login.index),
+                dashboard: AdminPanelViews.Dashboard(index: ViewPath.AdminPanel.Dashboard.index)
             ),
             sidebarMenuPathGenerator: { role in
                 guard let role = role else { return "" }
                 switch role {
-                case .superAdmin: return View.AdminPanel.Layout.Sidebars.superAdmin
-                case .admin: return View.AdminPanel.Layout.Sidebars.admin
-                case .user: return View.AdminPanel.Layout.Sidebars.user
+                case .superAdmin: return ViewPath.AdminPanel.Layout.Sidebars.superAdmin
+                case .admin: return ViewPath.AdminPanel.Layout.Sidebars.admin
+                case .user: return ViewPath.AdminPanel.Layout.Sidebars.user
                 }
             },
             newUserSetPasswordSigner: ExpireableJWTSigner(
@@ -152,8 +151,8 @@ internal enum Configs {
     // MARK: Reset
     static var reset: ResetConfig<AppUser> {
         return ResetConfig(
-            name: Configs.app.name,
-            baseURL: Configs.app.url,
+            name: AppConfig.app.name,
+            baseURL: AppConfig.app.url,
             endpoints: .stark,
             signer: ExpireableJWTSigner(
                 expirationPeriod: 3600, // 1 hour
@@ -169,7 +168,7 @@ internal enum Configs {
 
     static func nodesSSO(_ middlewares: [Middleware], environment: Environment) -> NodesSSOConfig {
         return NodesSSOConfig(
-            projectURL: Configs.app.url,
+            projectURL: AppConfig.app.url,
             loginPath: "/admin/sso/login",
             redirectURL: env(EnvironmentKey.NodesSSO.redirectURL, ""),
             callbackPath: "/admin/sso/callback",
@@ -211,13 +210,13 @@ extension ResetResponses {
             resetPasswordForm: { req, user in
                 return try req
                     .make(LeafRenderer.self)
-                    .render(View.Reset.form)
+                    .render(ViewPath.Reset.form)
                     .encode(for: req)
             },
             resetPasswordSuccess: { req, user in
                 return try req
                     .make(LeafRenderer.self)
-                    .render(View.Reset.success)
+                    .render(ViewPath.Reset.success)
                     .encode(for: req)
             }
         )

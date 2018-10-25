@@ -1,4 +1,4 @@
-internal enum View {
+internal enum ViewPath {
     private static let prefix = "App"
 
     enum NewUserRequest {
