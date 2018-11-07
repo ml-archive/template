@@ -29,6 +29,7 @@ internal enum EnvironmentKey {
     }
 
     enum AdminPanel {
+        static let signerKey = "ADMIN_PANEL_RESET_PASSWORD_SIGNER_KEY"
         static let setPasswordSignerKey = "ADMIN_PANEL_SET_PASSWORD_SIGNER_KEY"
     }
 
@@ -45,5 +46,12 @@ internal enum EnvironmentKey {
 
     enum Bugsnag {
         static let key = "BUGSNAG_API_KEY"
+    }
+
+    enum Storage {
+        static let accessKey = "AWS_ACCESS_KEY"
+        static let bucket = "AWS_S3_BUCKET"
+        static let secretKey = "AWS_SECRET_KEY"
+        static let cdnPath = "CDN_BASE_URL"
     }
 }

@@ -12,34 +12,33 @@ import Sugar
 import Vapor
 
 internal enum AppConfig {
-    // MARK: App Config
+    // MARK: Project config
 
-    static var app: ProjectConfig {
+    static var project: ProjectConfig {
         return ProjectConfig(
             name: env(EnvironmentKey.Project.name, "NodesTemplate"),
             url: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             resetPasswordEmail: .init(
-                fromEmail: "",
-                subject: ""
+                fromEmail: "no-reply@like.st",
+                subject: "Reset Password"
             ),
             setPasswordEmail: .init(
-                fromEmail: "",
-                subject: ""
+                fromEmail: "no-reply@like.st",
+                subject: "Set Password"
             ),
             newUserRequestEmail: .init(
-                fromEmail: "",
-                toEmail: "",
-                subject: ""
+                fromEmail: "no-reply@like.st",
+                toEmail: "test+user@nodes.dk",
+                subject: "New User Request"
             ),
             newAppUserSetPasswordSigner: ExpireableJWTSigner(
-                expirationPeriod: 2592000, // 30 days
+                expirationPeriod: 30.daysInSecs,
                 signer: .hs256(
                     key: env(
                         EnvironmentKey.Reset.setPasswordSignerKey, "secret-reset"
                     ).convertToData()
                 )
             )
-
         )
     }
 
@@ -55,7 +54,7 @@ internal enum AppConfig {
                 hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
                 username: env(EnvironmentKey.MySQL.username, "root"),
                 password: env(EnvironmentKey.MySQL.password, ""),
-                database: env(EnvironmentKey.MySQL.database, AppConfig.app.name.lowercased())
+                database: env(EnvironmentKey.MySQL.database, AppConfig.project.name.lowercased())
             )
         }
 
@@ -94,8 +93,12 @@ internal enum AppConfig {
                 "/css/*",
                 "/images/*",
                 "/favicons/*",
-                "/admin/*",
-                "/api/users/reset-password/*"
+                "/admin*",
+                "/NodesSSO/*",
+                "/Reset/*",
+                "/AdminPanel/*",
+                "/api/users/reset-password/*",
+                "/robots.txt"
             ]
         )
     }
@@ -105,13 +108,13 @@ internal enum AppConfig {
     static var jwtKeychain: JWTKeychainConfig {
         return JWTKeychainConfig(
             accessTokenSigner: ExpireableJWTSigner(
-                expirationPeriod: 3600, // 1 hour
+                expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(
                     key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access"
                         ).convertToData())
             ),
             refreshTokenSigner: ExpireableJWTSigner(
-                expirationPeriod: 3600 * 24 * 365, // 1 year
+                expirationPeriod: 365.daysInSecs,
                 signer: .hs256(
                     key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh")
                         .convertToData())
@@ -124,8 +127,8 @@ internal enum AppConfig {
 
     static func adminPanel(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
-            name: AppConfig.app.name,
-            baseURL: AppConfig.app.url,
+            name: AppConfig.project.name,
+            baseURL: AppConfig.project.url,
             views: AdminPanelViews(
                 login: AdminPanelViews.Login(index: ViewPath.AdminPanel.Login.index),
                 dashboard: AdminPanelViews.Dashboard(index: ViewPath.AdminPanel.Dashboard.index)
@@ -138,10 +141,11 @@ internal enum AppConfig {
                 case .user: return ViewPath.AdminPanel.Layout.Sidebars.user
                 }
             },
+            resetPasswordSignerKey: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin"),
             newUserSetPasswordSigner: ExpireableJWTSigner(
-                expirationPeriod: 2592000, // 30 days
+                expirationPeriod: 30.daysInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.AdminPanel.setPasswordSignerKey, "secret-reset"
+                    key: env(EnvironmentKey.AdminPanel.setPasswordSignerKey, "secret-newuser"
                 ).convertToData())
             ),
             environment: environment
@@ -151,13 +155,13 @@ internal enum AppConfig {
     // MARK: Reset
     static var reset: ResetConfig<AppUser> {
         return ResetConfig(
-            name: AppConfig.app.name,
-            baseURL: AppConfig.app.url,
-            endpoints: .stark,
+            name: AppConfig.project.name,
+            baseURL: AppConfig.project.url,
+            endpoints: .apiPrefixed,
             signer: ExpireableJWTSigner(
-                expirationPeriod: 3600, // 1 hour
+                expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.Reset.signerKey, "secret-reset"
+                    key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser"
                 ).convertToData())
             ),
             responses: .nodes
@@ -166,9 +170,12 @@ internal enum AppConfig {
 
     // MARK: Nodes SSO
 
-    static func nodesSSO(_ middlewares: [Middleware], environment: Environment) -> NodesSSOConfig {
+    static func nodesSSO(
+        _ middlewares: [Middleware],
+        environment: Environment
+    ) -> NodesSSOConfig<AdminPanelUser> {
         return NodesSSOConfig(
-            projectURL: AppConfig.app.url,
+            projectURL: AppConfig.project.url,
             loginPath: "/admin/sso/login",
             redirectURL: env(EnvironmentKey.NodesSSO.redirectURL, ""),
             callbackPath: "/admin/sso/callback",
@@ -204,7 +211,7 @@ extension ResetResponses {
             resetPasswordRequestForm: { req in
                 return try HTTPResponse(status: .notFound).encode(for: req)
             },
-            resetPasswordEmailSent: { req in
+            resetPasswordUserNotified: { req in
                 return try HTTPResponse(status: .noContent).encode(for: req)
             },
             resetPasswordForm: { req, user in

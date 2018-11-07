@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "AdminPanel",
-        "repositoryURL": "https://github.com/nodes-vapor/admin-panel.git",
-        "state": {
-          "branch": null,
-          "revision": "be6b9ef63563e43eaabd200c196201a284811891",
-          "version": "2.0.0-beta.12"
-        }
-      },
-      {
         "package": "Auth",
         "repositoryURL": "https://github.com/vapor/auth.git",
         "state": {
@@ -42,8 +33,8 @@
         "repositoryURL": "https://github.com/vapor/console.git",
         "state": {
           "branch": null,
-          "revision": "5b9796d39f201b3dd06800437abd9d774a455e57",
-          "version": "3.0.2"
+          "revision": "aa38c8ae4d3d41f5ea553712fea3b0e80fcb0a1a",
+          "version": "3.0.4"
         }
       },
       {
@@ -87,8 +78,8 @@
         "repositoryURL": "https://github.com/vapor/fluent.git",
         "state": {
           "branch": null,
-          "revision": "dc258fe53880f80508df317df3c903ee2c2b9317",
-          "version": "3.1.0"
+          "revision": "00b81a9362549facb8e2ac93b17d2a78599fce3b",
+          "version": "3.1.2"
         }
       },
       {
@@ -105,8 +96,8 @@
         "repositoryURL": "https://github.com/vapor/http.git",
         "state": {
           "branch": null,
-          "revision": "272b22be8cb3364e42a4701c2e0676e37480ec5a",
-          "version": "3.1.5"
+          "revision": "6973bf50dab8dd00e4daf8cb82ca72b33f5db016",
+          "version": "3.1.6"
         }
       },
       {
@@ -132,8 +123,8 @@
         "repositoryURL": "https://github.com/vapor/leaf.git",
         "state": {
           "branch": null,
-          "revision": "fc6a3938b1c7cfa49dc6b06e54d84179bdf92810",
-          "version": "3.0.1"
+          "revision": "d35f54cbac723e673f9bd5078361eea74049c8d7",
+          "version": "3.0.2"
         }
       },
       {
@@ -168,17 +159,17 @@
         "repositoryURL": "https://github.com/nodes-vapor/nodes-sso.git",
         "state": {
           "branch": null,
-          "revision": "ac0178a5e67f5a50ae8209425e6f56d7258c3577",
-          "version": "1.0.0-beta.2"
+          "revision": "e4b0fbbec806bc3d8dfc7171353c24689b45555a",
+          "version": "1.0.0-rc.1"
         }
       },
       {
         "package": "Paginator",
         "repositoryURL": "https://github.com/nodes-vapor/paginator.git",
         "state": {
-          "branch": "vapor-3",
-          "revision": "ab04f7efa8036372f6223c6df454e315425c1220",
-          "version": null
+          "branch": null,
+          "revision": "b9ce7fda2e0aad4a7f6b41397142abd9fdeab91f",
+          "version": "3.0.0-rc.1"
         }
       },
       {
@@ -188,15 +179,6 @@
           "branch": null,
           "revision": "2fb20632db3ad86e2b3596cd34605f694a92c177",
           "version": "3.0.2"
-        }
-      },
-      {
-        "package": "Reset",
-        "repositoryURL": "https://github.com/nodes-vapor/reset.git",
-        "state": {
-          "branch": null,
-          "revision": "5ea79dbc95c702b8c00bb7cfd3d8bdaa696e89e7",
-          "version": "1.0.0-beta.3"
         }
       },
       {
@@ -222,8 +204,17 @@
         "repositoryURL": "https://github.com/vapor/sql.git",
         "state": {
           "branch": null,
-          "revision": "a35cf1dced4ddd32bb2dc8b6e765aea7bcf8d6e0",
-          "version": "2.1.0"
+          "revision": "839cf96eba296d26151ff1d7a746e9fe35053584",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "Storage",
+        "repositoryURL": "https://github.com/nodes-vapor/storage.git",
+        "state": {
+          "branch": null,
+          "revision": "e1cf3d352220eb93233383abb2cbe2cfbf4647b7",
+          "version": "1.0.0-beta.2"
         }
       },
       {
@@ -240,8 +231,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/sugar.git",
         "state": {
           "branch": null,
-          "revision": "c521eb3880b5bd149d8e870c8cc77cb3a344556f",
-          "version": "3.0.0-beta.18"
+          "revision": "2a988fbd6d8eb7f6bb8b41bec10742bdad416e18",
+          "version": "3.0.0-rc.2"
         }
       },
       {
@@ -249,8 +240,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "5d8148c8b45dfb449276557f22120694567dd1d2",
-          "version": "1.9.5"
+          "revision": "035962e6b6e03c8721a91a9b96dc084289795cb4",
+          "version": "1.11.0"
         }
       },
       {
@@ -258,8 +249,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
         "state": {
           "branch": null,
-          "revision": "8380fa29a2af784b067d8ee01c956626ca29f172",
-          "version": "1.3.1"
+          "revision": "db16c3a90b101bb53b26a58867a344ad428072e0",
+          "version": "1.3.2"
         }
       },
       {
@@ -285,8 +276,8 @@
         "repositoryURL": "https://github.com/vapor/template-kit.git",
         "state": {
           "branch": null,
-          "revision": "db35b1c35aabd0f5db3abca0cfda7becfe9c43e2",
-          "version": "1.1.0"
+          "revision": "aff2d6fc65bfd04579b0201b31a8d6720239c1cf",
+          "version": "1.1.1"
         }
       },
       {
@@ -303,8 +294,8 @@
         "repositoryURL": "https://github.com/vapor/validation.git",
         "state": {
           "branch": null,
-          "revision": "156f8adeac3440e868da3757777884efbc6ec0cc",
-          "version": "2.1.0"
+          "revision": "4de213cf319b694e4ce19e5339592601d4dd3ff6",
+          "version": "2.1.1"
         }
       },
       {

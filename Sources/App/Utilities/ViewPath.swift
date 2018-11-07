@@ -1,11 +1,6 @@
 internal enum ViewPath {
     private static let prefix = "App"
 
-    enum NewUserRequest {
-        private static let newUserRequest = prefix + "/NewUserRequest"
-        static let email = newUserRequest + "/email"
-    }
-
     enum Reset {
         private static let reset = prefix + "/Reset"
         static let form = reset + "/Password/reset-password-form"
@@ -35,12 +30,6 @@ internal enum ViewPath {
         enum Dashboard {
             private static let dashboard = adminPanel + "/Dashboard"
             static let index = dashboard + "/index"
-        }
-
-        enum AppUser {
-            private static let appUser = adminPanel + "/AppUser"
-            static let index = appUser + "/index"
-            static let createOrEdit = appUser + "/edit"
         }
     }
 }

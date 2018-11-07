@@ -52,7 +52,7 @@ internal extension JWTKeychainEndpoints {
 // MARK: Reset
 
 internal extension ResetEndpoints {
-    internal static var stark: ResetEndpoints {
+    internal static var apiPrefixed: ResetEndpoints {
         return .init(
             resetPasswordRequest: Endpoint.API.Users.ResetPassword.request,
             renderResetPassword: Endpoint.API.Users.ResetPassword.renderReset,

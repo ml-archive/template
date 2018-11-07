@@ -1,15 +1,11 @@
 import AdminPanel
 import FluentMySQL
-import JWTKeychain
-import Leaf
-import Mailgun
-import NMeta
 import NodesSSO
+import Paginator
 import Redis
-import Reset
+import Storage
 import Sugar
 import Vapor
-import Bugsnag
 
 /// Called before your application initializes.
 public func configure(
@@ -25,6 +21,8 @@ public func configure(
 
     services.register(Router.self) { container -> EngineRouter in
         let router = EngineRouter.default()
+        try router.useAdminPanelRoutes(AdminPanelUser.self, on: container)
+        try router.useNodesSSORoutes(AdminPanelUser.self, on: container)
         try routes(router, container)
         return router
     }
@@ -67,7 +65,18 @@ public func configure(
 
     // Use Redis for caching
     config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
+    services.register(AppConfig.paginator)
 
     // MARK: Leaf tags
     // Look at boot.swift
+
+    // MARK: Services
+
+    let driver = try S3Driver(
+        bucket: Sugar.env(EnvironmentKey.Storage.bucket, ""),
+        accessKey: Sugar.env(EnvironmentKey.Storage.accessKey, ""),
+        secretKey: Sugar.env(EnvironmentKey.Storage.secretKey, "")
+    )
+    services.register(driver)
+    Storage.cdnBaseURL = Sugar.env(EnvironmentKey.Storage.cdnPath, "http://127.0.0.1:8080")
 }

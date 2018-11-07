@@ -7,19 +7,19 @@ internal struct ProjectConfig: Service {
     let url: String
 
     struct ResetPasswordEmail {
-        let fromEmail: String// = "no-reply@like.st"
-        let subject: String// = "Reset Password"
+        let fromEmail: String
+        let subject: String
     }
 
     struct SetPasswordEmail {
-        let fromEmail: String// = "no-reply@like.st"
-        let subject: String// = "Set Password"
+        let fromEmail: String
+        let subject: String
     }
 
     struct NewUserRequestEmail {
-        let fromEmail: String// = "no-reply@like.st"
-        let toEmail: String// = "test+user@nodes.dk"
-        let subject: String// = "New User Request"
+        let fromEmail: String
+        let toEmail: String
+        let subject: String
     }
 
     let resetPasswordEmail: ResetPasswordEmail
