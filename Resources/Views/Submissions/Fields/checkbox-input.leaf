@@ -1,0 +1,19 @@
+<div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="#(key)" name="#(key)" value="1" #if(value) { checked }>
+
+    #if(label) {
+        <label class="form-check-label" for="#(key)">#(label)</label>
+    }
+
+    #if(helpText) {
+        <small id="#(key)Help" class="form-text text-muted">#(helpText)</small>
+    }
+
+    #if(hasErrors) {
+        <div class='invalid-feedback'>
+            #for(error in errors) {
+                <div>#(error)</div>
+            }
+        </div>
+    }
+</div>

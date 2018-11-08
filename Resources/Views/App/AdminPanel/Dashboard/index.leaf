@@ -1,0 +1,7 @@
+#set("pageTitle") { Home }
+
+#set("content") {
+    <blockquote>Replace this or redirect somewhere else when logging in.</blockquote>
+}
+
+#embed("AdminPanel/Layout/base")

@@ -73,11 +73,16 @@ To enable Nodes SSO on Admin Panel the project needs to be [created on Ournodes]
 
 To support error reporting to Bugsnag, a project needs to be created on our organization and the API key needs to be added to the project.
 
+### Storage
+
+Remember to update `configure.swift` and set the correct `pathTemplate` for the `S3Driver`. If you're deploying to Vapor Cloud, then `nodestemplate` should be replaced by your app name on Vapor Cloud. If you're deploying to somewhere else than Vapor Cloud, you might want to change the template pattern.
+
 ## Project layout 🗂
 
 This project template aims to follow the official [Vapor Style guidelines](https://docs.vapor.codes/3.0/extras/style-guide/), with some minor additions/deviations:
 
 - We have introduced a `providers.swift` file to handle setting up of providers.
+- We have a folder named `External` for any third party integrations (we used to name this folder Services in Vapor 2).
 
 
 ## Xcode project  🔨 
