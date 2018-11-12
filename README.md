@@ -20,18 +20,6 @@ You can create a new project using the [Vapor toolbox](https://vapor.github.io/d
 vapor new MyApp --template=nodes-vapor/template
 ```
 
-### Installing resources and public files
-
-Unfortunately the Vapor toolbox does not handle the installment of resources or public files. Therefore, it is required to copy any folders within `Resources` and `Public` from the following packages:
-
-- [Admin Panel](https://github.com/nodes-vapor/admin-panel)
-- [Submissions](https://github.com/nodes-vapor/submissions)
-- [Nodes SSO](https://github.com/nodes-vapor/nodes-sso)
-- [Paginator](https://github.com/nodes-vapor/paginator)
-- [Reset](https://github.com/nodes-vapor/reset)
-
-This can be done by e.g. downloading the repos as zip files and then extracting the relevant folders. Please remember to check the versions of the files you are downloading so that they match what SPM pulled down for your project.
-
 ## Getting started 🚀
 ### Environment variables
 
