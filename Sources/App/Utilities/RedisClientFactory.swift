@@ -12,7 +12,7 @@ final internal class RedisClientFactory: Service {
             onError: { error in
                 // TODO: Bugsnag
                 print("Redis error: \(error)")
-        }
+            }
         )
     }
 }

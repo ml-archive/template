@@ -19,7 +19,6 @@ public func routes(_ router: Router, _ container: Container) throws {
     // let unprotectedApi = router
     // let protectedApi = unprotectedApi.grouped(jwtKeychain.middlewares.accessMiddlewares)
 
-
     // MARK: Backend
     // let unprotectedBackend = router
     // let protectedBackend = unprotectedBackend.grouped(adminPanel.middlewares.secure)

@@ -32,7 +32,6 @@ extension AdminPanelUser: NodesSSOAuthenticatable {
             }
             .flatMap(to: Response.self) { user in
                 try req
-                    // TODO: Update url once AdminPanel gets updated
                     .redirect(to: AdminPanelEndpoints.default.dashboard)
                     .flash(.success, "Logged in as \(user.email)")
                     .encode(for: req)

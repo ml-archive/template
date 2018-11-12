@@ -36,8 +36,11 @@ internal func setupProviders(
     )
     try services.register(adminPanelProvider)
     try services.register(NodesSSOProvider<AdminPanelUser>(
-        config: AppConfig.nodesSSO(adminPanelProvider.middlewares.unsecure, environment: environment))
-    )
+        config: AppConfig.nodesSSO(
+            adminPanelProvider.middlewares.unsecure,
+            environment: environment
+        )
+    ))
 
     // MARK: Mailgun
 

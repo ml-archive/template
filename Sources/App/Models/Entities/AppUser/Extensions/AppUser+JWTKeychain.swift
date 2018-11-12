@@ -71,7 +71,7 @@ extension AppUser: JWTCustomPayloadKeychainUserType {
 
         if let password = updated.password {
             self.password = try AppUser.hashPassword(password)
-            self.passwordChangeCount = self.passwordChangeCount + 1
+            self.passwordChangeCount += 1
         }
 
         if let name = updated.name {
