@@ -11,7 +11,7 @@ extension AdminPanelUser: NodesSSOAuthenticatable {
     ) -> Future<Response> {
         return AdminPanelUser
             .query(on: req)
-            .filter(\AdminPanelUser.email == user.email)
+            .filter(\.email == user.email)
             .first()
             .flatMap(to: AdminPanelUser.self) { lookedupUser in
                 guard let existingUser = lookedupUser else {
