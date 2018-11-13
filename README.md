@@ -39,7 +39,7 @@ Similar to MySQL, you can either use a connection string (using the `REDIS_URL` 
 
 #### Mailgun
 
-In order to send out emails using Mailgun, the Mailgun environment variables needs to be set.
+In order to send out emails using Mailgun, the Mailgun environment variables need to be set.
 
 #### JWT Keychain
 
