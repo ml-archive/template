@@ -25,7 +25,7 @@ extension AdminPanelUser: NodesSSOAuthenticatable {
                         ).save(on: req)
                 }
 
-                return Future.transform(to: existingUser, on: req)
+                return req.future(existingUser)
             }
             .try { user in
                 try req.authenticate(user)
