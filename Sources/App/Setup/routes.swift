@@ -4,7 +4,7 @@ import Vapor
 
 /// Register your application's routes here.
 public func routes(_ router: Router, _ container: Container) throws {
-    if container.environment.isRelease {
+    if !container.environment.isRelease {
         router.get("robots.txt") { _ in
             return """
             User-agent: *
