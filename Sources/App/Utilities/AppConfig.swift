@@ -105,7 +105,7 @@ internal enum AppConfig {
 
     // MARK: JWT Keychain
 
-    static var jwtKeychain: JWTKeychainConfig {
+    static var jwtKeychain: JWTKeychainConfig<AppUser> {
         return JWTKeychainConfig(
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
@@ -141,13 +141,9 @@ internal enum AppConfig {
                 case .user: return ViewPath.AdminPanel.Layout.Sidebars.user
                 }
             },
-            resetPasswordSignerKey: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin"),
-            newUserSetPasswordSigner: ExpireableJWTSigner(
-                expirationPeriod: 30.daysInSecs,
-                signer: .hs256(
-                    key: env(EnvironmentKey.AdminPanel.setPasswordSignerKey, "secret-newuser"
-                ).convertToData())
-            ),
+            resetSigner: .hs256(
+                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin"
+            ).convertToData()),
             environment: environment
         )
     }
@@ -158,12 +154,9 @@ internal enum AppConfig {
             name: AppConfig.project.name,
             baseURL: AppConfig.project.url,
             endpoints: .apiPrefixed,
-            signer: ExpireableJWTSigner(
-                expirationPeriod: 1.hoursInSecs,
-                signer: .hs256(
-                    key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser"
-                ).convertToData())
-            ),
+            signer: .hs256(
+                key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser"
+            ).convertToData()),
             responses: .nodes
         )
     }
@@ -201,6 +194,25 @@ internal enum AppConfig {
         return BugsnagConfig(
             apiKey: env(EnvironmentKey.Bugsnag.key, ""),
             releaseStage: environment.name
+        )
+    }
+
+    // MARK: CORS
+
+    static var cors: CORSMiddleware.Configuration {
+        return CORSMiddleware.Configuration(
+            allowedOrigin: .all,
+            allowedMethods: [.GET, .POST, .PUT, .OPTIONS, .DELETE, .PATCH],
+            allowedHeaders: [
+                .accept,
+                .authorization,
+                .contentType,
+                .origin,
+                .xRequestedWith,
+                .userAgent,
+                .accessControlAllowOrigin,
+                HTTPHeaderName(nMeta.headerKey)
+            ]
         )
     }
 }

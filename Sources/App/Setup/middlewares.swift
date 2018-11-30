@@ -3,6 +3,8 @@ import NMeta
 import Vapor
 
 public func middlewares(config: inout MiddlewareConfig) throws {
+    // ⚠️ The CORSMiddleware needs to be before the ErrorMiddleware.
+    config.use(CORSMiddleware(configuration: AppConfig.cors))
     config.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     config.use(SessionsMiddleware.self)
     config.use(NMetaMiddleware.self)

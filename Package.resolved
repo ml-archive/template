@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/admin-panel.git",
         "state": {
           "branch": null,
-          "revision": "536afb797f4e22a891a1abc08ddececb022e2fc6",
-          "version": "2.0.0-beta.13"
+          "revision": "39a409053e2f308cf508d99d863c998b48456921",
+          "version": "2.0.0-beta.14"
         }
       },
       {
@@ -119,15 +119,6 @@
         }
       },
       {
-        "package": "JWTKeychain",
-        "repositoryURL": "https://github.com/nodes-vapor/jwt-keychain.git",
-        "state": {
-          "branch": null,
-          "revision": "a7688539cf91b482dec02f7c5ad1b1797195f361",
-          "version": "1.0.0-beta.1"
-        }
-      },
-      {
         "package": "Leaf",
         "repositoryURL": "https://github.com/vapor/leaf.git",
         "state": {
@@ -195,8 +186,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/reset.git",
         "state": {
           "branch": null,
-          "revision": "cb1430716b377ae92c310e4fa160e0cbf7452fb6",
-          "version": "1.0.0-rc.1"
+          "revision": "54fd60ee4f5ad24bd9f61e6848614c6a44cf3a8e",
+          "version": "1.0.0-rc.2"
         }
       },
       {
