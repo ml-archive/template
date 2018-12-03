@@ -27,7 +27,7 @@ extension AdminPanelConfig where U == AdminPanelUser {
                 case .admin: return ViewPath.AdminPanel.Layout.Sidebars.admin
                 case .user: return ViewPath.AdminPanel.Layout.Sidebars.user
                 }
-        },
+            },
             resetSigner: .hs256(
                 key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin"
                     ).convertToData()),
@@ -131,7 +131,7 @@ extension NodesSSOConfig where U == AdminPanelUser {
     static func current(
         _ middlewares: [Middleware],
         environment: Environment
-        ) -> NodesSSOConfig<AdminPanelUser> {
+    ) -> NodesSSOConfig<AdminPanelUser> {
         return NodesSSOConfig(
             projectURL: ProjectConfig.current.url,
             loginPath: "/admin/sso/login",
