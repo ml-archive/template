@@ -12,6 +12,16 @@ public func routes(_ router: Router, _ container: Container) throws {
             """
         }
     }
+
+    // MARK: - Default routes
+
+    try router.useAdminPanelRoutes(AdminPanelUser.self, on: container)
+    try router.useNodesSSORoutes(AdminPanelUser.self, on: container)
+    try router.useResetRoutes(AppUser.self, on: container)
+    try router.useJWTKeychainRoutes(AppUser.self, on: container)
+
+    // MARK: - Project specific routes
+
     // let jwtKeychain: AdminPanelMiddlewares = try container.make()
     // let adminPanel: AdminPanelMiddlewares = try container.make()
 

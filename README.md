@@ -21,6 +21,11 @@ vapor new MyApp --template=nodes-vapor/template
 ```
 
 ## Getting started 🚀
+
+### Project name
+
+Before building your project you need to change the name of the project in `Package.swift`. Look for `name: "NodesTemplate"` and adjust it to fit your project.
+
 ### Environment variables
 
 Before running your project, you need to make sure you have the following environment variables set up. For more information on how do this, have a look at our guide [here](https://github.com/nodes-vapor/readme/blob/master/Documentation/how-to-setup-environment-variables.md). All the different keys for environment variables are defined in `Utilities/EnvironmentKey.swift`.
@@ -96,4 +101,4 @@ The package owner for this project is [Steffen](https://github.com/steffendsomme
 
 ## 📄 License
 
-This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

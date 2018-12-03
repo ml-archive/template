@@ -21,10 +21,6 @@ public func configure(
 
     services.register(Router.self) { container -> EngineRouter in
         let router = EngineRouter.default()
-        try router.useAdminPanelRoutes(AdminPanelUser.self, on: container)
-        try router.useNodesSSORoutes(AdminPanelUser.self, on: container)
-        try router.useResetRoutes(AppUser.self, on: container)
-        try router.useJWTKeychainRoutes(AppUser.self, on: container)
         try routes(router, container)
         return router
     }
@@ -32,7 +28,7 @@ public func configure(
     // MARK: Middlewares
 
     var middlewaresConfig = MiddlewareConfig()
-    try middlewares(config: &middlewaresConfig)
+    try middleware(config: &middlewaresConfig)
     services.register(middlewaresConfig)
 
     // MARK: Databases
@@ -67,7 +63,7 @@ public func configure(
 
     // Use Redis for caching
     config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
-    services.register(AppConfig.paginator)
+    services.register(OffsetPaginatorConfig.current)
 
     // MARK: Leaf tags
     // Look at boot.swift

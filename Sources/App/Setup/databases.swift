@@ -5,7 +5,7 @@ import Vapor
 public func databases(config: inout DatabasesConfig) throws {
     // MARK: MySQL
 
-    config.add(database: MySQLDatabase(config: AppConfig.mysql), as: .mysql)
+    config.add(database: MySQLDatabase(config: .current), as: .mysql)
 
     // MARK: Redis
 

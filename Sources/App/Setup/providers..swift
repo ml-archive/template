@@ -21,7 +21,7 @@ internal func setupProviders(
     try services.register(FluentMySQLProvider())
     try services.register(LeafProvider())
     try services.register(RedisProvider())
-    services.register(AppConfig.redis)
+    services.register(RedisClientConfig.current)
     services.register(RedisClientFactory())
     services.register(
         KeyedCache.self
@@ -32,11 +32,11 @@ internal func setupProviders(
     // Admin Panel
 
     let adminPanelProvider = AdminPanelProvider<AdminPanelUser>(
-        config: AppConfig.adminPanel(environment)
+        config: .current(environment)
     )
     try services.register(adminPanelProvider)
     try services.register(NodesSSOProvider<AdminPanelUser>(
-        config: AppConfig.nodesSSO(
+        config: .current(
             adminPanelProvider.middlewares.unsecure,
             environment: environment
         )
@@ -54,8 +54,8 @@ internal func setupProviders(
 
     // MARK: Misc
 
-    try services.register(JWTKeychainProvider<AppUser>(config: AppConfig.jwtKeychain))
-    try services.register(NMetaProvider(config: AppConfig.nMeta))
-    try services.register(ResetProvider<AppUser>(config: AppConfig.reset))
-    services.register(BugsnagClient(AppConfig.bugsnag(environment)))
+    try services.register(JWTKeychainProvider<AppUser>(config: .current))
+    try services.register(NMetaProvider(config: .current))
+    try services.register(ResetProvider<AppUser>(config: .current))
+    services.register(BugsnagClient(.current(environment)))
 }
