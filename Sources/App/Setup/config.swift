@@ -107,15 +107,20 @@ extension NMetaConfig {
     static var current: NMetaConfig {
         return NMetaConfig(
             exceptPaths: [
-                "/js/*",
-                "/css/*",
-                "/images/*",
+                // favicons
+                "/apple-touch-icon-precomposed.png",
+                "/apple-touch-icon.png",
+                "/favicon.ico",
                 "/favicons/*",
-                "/admin*",
+
+                "/AdminPanel/*",
                 "/NodesSSO/*",
                 "/Reset/*",
-                "/AdminPanel/*",
+                "/admin*",
                 "/api/users/reset-password/*",
+                "/css/*",
+                "/images/*",
+                "/js/*",
                 "/robots.txt"
             ]
         )
