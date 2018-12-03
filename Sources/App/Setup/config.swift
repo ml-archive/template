@@ -29,8 +29,8 @@ extension AdminPanelConfig where U == AdminPanelUser {
                 }
             },
             resetSigner: .hs256(
-                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin"
-                    ).convertToData()),
+                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")
+                    .convertToData()),
             environment: environment
         )
     }
@@ -52,12 +52,12 @@ extension CORSMiddleware.Configuration {
             allowedMethods: [.GET, .POST, .PUT, .OPTIONS, .DELETE, .PATCH],
             allowedHeaders: [
                 .accept,
+                .accessControlAllowOrigin,
                 .authorization,
                 .contentType,
                 .origin,
-                .xRequestedWith,
                 .userAgent,
-                .accessControlAllowOrigin,
+                .xRequestedWith,
                 HTTPHeaderName(NMetaConfig.current.headerKey)
             ]
         )
@@ -70,15 +70,15 @@ extension JWTKeychainConfig where U == AppUser {
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access"
-                        ).convertToData())
-            ),
+                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access")
+                        .convertToData())
+                ),
             refreshTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 365.daysInSecs,
                 signer: .hs256(
                     key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh")
                         .convertToData())
-            ),
+                ),
             endpoints: .apiPrefixed
         )
     }
@@ -90,13 +90,16 @@ extension MySQLDatabaseConfig {
             let url = env(EnvironmentKey.MySQL.url),
             let throwableConfig = try? MySQLDatabaseConfig(url: url),
             let config = throwableConfig
-            else {
-                return MySQLDatabaseConfig(
-                    hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
-                    username: env(EnvironmentKey.MySQL.username, "root"),
-                    password: env(EnvironmentKey.MySQL.password, ""),
-                    database: env(EnvironmentKey.MySQL.database, ProjectConfig.current.name.lowercased())
+        else {
+            return MySQLDatabaseConfig(
+                hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
+                username: env(EnvironmentKey.MySQL.username, "root"),
+                password: env(EnvironmentKey.MySQL.password, ""),
+                database: env(
+                    EnvironmentKey.MySQL.database,
+                    ProjectConfig.current.name.lowercased()
                 )
+            )
         }
 
         return config
@@ -213,9 +216,8 @@ extension ResetConfig where U == AppUser {
             name: ProjectConfig.current.name,
             baseURL: ProjectConfig.current.url,
             endpoints: .apiPrefixed,
-            signer: .hs256(
-                key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser"
-            ).convertToData()),
+            signer: .hs256(key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser")
+                .convertToData()),
             responses: .current
         )
     }
@@ -225,19 +227,19 @@ extension ResetResponses {
     public static var current: ResetResponses {
         return .init(
             resetPasswordRequestForm: { req in
-                return try HTTPResponse(status: .notFound).encode(for: req)
+                try HTTPResponse(status: .notFound).encode(for: req)
             },
             resetPasswordUserNotified: { req in
-                return try HTTPResponse(status: .noContent).encode(for: req)
+                try HTTPResponse(status: .noContent).encode(for: req)
             },
             resetPasswordForm: { req, user in
-                return try req
+                try req
                     .make(LeafRenderer.self)
                     .render(ViewPath.Reset.form)
                     .encode(for: req)
             },
             resetPasswordSuccess: { req, user in
-                return try req
+                try req
                     .make(LeafRenderer.self)
                     .render(ViewPath.Reset.success)
                     .encode(for: req)
