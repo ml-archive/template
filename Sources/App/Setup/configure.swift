@@ -1,5 +1,6 @@
 import AdminPanel
 import FluentMySQL
+import Leaf
 import NodesSSO
 import Paginator
 import Redis
@@ -66,7 +67,12 @@ public func configure(
     services.register(OffsetPaginatorConfig.current)
 
     // MARK: Leaf tags
-    // Look at boot.swift
+
+    services.register { container -> LeafTagConfig in
+        var config = LeafTagConfig.default()
+        try leafTags(config: &config, container)
+        return config
+    }
 
     // MARK: Services
 

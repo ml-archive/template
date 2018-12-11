@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/admin-panel.git",
         "state": {
           "branch": null,
-          "revision": "39a409053e2f308cf508d99d863c998b48456921",
-          "version": "2.0.0-beta.14"
+          "revision": "b8ef53b807b74e2271435798219139d8e6126bea",
+          "version": "2.0.0-beta.15"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/bootstrap.git",
         "state": {
           "branch": null,
-          "revision": "6697e3a1716a0ae0f1193044cf4fe260925e81b2",
-          "version": "2.0.2"
+          "revision": "1f9653048ae0b7f5f019e18884ae5fc1aae13e09",
+          "version": "3.0.0"
         }
       },
       {
@@ -78,8 +78,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/flash.git",
         "state": {
           "branch": null,
-          "revision": "5e190d0243cd2b4324b91d45cf6a894b2131b43b",
-          "version": "3.0.0"
+          "revision": "de7d6083cab91dc47a749bec41ed82468ff5f299",
+          "version": "4.0.0"
         }
       },
       {
@@ -116,6 +116,15 @@
           "branch": null,
           "revision": "2e225c722bf26407c1c4bd11d341e48759f46095",
           "version": "3.0.0"
+        }
+      },
+      {
+        "package": "JWTKeychain",
+        "repositoryURL": "https://github.com/nodes-vapor/jwt-keychain.git",
+        "state": {
+          "branch": null,
+          "revision": "b627f59553bf23fa1e2a3b9ae81357236010a16f",
+          "version": "1.0.0-beta.2"
         }
       },
       {
@@ -159,8 +168,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/nodes-sso.git",
         "state": {
           "branch": null,
-          "revision": "e4b0fbbec806bc3d8dfc7171353c24689b45555a",
-          "version": "1.0.0-rc.1"
+          "revision": "c05de8ad0446cb358f5a1de41efffc2ae08a60eb",
+          "version": "1.0.0-rc.2"
         }
       },
       {
@@ -168,8 +177,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/paginator.git",
         "state": {
           "branch": null,
-          "revision": "b9ce7fda2e0aad4a7f6b41397142abd9fdeab91f",
-          "version": "3.0.0-rc.1"
+          "revision": "7502384d9369b8180df93f52148d0b5bd8ff8e9a",
+          "version": "3.0.0"
         }
       },
       {
@@ -186,8 +195,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/reset.git",
         "state": {
           "branch": null,
-          "revision": "54fd60ee4f5ad24bd9f61e6848614c6a44cf3a8e",
-          "version": "1.0.0-rc.2"
+          "revision": "84f9b3e69f17a345ccb953a5834bbd21be58b15e",
+          "version": "1.0.0-rc.3"
         }
       },
       {
@@ -231,8 +240,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/submissions.git",
         "state": {
           "branch": null,
-          "revision": "cf327b7b009d0e63cd1eea707c4344e41e2e2735",
-          "version": "1.0.0-beta.9"
+          "revision": "726bab1aadb7f6048702401920ed992fa9d20b77",
+          "version": "1.0.0-beta.10"
         }
       },
       {
@@ -240,8 +249,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/sugar.git",
         "state": {
           "branch": null,
-          "revision": "5d8bb3e9d8b90f4bf97adf008d8a5694234df476",
-          "version": "3.0.0-rc.3"
+          "revision": "4071e699febf84b5254766d7ffd57db0483ce873",
+          "version": "3.0.0"
         }
       },
       {

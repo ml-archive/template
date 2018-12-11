@@ -75,6 +75,7 @@ Remember to update `configure.swift` and set the correct `pathTemplate` for the 
 This project template aims to follow the official [Vapor Style guidelines](https://docs.vapor.codes/3.0/extras/style-guide/), with some minor additions/deviations:
 
 - We have introduced a `providers.swift` file to handle setting up of providers.
+- We have introduced a `leafTags.swift` file to handle setting up of Leaf tags.
 - We have a folder named `External` for any third party integrations (we used to name this folder Services in Vapor 2).
 
 

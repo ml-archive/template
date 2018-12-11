@@ -14,11 +14,11 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/bugsnag.git", .branch("vapor-3")),
         .package(url: "https://github.com/nodes-vapor/jwt-keychain.git", from: "1.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/n-meta.git", from: "3.0.0-beta"),
-        .package(url: "https://github.com/nodes-vapor/nodes-sso.git", from: "1.0.0-beta"),
-        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "3.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/nodes-sso.git", from: "1.0.0-rc"),
+        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "3.0.0"),
         .package(url: "https://github.com/nodes-vapor/storage.git", from: "1.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
-        .package(url: "https://github.com/nodes-vapor/sugar.git", from: "3.0.0-rc"),
+        .package(url: "https://github.com/nodes-vapor/sugar.git", from: "3.0.0"),
 
         // 3rd Party
         .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
