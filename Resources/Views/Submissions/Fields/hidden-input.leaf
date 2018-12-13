@@ -1,0 +1,3 @@
+<div class="form-group">
+    #bs:input("hidden", "form-control #if(hasErrors) { is-invalid }", "id='#(key)' name='#(key)' #if(value) { value='#(value)' } #if(isRequired) { required } #if(placeholder) { placeholder='#(placeholder)' }")
+</div>

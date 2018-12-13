@@ -1,35 +1,46 @@
-// swift-tools-version:4.0
+// swift-tools-version:4.2
 import PackageDescription
 
 let package = Package(
-    name: "VaporApp",
-    products: [
-        .executable(name: "Run", targets: ["Run"]),
-        .library(name: "App", targets: ["App"])
-    ],
+    name: "NodesTemplate",
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "2.4.4")),
-        .package(url: "https://github.com/vapor/fluent-provider.git", .upToNextMajor(from: "1.3.0")),
-        .package(url: "https://github.com/vapor/mysql-provider.git", .upToNextMajor(from: "2.0.0")),
-        .package(url: "https://github.com/vapor/redis-provider.git", .upToNextMajor(from: "2.0.1")),
-        .package(url: "https://github.com/nodes-vapor/bugsnag.git", .upToNextMajor(from: "1.1.3")),
-        .package(url: "https://github.com/nodes-vapor/sugar.git", .upToNextMajor(from: "2.0.0")),
-        .package(url: "https://github.com/nodes-vapor/meta.git", .upToNextMajor(from: "2.0.0")),
+        // Vapor
+        .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/redis.git", from: "3.0.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
+
+        // Nodes
+        .package(url: "https://github.com/nodes-vapor/admin-panel.git", .upToNextMinor(from:"2.0.0-beta")),
+        .package(url: "https://github.com/nodes-vapor/bugsnag.git", .branch("vapor-3")),
+        .package(url: "https://github.com/nodes-vapor/jwt-keychain.git", from: "1.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/n-meta.git", from: "3.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/nodes-sso.git", from: "1.0.0-rc"),
+        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "3.0.0"),
+        .package(url: "https://github.com/nodes-vapor/storage.git", from: "1.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/sugar.git", from: "3.0.0"),
+
+        // 3rd Party
+        .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
     targets: [
-        .target(
-            name: "App",
-            dependencies: [
-                "Vapor",
-                "FluentProvider",
-                "MySQLProvider",
-                "RedisProvider",
-                "Bugsnag",
-                "Sugar",
-                "Meta"
-            ]
-        ),
-        .testTarget(name: "AppTests", dependencies: ["App"]),
-        .target(name: "Run", dependencies: ["App"])
+        .target(name: "App", dependencies: [
+            "AdminPanel",
+            "Bugsnag",
+            "FluentMySQL",
+            "JWTKeychain",
+            "Mailgun",
+            "NMeta",
+            "NodesSSO",
+            "Paginator",
+            "Redis",
+            "Storage",
+            "Submissions",
+            "Sugar",
+            "Vapor"
+        ]),
+        .target(name: "Run", dependencies: ["App"]),
+        .testTarget(name: "AppTests", dependencies: ["App"])
     ]
 )
+

@@ -1,0 +1,3 @@
+#set("type") {email}
+
+#embed("Submissions/Fields/input-field")
