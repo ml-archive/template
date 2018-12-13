@@ -80,7 +80,8 @@ public func configure(
         bucket: Sugar.env(EnvironmentKey.Storage.bucket, ""),
         accessKey: Sugar.env(EnvironmentKey.Storage.accessKey, ""),
         secretKey: Sugar.env(EnvironmentKey.Storage.secretKey, ""),
-        pathTemplate: "/nodestemplate/#mimeFolder/#uuid.#fileExtension" // TODO: Remember to replace 'nodestemplate' with the name of the Vapor Cloud app.
+        // TODO: Remember to replace 'nodestemplate' with the name of the Vapor Cloud app.
+        pathTemplate: "/nodestemplate/#mimeFolder/#uuid.#fileExtension"
     )
     services.register(driver)
     Storage.cdnBaseURL = Sugar.env(EnvironmentKey.Storage.cdnPath, "http://127.0.0.1:8080")
