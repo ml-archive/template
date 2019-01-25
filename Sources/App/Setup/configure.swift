@@ -83,6 +83,6 @@ public func configure(
         // TODO: Remember to replace 'nodestemplate' with the name of the Vapor Cloud app.
         pathTemplate: "/nodestemplate/#mimeFolder/#uuid.#fileExtension"
     )
-    services.register(driver)
+    services.register(driver, as: NetworkDriver.self)
     Storage.cdnBaseURL = Sugar.env(EnvironmentKey.Storage.cdnPath, "http://127.0.0.1:8080")
 }
