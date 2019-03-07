@@ -1,13 +1,8 @@
-import Authentication
 import Leaf
 import Mailgun
 import Reset
 import Sugar
-
-extension AppUser: PasswordAuthenticatable {
-    static let usernameKey: WritableKeyPath<AppUser, String> = \.email
-    static let passwordKey: WritableKeyPath<AppUser, String> = \.password
-}
+import Vapor
 
 extension AppUser: PasswordResettable {
     typealias Context = ResetPasswordContext
