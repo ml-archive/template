@@ -11,6 +11,8 @@ import Reset
 import Sugar
 import Vapor
 
+// TODO: remove .convertToData() wherever possible
+
 extension AdminPanelConfig where U == AdminPanelUser {
     static func current(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
@@ -29,8 +31,7 @@ extension AdminPanelConfig where U == AdminPanelUser {
                 }
             },
             resetSigner: .hs256(
-                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")
-                    .convertToData()),
+                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")),
             environment: environment
         )
     }
@@ -65,7 +66,7 @@ extension CORSMiddleware.Configuration {
 }
 
 extension JWTKeychainConfig where U == AppUser {
-    static var current: JWTKeychainConfig<AppUser> {
+    static func current(container: Container) -> JWTKeychainConfig<AppUser> {
         return JWTKeychainConfig(
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
@@ -211,7 +212,7 @@ extension RedisClientConfig {
 }
 
 extension ResetConfig where U == AppUser {
-    static var current: ResetConfig<AppUser> {
+    static func current(container: Container) -> ResetConfig<AppUser> {
         return ResetConfig(
             name: ProjectConfig.current.name,
             baseURL: ProjectConfig.current.url,

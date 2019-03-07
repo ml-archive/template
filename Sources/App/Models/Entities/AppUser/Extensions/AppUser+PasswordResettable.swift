@@ -1,3 +1,4 @@
+import Authentication
 import Fluent
 import Foundation
 import JWT
@@ -7,15 +8,15 @@ import Reset
 import Sugar
 import Vapor
 
-extension AppUser: PasswordResettable {
+extension AppUser: PasswordResettable, PasswordAuthenticatable {
     typealias Context = ResetPasswordContext
 
-    public struct RequestReset: RequestCreatable, Decodable, HasReadableUsername {
+    public struct RequestReset: SelfCreatable, Decodable, HasReadableUsername {
         static let readableUsernameKey = \RequestReset.username
         public let username: String
     }
 
-    public struct ResetPassword: RequestCreatable, Decodable, HasReadablePassword {
+    public struct ResetPassword: SelfCreatable, Decodable, HasReadablePassword {
         static let readablePasswordKey = \ResetPassword.password
         public let password: String
     }

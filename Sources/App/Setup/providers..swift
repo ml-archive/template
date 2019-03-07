@@ -31,16 +31,15 @@ internal func setupProviders(
 
     // Admin Panel
 
-    let adminPanelProvider = AdminPanelProvider<AdminPanelUser>(
-        config: .current(environment)
-    )
+    let adminPanelProvider = AdminPanelProvider<AdminPanelUser> { _ in .current(environment) }
     try services.register(adminPanelProvider)
-    try services.register(NodesSSOProvider<AdminPanelUser>(
-        config: .current(
-            adminPanelProvider.middlewares.unsecure,
+    try services.register(NodesSSOProvider<AdminPanelUser> { container in
+        let adminPanelMiddlewares: AdminPanelMiddlewares = try container.make()
+        return NodesSSOConfig.current(
+            adminPanelMiddlewares.unsecure,
             environment: environment
         )
-    ))
+    })
 
     // MARK: Mailgun
 
@@ -54,8 +53,8 @@ internal func setupProviders(
 
     // MARK: Misc
 
-    try services.register(JWTKeychainProvider<AppUser>(config: .current))
+    try services.register(JWTKeychainProvider<AppUser>(configFactory: JWTKeychainConfig.current))
     try services.register(NMetaProvider(config: .current))
-    try services.register(ResetProvider<AppUser>(config: .current))
-    services.register(BugsnagClient(.current(environment)))
+    try services.register(ResetProvider<AppUser>(configFactory: ResetConfig.current))
+    try services.register(BugsnagProvider(config: .current(environment)))
 }

@@ -4,8 +4,12 @@ import Reset
 import Sugar
 import Vapor
 
-extension AppUser: JWTCustomPayloadKeychainUserType {
+// TODO: split up these conformances into separate ones, each with it's own file, eg. Updatable, Loginable, Creatable, etc. Remember to check for unnecessary imports when splitting stuff into separate files
+extension AppUser: JWTKeychainUserType {
+    
     typealias JWTPayload = ModelPayload<AppUser>
+    
+    // TODO: remove these and rename the aliased types
     typealias Login = UserLogin
     typealias Registration = UserRegistration
     typealias Update = UserUpdate
@@ -14,7 +18,7 @@ extension AppUser: JWTCustomPayloadKeychainUserType {
     static let usernameKey: WritableKeyPath<AppUser, String> = \.email
     static let passwordKey: WritableKeyPath<AppUser, String> = \.password
 
-    struct UserLogin: HasReadablePassword, HasReadableUsername {
+    struct UserLogin: HasReadablePassword, HasReadableUsername, Decodable {
         static let readablePasswordKey = \UserLogin.password
         static let readableUsernameKey = \UserLogin.email
 
@@ -64,7 +68,7 @@ extension AppUser: JWTCustomPayloadKeychainUserType {
         return req.future(UserPublic(email: email, name: name))
     }
 
-    func update(with updated: UserUpdate) throws {
+    func update(_ updated: UserUpdate) throws {
         if let email = updated.email {
             self.email = email
         }
