@@ -29,8 +29,7 @@ extension AdminPanelConfig where U == AdminPanelUser {
                 }
             },
             resetSigner: .hs256(
-                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")
-                    .convertToData()),
+                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")),
             environment: environment
         )
     }
@@ -65,19 +64,17 @@ extension CORSMiddleware.Configuration {
 }
 
 extension JWTKeychainConfig where U == AppUser {
-    static var current: JWTKeychainConfig<AppUser> {
+    static func current(container: Container) -> JWTKeychainConfig<AppUser> {
         return JWTKeychainConfig(
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access")
-                        .convertToData())
+                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access"))
                 ),
             refreshTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 365.daysInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh")
-                        .convertToData())
+                    key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh"))
                 ),
             endpoints: .apiPrefixed
         )
@@ -211,7 +208,7 @@ extension RedisClientConfig {
 }
 
 extension ResetConfig where U == AppUser {
-    static var current: ResetConfig<AppUser> {
+    static func current(container: Container) -> ResetConfig<AppUser> {
         return ResetConfig(
             name: ProjectConfig.current.name,
             baseURL: ProjectConfig.current.url,

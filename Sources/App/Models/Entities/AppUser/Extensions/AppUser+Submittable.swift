@@ -18,37 +18,47 @@ extension AppUser: Submittable {
             passwordAgain = nil
         }
 
-        public func fieldEntries() throws -> [FieldEntry<AppUser>] {
+        public static func makeFields(for instance: Submission?) throws -> [Field] {
             return try [
-                makeFieldEntry(
-                    keyPath: \Submission.email,
-                    label: "Email address",
-                    asyncValidators: [{ email, context, appUser, req in
-                        validateThat(
-                            only: appUser,
-                            has: email,
-                            for: \AppUser.email,
-                            on: req
-                        )
-                        }]
-                ),
-                makeFieldEntry(
-                    keyPath: \Submission.name,
+                Field(
+                    keyPath: \.name,
+                    instance: instance,
                     label: "Name",
                     validators: [.count(5...191)]
                 ),
-                makeFieldEntry(
-                    keyPath: \Submission.password,
+                Field(
+                    keyPath: \.password,
+                    instance: instance,
                     label: "Password",
                     validators: [.count(8...)]
                 ),
-                makeFieldEntry(
-                    keyPath: \Submission.passwordAgain,
+                Field(
+                    keyPath: \.passwordAgain,
+                    instance: instance,
                     label: "Password again",
                     validators: [.count(8...)]
                 )
             ]
         }
+    }
+    
+    static func makeAdditionalFields(
+        for submission: Submission?,
+        given existing: AppUser?
+    ) throws -> [Field] {
+        return try [Field(
+            keyPath: \.email,
+            instance: submission,
+            label: "Email address",
+            asyncValidators: [{ req, context in
+                validateThat(
+                    only: existing,
+                    has: existing?.email,
+                    for: \.email,
+                    on: req
+                )
+            }]
+        )]
     }
 
     public struct Create: Decodable {

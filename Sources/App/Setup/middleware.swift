@@ -10,7 +10,7 @@ public func middleware(config: inout MiddlewareConfig) throws {
     config.use(NMetaMiddleware.self)
     // ⚠️ The BugsnagMiddleware needs to be the second to last middleware (right before
     // the FileMiddleware).
-    config.use(BugsnagClient.self)
+    config.use(BugsnagMiddleware.self)
     // ⚠️ The FileMiddleware needs to be the last middleware.
     config.use(FileMiddleware.self) // Serves files from `Public/` directory
 }
