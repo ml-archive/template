@@ -1,14 +1,15 @@
 import Authentication
-import Fluent
-import Foundation
-import JWT
 import Leaf
 import Mailgun
 import Reset
 import Sugar
-import Vapor
 
-extension AppUser: PasswordResettable, PasswordAuthenticatable {
+extension AppUser: PasswordAuthenticatable {
+    static let usernameKey: WritableKeyPath<AppUser, String> = \.email
+    static let passwordKey: WritableKeyPath<AppUser, String> = \.password
+}
+
+extension AppUser: PasswordResettable {
     typealias Context = ResetPasswordContext
 
     public struct RequestReset: SelfCreatable, Decodable, HasReadableUsername {
