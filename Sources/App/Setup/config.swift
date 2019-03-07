@@ -11,8 +11,6 @@ import Reset
 import Sugar
 import Vapor
 
-// TODO: remove .convertToData() wherever possible
-
 extension AdminPanelConfig where U == AdminPanelUser {
     static func current(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
         return AdminPanelConfig(
@@ -71,14 +69,12 @@ extension JWTKeychainConfig where U == AppUser {
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access")
-                        .convertToData())
+                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access"))
                 ),
             refreshTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 365.daysInSecs,
                 signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh")
-                        .convertToData())
+                    key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh"))
                 ),
             endpoints: .apiPrefixed
         )
