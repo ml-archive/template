@@ -64,6 +64,7 @@ public func configure(
 
     // Use Redis for caching
     config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
+    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
     services.register(OffsetPaginatorConfig.current)
 
     // MARK: Leaf tags
