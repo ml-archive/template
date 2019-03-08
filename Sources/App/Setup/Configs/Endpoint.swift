@@ -16,9 +16,9 @@ internal extension Endpoint.API {
         private static let users = api + "/users"
         static let login = users + "/login"
         static let me = users + "/me"
+        static let register = users
         static let token = users + "/token"
         static let update = users + "/me"
-        static let request = users + "/request"
 
         enum ResetPassword {
             private static let resetPassword = users + "/reset-password"
@@ -43,6 +43,7 @@ internal extension JWTKeychainEndpoints {
         return .init(
             login: Endpoint.API.Users.login,
             me: Endpoint.API.Users.me,
+            register: Endpoint.API.Users.register,
             token: Endpoint.API.Users.token,
             update: Endpoint.API.Users.update
         )
