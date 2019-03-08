@@ -5,20 +5,20 @@ import Sugar
 import Validation
 
 extension AppUser: Submittable {
-    public struct Submission: SubmissionType {
+    struct Submission: SubmissionType {
         let email: String?
         let name: String?
         let password: String?
         let passwordAgain: String?
 
-        public init(_ user: AppUser?) {
+        init(_ user: AppUser?) {
             email = user?.email
             name = user?.name
             password = nil
             passwordAgain = nil
         }
 
-        public static func makeFields(for instance: Submission?) throws -> [Field] {
+        static func makeFields(for instance: Submission?) throws -> [Field] {
             return try [
                 Field(
                     keyPath: \.name,
@@ -50,6 +50,7 @@ extension AppUser: Submittable {
             keyPath: \.email,
             instance: submission,
             label: "Email address",
+            validators: [.email],
             asyncValidators: [{ req, context in
                 validateThat(
                     only: existing,
@@ -61,16 +62,17 @@ extension AppUser: Submittable {
         )]
     }
 
-    public struct Create: Decodable {
+    struct Create: Decodable {
         let email: String
         let name: String
         let password: String
     }
 
-    public convenience init(_ create: Create) throws {
+    convenience init(_ create: Create) throws {
         try self.init(
             email: create.email,
             name: create.name,
+            password: create.password
         )
     }
 

@@ -1,5 +1,6 @@
 import Bugsnag
 import NMeta
+import Submissions
 import Vapor
 
 public func middleware(config: inout MiddlewareConfig) throws {
@@ -11,6 +12,7 @@ public func middleware(config: inout MiddlewareConfig) throws {
     // ⚠️ The BugsnagMiddleware needs to be the second to last middleware (right before
     // the FileMiddleware).
     config.use(BugsnagMiddleware.self)
+    config.use(SubmissionsMiddleware())
     // ⚠️ The FileMiddleware needs to be the last middleware.
     config.use(FileMiddleware.self) // Serves files from `Public/` directory
 }
