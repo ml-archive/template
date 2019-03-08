@@ -23,7 +23,7 @@ final class AppUser: Codable {
         self.id = id
         self.email = email
         self.name = name
-        self.password = password
+        self.password = try AppUser.hashPassword(password)
         self.passwordChangeCount = passwordChangeCount
     }
 }

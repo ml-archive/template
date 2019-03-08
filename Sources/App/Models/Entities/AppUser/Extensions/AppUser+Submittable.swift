@@ -71,7 +71,6 @@ extension AppUser: Submittable {
         try self.init(
             email: create.email,
             name: create.name,
-            password: AppUser.hashPassword(create.password)
         )
     }
 
