@@ -221,7 +221,7 @@ extension ResetConfig where U == AppUser {
 }
 
 extension ResetResponses {
-    public static var current: ResetResponses {
+    static var current: ResetResponses {
         return .init(
             resetPasswordRequestForm: { req in
                 try HTTPResponse(status: .notFound).encode(for: req)

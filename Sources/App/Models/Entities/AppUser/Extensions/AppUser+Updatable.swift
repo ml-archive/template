@@ -2,7 +2,6 @@ import JWTKeychain
 import Sugar
 
 extension AppUser: Updatable {
-    
     struct Update: Decodable, HasUpdatableUsername, HasUpdatablePassword {
         static let oldPasswordKey = \Update.oldPassword
         static let updatablePasswordKey = \Update.password

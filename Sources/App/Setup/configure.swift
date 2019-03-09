@@ -9,14 +9,14 @@ import Sugar
 import Vapor
 
 /// Called before your application initializes.
-public func configure(
+func configure(
     _ config: inout Config,
     _ env: inout Environment,
     _ services: inout Services
 ) throws {
     // MARK: Providers
 
-    try setupProviders(services: &services, config: &config, environment: env)
+    try setUpProviders(services: &services, config: &config, environment: env)
 
     // MARK: Routes
 
@@ -46,7 +46,7 @@ public func configure(
 
     // MARK: Repositories
 
-    setupRepositories(services: &services, config: &config)
+    setUpRepositories(services: &services, config: &config)
 
     // MARK: Content
 
@@ -62,26 +62,28 @@ public func configure(
 
     // MARK: Configure
 
-    // Use Redis for caching
+    // use Redis for caching
     config.prefer(DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>>.self, for: KeyedCache.self)
-    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
+
+    // set default pagination settings
     services.register(OffsetPaginatorConfig.current)
+
+    // default to Leaf when rendering views
+    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
 
     // MARK: Leaf tags
 
-    services.register { container -> LeafTagConfig in
-        var config = LeafTagConfig.default()
-        try leafTags(config: &config, container)
-        return config
-    }
+    var leafTagConfig = LeafTagConfig.default()
+    try leafTags(config: &leafTagConfig)
+    services.register(leafTagConfig)
 
     // MARK: Services
 
+    #warning ("TODO: Remember to replace 'nodestemplate' with the name of the app.")
     let driver = try S3Driver(
         bucket: Sugar.env(EnvironmentKey.Storage.bucket, ""),
         accessKey: Sugar.env(EnvironmentKey.Storage.accessKey, ""),
         secretKey: Sugar.env(EnvironmentKey.Storage.secretKey, ""),
-        // TODO: Remember to replace 'nodestemplate' with the name of the Vapor Cloud app.
         pathTemplate: "/nodestemplate/#mimeFolder/#uuid.#fileExtension"
     )
     services.register(driver, as: NetworkDriver.self)

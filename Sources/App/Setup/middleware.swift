@@ -3,7 +3,7 @@ import NMeta
 import Submissions
 import Vapor
 
-public func middleware(config: inout MiddlewareConfig) throws {
+func middleware(config: inout MiddlewareConfig) throws {
     // ⚠️ The CORSMiddleware needs to be before the ErrorMiddleware.
     config.use(CORSMiddleware(configuration: .current))
     config.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response

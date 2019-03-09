@@ -1,6 +1,6 @@
 import Vapor
 
-public func content(config: inout ContentConfig) throws {
+func content(config: inout ContentConfig) throws {
     // Do any general content configuration here
     // let encoder = JSONEncoder()
     // let decoder = JSONDecoder()

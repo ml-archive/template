@@ -7,22 +7,22 @@ import Vapor
 extension AppUser: PasswordResettable {
     typealias Context = ResetPasswordContext
 
-    public struct RequestReset: SelfCreatable, Decodable, HasReadableUsername {
+    struct RequestReset: HasReadableUsername, SelfCreatable {
         static let readableUsernameKey = \RequestReset.username
         public let username: String
     }
 
-    public struct ResetPassword: SelfCreatable, Decodable, HasReadablePassword {
+    struct ResetPassword: HasReadablePassword, SelfCreatable {
         static let readablePasswordKey = \ResetPassword.password
         public let password: String
     }
 
-    internal struct ResetPasswordEmail: Codable {
+    struct ResetPasswordEmail: Codable {
         let url: String
         let expire: Int
     }
 
-    public func sendPasswordReset(
+    func sendPasswordReset(
         url: String,
         token: String,
         expirationPeriod: TimeInterval,
@@ -34,12 +34,12 @@ extension AppUser: PasswordResettable {
         let emailData = ResetPasswordEmail(url: url, expire: Int(expirationPeriod / 60))
 
         return try req
-            .make(LeafRenderer.self)
+            .view()
             .render(ViewPath.Reset.resetPasswordEmail, emailData)
-            .map(to: String.self) { view in
+            .map { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""
             }
-            .map(to: Mailgun.Message.self) { html in
+            .map { html in
                 Mailgun.Message(
                     from: projectConfig.resetPasswordEmail.fromEmail,
                     to: self.email,
@@ -48,21 +48,9 @@ extension AppUser: PasswordResettable {
                     html: html
                 )
             }
-            .flatMap(to: Response.self) { message in
+            .flatMap { message in
                 try mailgun.send(message, on: req)
             }
             .transform(to: ())
-    }
-
-    // Multiple matches, so need to specify one here.
-    public static func authenticate(
-        using payload: AppUser.JWTPayload,
-        on connection: DatabaseConnectable
-        ) throws -> EventLoopFuture<AppUser?> {
-        guard let id = ID(payload.sub.value) else {
-            throw AuthenticationError.malformedPayload
-        }
-
-        return find(id, on: connection)
     }
 }

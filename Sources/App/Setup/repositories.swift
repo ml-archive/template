@@ -1,6 +1,6 @@
 import Vapor
 
-public func setupRepositories(services: inout Services, config: inout Config) {
+func setUpRepositories(services: inout Services, config: inout Config) {
     // See https://docs.vapor.codes/3.0/extras/style-guide/#architecture for more information
     // on how to use repositories.
     // services.register(MySQLUserRepository.self)
