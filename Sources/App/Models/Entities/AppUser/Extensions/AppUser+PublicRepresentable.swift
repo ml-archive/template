@@ -2,7 +2,6 @@ import Sugar
 import Vapor
 
 extension AppUser: PublicRepresentable {
-    
     struct Public: Content {
         let email: String
         let name: String

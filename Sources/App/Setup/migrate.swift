@@ -2,7 +2,7 @@ import AdminPanel
 import FluentMySQL
 import Vapor
 
-public func migrate(migrations: inout MigrationConfig) throws {
+func migrate(migrations: inout MigrationConfig) throws {
     // MARK: Preparations
     migrations.add(model: AppUser.self, database: .mysql)
     migrations.add(model: AdminPanelUser.self, database: .mysql)

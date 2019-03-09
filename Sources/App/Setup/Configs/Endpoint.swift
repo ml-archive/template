@@ -2,14 +2,14 @@ import AdminPanel
 import JWTKeychain
 import Reset
 
-internal struct Endpoint {
+struct Endpoint {
     enum API {}
     enum Backend {}
 }
 
 // MARK: API
 
-internal extension Endpoint.API {
+extension Endpoint.API {
     private static let api = "/api"
 
     enum Users {
@@ -31,15 +31,15 @@ internal extension Endpoint.API {
 
 // MARK: Backend
 
-internal extension Endpoint.Backend {
+extension Endpoint.Backend {
     private static let backend = "/admin"
     // Add your backend endpoints here
 }
 
 // MARK: JWTKeychain
 
-internal extension JWTKeychainEndpoints {
-    internal static var apiPrefixed: JWTKeychainEndpoints {
+extension JWTKeychainEndpoints {
+    static var apiPrefixed: JWTKeychainEndpoints {
         return .init(
             login: Endpoint.API.Users.login,
             me: Endpoint.API.Users.me,
@@ -52,8 +52,8 @@ internal extension JWTKeychainEndpoints {
 
 // MARK: Reset
 
-internal extension ResetEndpoints {
-    internal static var apiPrefixed: ResetEndpoints {
+extension ResetEndpoints {
+    static var apiPrefixed: ResetEndpoints {
         return .init(
             resetPasswordRequest: Endpoint.API.Users.ResetPassword.request,
             renderResetPassword: Endpoint.API.Users.ResetPassword.renderReset,

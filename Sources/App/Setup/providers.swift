@@ -11,7 +11,7 @@ import Reset
 import Sugar
 import Vapor
 
-internal func setupProviders(
+func setUpProviders(
     services: inout Services,
     config: inout Config,
     environment: Environment

@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/jwt-keychain.git",
         "state": {
           "branch": null,
-          "revision": "db7434c0cc06604b94fa7cd7096c745612c30235",
-          "version": "1.0.0-rc.1"
+          "revision": "b217405bc0f0799df16373fd1492dbd413f8b7df",
+          "version": "1.0.0-rc.2"
         }
       },
       {
@@ -258,8 +258,8 @@
         "repositoryURL": "https://github.com/nodes-vapor/submissions.git",
         "state": {
           "branch": null,
-          "revision": "024ce698e7df8bb06bf0df3ef43efcd9ae3fb57d",
-          "version": "2.0.0-rc.1"
+          "revision": "6550bb32fce3404944b525246b022a5784742bc2",
+          "version": "2.0.0-rc.2"
         }
       },
       {

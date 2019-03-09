@@ -1,4 +1,4 @@
-internal enum ViewPath {
+enum ViewPath {
     private static let prefix = "App"
 
     enum Reset {

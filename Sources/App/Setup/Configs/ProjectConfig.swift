@@ -2,7 +2,7 @@ import Fluent
 import Sugar
 import Vapor
 
-internal struct ProjectConfig: Service {
+struct ProjectConfig: Service {
     let name: String
     let url: String
 

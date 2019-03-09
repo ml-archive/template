@@ -8,15 +8,9 @@ extension AppUser: Submittable {
     struct Submission: SubmissionType {
         let email: String?
         let name: String?
+        let oldPassword: String?
         let password: String?
         let passwordAgain: String?
-
-        init(_ user: AppUser?) {
-            email = user?.email
-            name = user?.name
-            password = nil
-            passwordAgain = nil
-        }
 
         static func makeFields(for instance: Submission?) throws -> [Field] {
             return try [
@@ -30,18 +24,32 @@ extension AppUser: Submittable {
                     keyPath: \.password,
                     instance: instance,
                     label: "Password",
-                    validators: [.count(8...)]
+                    validators: [.count(8...), .strongPassword()]
                 ),
                 Field(
                     keyPath: \.passwordAgain,
                     instance: instance,
                     label: "Password again",
-                    validators: [.count(8...)]
+                    validators: [Validator("") {
+                        guard $0 == instance?.password else {
+                            throw BasicValidationError("Passwords do not match")
+                        }
+                    }]
                 )
             ]
         }
     }
-    
+
+    func makeSubmission() -> AppUser.Submission? {
+        return Submission(
+            email: email,
+            name: name,
+            oldPassword: nil,
+            password: nil,
+            passwordAgain: nil
+        )
+    }
+
     static func makeAdditionalFields(
         for submission: Submission?,
         given existing: AppUser?
@@ -54,39 +62,11 @@ extension AppUser: Submittable {
             asyncValidators: [{ req, context in
                 validateThat(
                     only: existing,
-                    has: existing?.email,
+                    has: submission?.email,
                     for: \.email,
                     on: req
                 )
             }]
         )]
-    }
-
-    struct Create: Decodable {
-        let email: String
-        let name: String
-        let password: String
-    }
-
-    convenience init(_ create: Create) throws {
-        try self.init(
-            email: create.email,
-            name: create.name,
-            password: create.password
-        )
-    }
-
-    public func update(_ submission: Submission) throws {
-        if let email = submission.email, !email.isEmpty {
-            self.email = email
-        }
-
-        if let name = submission.name, !name.isEmpty{
-            self.name = name
-        }
-
-        if let password = submission.password, !password.isEmpty {
-            self.password = try AppUser.hashPassword(password)
-        }
     }
 }

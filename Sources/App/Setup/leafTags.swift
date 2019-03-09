@@ -3,11 +3,11 @@ import Leaf
 import NodesSSO
 import Vapor
 
-public func leafTags(config: inout LeafTagConfig, _ container: Container) throws {
-    config.useNodesSSOLeafTags()
+func leafTags(config: inout LeafTagConfig) throws {
     config.useAdminPanelLeafTags(AdminPanelUser.self)
     config.useBootstrapLeafTags()
     config.useFlashLeafTags()
+    config.useNodesSSOLeafTags()
     config.useResetLeafTags()
     config.useSubmissionsLeafTags()
 }
