@@ -60,7 +60,7 @@ For handling reset of passwords, Reset also needs a couple of signers to be set 
 
 #### Nodes SSO
 
-To enable Nodes SSO on Admin Panel the project needs to be [created on Ournodes](https://github.com/nodes-projects/readme/blob/master/server-side/nodes-sso.md) (private link) and the environment variables needs to be set up in the project.
+To enable Nodes SSO on Admin Panel the project needs to be [created on Ournodes](https://github.com/nodes-projects/readme/blob/master/server-side/nodes-sso.md) (private link) and the environment variables needs to be set up in the project. Be aware when using SSO locally to specify the PROJECT_URL environment variable with `http`
 
 #### Bugsnag
 
@@ -79,14 +79,14 @@ This project template aims to follow the official [Vapor Style guidelines](https
 - We have a folder named `External` for any third party integrations (we used to name this folder Services in Vapor 2).
 
 
-## Xcode project  🔨 
+## Xcode project  🔨
 
 [Vapor toolbox](https://vapor.github.io/documentation/getting-started/install-toolbox.html) makes it simple to generate a project for Xcode.
 ```bash
 vapor xcode -y
 ```
 
-### Starting your server  🏁 
+### Starting your server  🏁
 In Xcode, select the `Run` scheme if you want to startup your server.
 
 
