@@ -29,7 +29,7 @@ func setUpProviders(
         try container.keyedCache(for: .redis)
     }
 
-    // Admin Panel
+    // MARK: Admin Panel
 
     let adminPanelProvider = AdminPanelProvider<AdminPanelUser> { _ in .current(environment) }
     try services.register(adminPanelProvider)
