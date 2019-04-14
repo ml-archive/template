@@ -5,7 +5,7 @@ import Sugar
 import Validation
 
 extension AppUser: Submittable {
-    struct Submission: SubmissionType {
+    struct Submission: Decodable & FieldsRepresentable & Reflectable {
         let email: String?
         let name: String?
         let oldPassword: String?
