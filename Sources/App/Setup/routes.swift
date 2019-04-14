@@ -21,15 +21,14 @@ func routes(_ router: Router, _ container: Container) throws {
     try router.useJWTKeychainRoutes(AppUser.self, on: container)
 
     // MARK: - Project specific routes
-
-    // let jwtKeychain: AdminPanelMiddlewares = try container.make()
-    // let adminPanel: AdminPanelMiddlewares = try container.make()
+//    let adminPanel: AdminPanelMiddlewares = try container.make()
+//    let jwtKeychain: JWTKeychainMiddlewares<AppUser> = try container.make()
 
     // MARK: API
-    // let unprotectedApi = router
-    // let protectedApi = unprotectedApi.grouped(jwtKeychain.middlewares.accessMiddlewares)
+//    let unprotectedApi = router
+//    let protectedApi = unprotectedApi.grouped(jwtKeychain.accessMiddlewares)
 
     // MARK: Backend
-    // let unprotectedBackend = router
-    // let protectedBackend = unprotectedBackend.grouped(adminPanel.middlewares.secure)
+//    let unprotectedBackend = router
+//    let protectedBackend = unprotectedBackend.grouped(adminPanel.secure)
 }
