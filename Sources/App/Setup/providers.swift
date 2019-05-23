@@ -22,7 +22,6 @@ func setUpProviders(
     try services.register(LeafProvider())
     try services.register(RedisProvider())
     services.register(RedisClientConfig.current)
-    services.register(RedisClientFactory())
     services.register(
         KeyedCache.self
     ) { container -> DatabaseKeyedCache<ConfiguredDatabase<RedisDatabase>> in
