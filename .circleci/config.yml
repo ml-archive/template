@@ -2,7 +2,7 @@ version: 2
 jobs:
   MacOS:
     macos:
-      xcode: "10.0.0"
+      xcode: "10.2.1"
     steps:
       - checkout
       - restore_cache:
@@ -28,12 +28,12 @@ jobs:
             - .build
   Linux:
     docker:
-      - image: nodesvapor/vapor-ci:swift-4.2
+      - image: nodesvapor/vapor-ci:swift-5.0
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v2-spm-deps-{{ checksum "Package.resolved" }}
+            - v1-spm-deps-{{ checksum "Package.resolved" }}
       - run:
           name: Copy Resolved Package
           command: cp Package.resolved res
@@ -46,7 +46,7 @@ jobs:
           name: Restoring Resolved Package
           command: mv res Package.resolved
       - save_cache:
-          key: v2-spm-deps-{{ checksum "Package.resolved" }}
+          key: v1-spm-deps-{{ checksum "Package.resolved" }}
           paths:
             - .build
 workflows:
