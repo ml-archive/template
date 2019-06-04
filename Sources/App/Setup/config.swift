@@ -85,8 +85,7 @@ extension MySQLDatabaseConfig {
     static var current: MySQLDatabaseConfig {
         guard
             let url = env(EnvironmentKey.MySQL.url),
-            let throwableConfig = try? MySQLDatabaseConfig(url: url),
-            let config = throwableConfig
+            let config = try? MySQLDatabaseConfig(url: url)
         else {
             return MySQLDatabaseConfig(
                 hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
