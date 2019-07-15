@@ -21,6 +21,7 @@ enum EnvironmentKey {
     enum Mailgun {
         static let apiKey = "MAILGUN_PASSWORD"
         static let domain = "MAILGUN_DOMAIN"
+        static let region = "MAILGUN_REGION"
     }
 
     enum JWTKeychain {
