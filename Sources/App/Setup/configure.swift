@@ -14,6 +14,11 @@ func configure(
     _ env: inout Environment,
     _ services: inout Services
 ) throws {
+
+    // MARK: Load environment variables from .env file
+
+    Environment.dotenv()
+
     // MARK: Providers
 
     try setUpProviders(services: &services, config: &config, environment: env)
@@ -88,7 +93,4 @@ func configure(
     )
     services.register(driver, as: NetworkDriver.self)
     Storage.cdnBaseURL = Sugar.env(EnvironmentKey.Storage.cdnPath, "http://127.0.0.1:8080")
-    
-    // MARK: Load environment variables
-    Environment.dotenv()
 }
