@@ -14,6 +14,11 @@ func configure(
     _ env: inout Environment,
     _ services: inout Services
 ) throws {
+
+    // MARK: Load environment variables from .env file
+
+    Environment.dotenv()
+
     // MARK: Providers
 
     try setUpProviders(services: &services, config: &config, environment: env)
