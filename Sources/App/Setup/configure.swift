@@ -88,4 +88,7 @@ func configure(
     )
     services.register(driver, as: NetworkDriver.self)
     Storage.cdnBaseURL = Sugar.env(EnvironmentKey.Storage.cdnPath, "http://127.0.0.1:8080")
+    
+    // MARK: Load environment variables
+    Environment.dotenv()
 }
