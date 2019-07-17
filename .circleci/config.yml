@@ -7,7 +7,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-spm-deps-{{ checksum "Package.resolved" }}
+            - macos-v1-spm-deps-{{ checksum "Package.resolved" }}
       - run:
           name: Install dependencies
           command: |
@@ -23,7 +23,7 @@ jobs:
           command: |
             swift test -Xswiftc -DNOJSON
       - save_cache:
-          key: v1-spm-deps-{{ checksum "Package.resolved" }}
+          key: macos-v1-spm-deps-{{ checksum "Package.resolved" }}
           paths:
             - .build
   Linux:
@@ -33,7 +33,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-spm-deps-{{ checksum "Package.resolved" }}
+            - linux-v1-spm-deps-{{ checksum "Package.resolved" }}
       - run:
           name: Copy Resolved Package
           command: cp Package.resolved res
@@ -46,7 +46,7 @@ jobs:
           name: Restoring Resolved Package
           command: mv res Package.resolved
       - save_cache:
-          key: v1-spm-deps-{{ checksum "Package.resolved" }}
+          key: linux-v1-spm-deps-{{ checksum "Package.resolved" }}
           paths:
             - .build
 workflows:
