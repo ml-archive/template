@@ -42,10 +42,13 @@ func setUpProviders(
 
     // MARK: Mailgun
 
+    let region: Mailgun.Region = env(EnvironmentKey.Mailgun.region, "") == "us" ? .us : .eu
+
     services.register(
         Mailgun(
             apiKey: env(EnvironmentKey.Mailgun.apiKey, ""),
-            domain: env(EnvironmentKey.Mailgun.domain, "")
+            domain: env(EnvironmentKey.Mailgun.domain, ""),
+            region: region
         ),
         as: Mailgun.self
     )
