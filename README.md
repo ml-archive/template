@@ -30,6 +30,8 @@ Before building your project you need to change the name of the project in `Pack
 
 Before running your project, you need to make sure you have the following environment variables set up. For more information on how do this, have a look at our guide [here](https://github.com/nodes-vapor/readme/blob/master/Documentation/how-to-setup-environment-variables.md). All the different keys for environment variables are defined in `Utilities/EnvironmentKey.swift`.
 
+Alternatively use the included `.env.example` file. Copy the file to `.env`, enable your required environment variables and add their values.
+
 #### Project
 
 These are project-specific values such as the name of the project (e.g. "My Blog") and the url of the current environment (e.g. http://my-blog.com).

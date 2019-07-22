@@ -7,3 +7,4 @@ Config/secrets/
 .DS_Store
 .swift-version
 CMakeLists.txt
+*.env
