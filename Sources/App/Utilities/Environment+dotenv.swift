@@ -56,7 +56,7 @@ public extension Environment {
             // remove surrounding quotes from value &
             // convert remove escape character before any embedded quotes
             if
-                value[value.startIndex] == "\"" &&
+                value[value.startIndex] == "\"",
                 value[value.index(before: value.endIndex)] == "\""
             {
                 value.remove(at: value.startIndex)
