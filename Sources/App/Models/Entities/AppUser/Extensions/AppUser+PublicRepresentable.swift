@@ -6,7 +6,7 @@ extension AppUser: PublicRepresentable {
         let email: String
         let name: String
     }
-    
+
     func convertToPublic(on req: Request) throws -> Future<AppUser.Public> {
         return req.future(AppUser.Public(email: email, name: name))
     }
