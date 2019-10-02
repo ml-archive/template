@@ -12,10 +12,11 @@ import Sugar
 import Vapor
 
 extension AdminPanelConfig where U == AdminPanelUser {
-    static func current(_ environment: Environment) -> AdminPanelConfig<AdminPanelUser> {
-        return AdminPanelConfig(
-            name: ProjectConfig.current.name,
-            baseURL: ProjectConfig.current.url,
+    static func current(_ environment: Environment) throws -> AdminPanelConfig<AdminPanelUser> {
+        let projectConfig = try ProjectConfig.current()
+        return try AdminPanelConfig(
+            name: projectConfig.name,
+            baseURL: projectConfig.url,
             views: AdminPanelViews(
                 login: AdminPanelViews.Login(index: ViewPath.AdminPanel.Login.index),
                 dashboard: AdminPanelViews.Dashboard(index: ViewPath.AdminPanel.Dashboard.index)
@@ -28,8 +29,7 @@ extension AdminPanelConfig where U == AdminPanelUser {
                 case .user: return ViewPath.AdminPanel.Layout.Sidebars.user
                 }
             },
-            resetSigner: .hs256(
-                key: env(EnvironmentKey.AdminPanel.signerKey, "secret-reset-admin")),
+            resetSigner: .hs256(key: assertEnv(EnvironmentKey.AdminPanel.signerKey)),
             environment: environment
         )
     }
@@ -64,36 +64,35 @@ extension CORSMiddleware.Configuration {
 }
 
 extension JWTKeychainConfig where U == AppUser {
-    static func current(container: Container) -> JWTKeychainConfig<AppUser> {
-        return JWTKeychainConfig(
+    static func current(container: Container) throws -> JWTKeychainConfig<AppUser> {
+        return try JWTKeychainConfig(
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
-                signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.accessTokenSignerKey, "secret-access"))
-                ),
+                signer: .hs256(key: assertEnv(EnvironmentKey.JWTKeychain.accessTokenSignerKey))
+            ),
             refreshTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 365.daysInSecs,
-                signer: .hs256(
-                    key: env(EnvironmentKey.JWTKeychain.refreshTokenSignerKey, "secret-refresh"))
-                ),
+                signer: .hs256(key: assertEnv(EnvironmentKey.JWTKeychain.refreshTokenSignerKey))
+            ),
             endpoints: .apiPrefixed
         )
     }
 }
 
 extension MySQLDatabaseConfig {
-    static var current: MySQLDatabaseConfig {
+    static func current() throws -> MySQLDatabaseConfig {
         guard
             let url = env(EnvironmentKey.MySQL.url),
             let config = try? MySQLDatabaseConfig(url: url)
         else {
+            let projectConfig = try ProjectConfig.current()
             return MySQLDatabaseConfig(
                 hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
                 username: env(EnvironmentKey.MySQL.username, "root"),
                 password: env(EnvironmentKey.MySQL.password, ""),
                 database: env(
                     EnvironmentKey.MySQL.database,
-                    ProjectConfig.current.name.lowercased()
+                    projectConfig.name.lowercased()
                 )
             )
         }
@@ -130,9 +129,10 @@ extension NodesSSOConfig where U == AdminPanelUser {
     static func current(
         _ middlewares: [Middleware],
         environment: Environment
-    ) -> NodesSSOConfig<AdminPanelUser> {
+    ) throws -> NodesSSOConfig<AdminPanelUser> {
+        let projectConfig = try ProjectConfig.current()
         return NodesSSOConfig(
-            projectURL: ProjectConfig.current.url,
+            projectURL: projectConfig.url,
             loginPath: "/admin/sso/login",
             redirectURL: env(EnvironmentKey.NodesSSO.redirectURL, ""),
             callbackPath: "/admin/sso/callback",
@@ -154,9 +154,9 @@ extension OffsetPaginatorConfig {
 }
 
 extension ProjectConfig {
-    static var current: ProjectConfig {
-        return ProjectConfig(
-            name: env(EnvironmentKey.Project.name, "NodesTemplate"),
+    static func current() throws -> ProjectConfig {
+        return try ProjectConfig(
+            name: assertEnv(EnvironmentKey.Project.name),
             url: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             resetPasswordEmail: .init(
                 fromEmail: "no-reply@like.st",
@@ -173,11 +173,7 @@ extension ProjectConfig {
             ),
             newAppUserSetPasswordSigner: ExpireableJWTSigner(
                 expirationPeriod: 30.daysInSecs,
-                signer: .hs256(
-                    key: env(
-                        EnvironmentKey.Reset.setPasswordSignerKey, "secret-reset"
-                    ).convertToData()
-                )
+                signer: .hs256(key: assertEnv(EnvironmentKey.Reset.setPasswordSignerKey))
             )
         )
     }
@@ -207,13 +203,13 @@ extension RedisClientConfig {
 }
 
 extension ResetConfig where U == AppUser {
-    static func current(container: Container) -> ResetConfig<AppUser> {
-        return ResetConfig(
-            name: ProjectConfig.current.name,
-            baseURL: ProjectConfig.current.url,
+    static func current(container: Container) throws -> ResetConfig<AppUser> {
+        let projectConfig = try ProjectConfig.current()
+        return try ResetConfig(
+            name: projectConfig.name,
+            baseURL: projectConfig.url,
             endpoints: .apiPrefixed,
-            signer: .hs256(key: env(EnvironmentKey.Reset.signerKey, "secret-reset-appuser")
-                .convertToData()),
+            signer: .hs256(key: assertEnv(EnvironmentKey.Reset.signerKey)),
             responses: .current
         )
     }
