@@ -30,11 +30,11 @@ func setUpProviders(
 
     // MARK: Admin Panel
 
-    let adminPanelProvider = AdminPanelProvider<AdminPanelUser> { _ in .current(environment) }
+    let adminPanelProvider = AdminPanelProvider<AdminPanelUser> { _ in try .current(environment) }
     try services.register(adminPanelProvider)
     try services.register(NodesSSOProvider<AdminPanelUser> { container in
         let adminPanelMiddlewares: AdminPanelMiddlewares = try container.make()
-        return NodesSSOConfig.current(
+        return try NodesSSOConfig.current(
             adminPanelMiddlewares.unsecure,
             environment: environment
         )

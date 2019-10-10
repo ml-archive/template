@@ -32,6 +32,8 @@ Before running your project, you need to make sure you have the following enviro
 
 Alternatively use the included `.env.example` file. Copy the file to `.env`, enable your required environment variables and add their values.
 
+Make sure to use unique and strong secrets for the signer keys (ie. the keys ending in `_SIGNER_KEY`). The keys should be unique within and across environments and projects. To generate the keys you can issue the following terminal command: `openssl rand -hex 64`.
+
 #### Project
 
 These are project-specific values such as the name of the project (e.g. "My Blog") and the url of the current environment (e.g. http://my-blog.com).
