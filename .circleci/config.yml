@@ -22,8 +22,8 @@ jobs:
           name: Install dependencies
           command: |
             export HOMEBREW_NO_AUTO_UPDATE=1
-            brew tap vapor/tap
-            brew install cmysql
+            # brew tap vapor/tap
+            # brew install cmysql
             brew install ctls
             brew install libressl
             brew install cstack
