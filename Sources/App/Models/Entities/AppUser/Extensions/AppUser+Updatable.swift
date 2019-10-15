@@ -12,9 +12,7 @@ extension AppUser: Updatable {
         let password: String?
         let oldPassword: String?
 
-        var username: String? {
-            return email
-        }
+        var username: String? { email }
     }
 
     func update(_ updated: Update) throws {

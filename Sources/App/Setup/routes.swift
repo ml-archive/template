@@ -1,5 +1,4 @@
 import AdminPanel
-import JWTKeychain
 import Vapor
 
 /// Register your application's routes here.

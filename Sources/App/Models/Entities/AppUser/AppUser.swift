@@ -1,5 +1,4 @@
-import FluentMySQL
-import Vapor
+import Foundation
 
 final class AppUser: Codable {
     var id: Int?
@@ -27,13 +26,3 @@ final class AppUser: Codable {
         self.passwordChangeCount = passwordChangeCount
     }
 }
-
-extension AppUser: MySQLModel {
-    static let createdAtKey: TimestampKey? = \.createdAt
-    static let updatedAtKey: TimestampKey? = \.updatedAt
-    static var deletedAtKey: TimestampKey? = \.deletedAt
-}
-
-extension AppUser: Content {}
-extension AppUser: Migration {}
-extension AppUser: Parameter {}

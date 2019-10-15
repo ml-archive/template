@@ -13,7 +13,7 @@ extension AppUser: Submittable {
         let passwordAgain: String?
 
         static func makeFields(for instance: Submission?) throws -> [Field] {
-            return try [
+            try [
                 Field(
                     keyPath: \.name,
                     instance: instance,
@@ -40,8 +40,8 @@ extension AppUser: Submittable {
         }
     }
 
-    func makeSubmission() -> AppUser.Submission? {
-        return Submission(
+    func makeSubmission() -> Submission? {
+        .init(
             email: email,
             name: name,
             oldPassword: nil,
@@ -54,19 +54,21 @@ extension AppUser: Submittable {
         for submission: Submission?,
         given existing: AppUser?
     ) throws -> [Field] {
-        return try [Field(
-            keyPath: \.email,
-            instance: submission,
-            label: "Email address",
-            validators: [.email],
-            asyncValidators: [{ req, context in
-                validateThat(
-                    only: existing,
-                    has: submission?.email,
-                    for: \.email,
-                    on: req
-                )
-            }]
-        )]
+        try [
+            Field(
+                keyPath: \.email,
+                instance: submission,
+                label: "Email address",
+                validators: [.email],
+                asyncValidators: [{ req, context in
+                    validateThat(
+                        only: existing,
+                        has: submission?.email,
+                        for: \.email,
+                        on: req
+                    )
+                }]
+            )
+        ]
     }
 }

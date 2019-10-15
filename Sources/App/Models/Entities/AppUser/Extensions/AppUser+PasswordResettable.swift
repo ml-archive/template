@@ -9,12 +9,12 @@ extension AppUser: PasswordResettable {
 
     struct RequestReset: HasReadableUsername, SelfCreatable {
         static let readableUsernameKey = \RequestReset.username
-        public let username: String
+        let username: String
     }
 
     struct ResetPassword: HasReadablePassword, SelfCreatable {
         static let readablePasswordKey = \ResetPassword.password
-        public let password: String
+        let password: String
     }
 
     struct ResetPasswordEmail: Codable {

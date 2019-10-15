@@ -12,7 +12,7 @@ jobs:
           path: result.xml
   MacOS:
     macos:
-      xcode: "10.2.1"
+      xcode: "11.1"
     steps:
       - checkout
       - restore_cache:
@@ -38,7 +38,7 @@ jobs:
             - .build
   Linux:
     docker:
-      - image: nodesvapor/vapor-ci:swift-5.0
+      - image: nodesvapor/vapor-ci:swift-5.1
     steps:
       - checkout
       - restore_cache:
