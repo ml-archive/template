@@ -171,7 +171,7 @@ extension ProjectConfig {
                 toEmail: "test+user@nodes.dk",
                 subject: "New User Request"
             ),
-            newUserSetPasswordSigner: ExpireableJWTSigner(
+            newAppUserSetPasswordSigner: ExpireableJWTSigner(
                 expirationPeriod: 30.daysInSecs,
                 signer: .hs256(key: assertEnv(EnvironmentKey.Reset.setPasswordSignerKey))
             )
