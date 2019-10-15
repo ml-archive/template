@@ -9,7 +9,6 @@ import NodesSSO
 import Redis
 import Reset
 import Sugar
-import Vapor
 
 func setUpProviders(
     services: inout Services,

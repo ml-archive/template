@@ -14,7 +14,7 @@ import Vapor
 extension AdminPanelConfig where U == AdminPanelUser {
     static func current(_ environment: Environment) throws -> AdminPanelConfig<AdminPanelUser> {
         let projectConfig = try ProjectConfig.current()
-        return try AdminPanelConfig(
+        return try .init(
             name: projectConfig.name,
             baseURL: projectConfig.url,
             views: AdminPanelViews(
@@ -37,7 +37,7 @@ extension AdminPanelConfig where U == AdminPanelUser {
 
 extension BugsnagConfig {
     static func current(_ environment: Environment) -> BugsnagConfig {
-        return BugsnagConfig(
+        .init(
             apiKey: env(EnvironmentKey.Bugsnag.key, ""),
             releaseStage: environment.name
         )
@@ -46,7 +46,7 @@ extension BugsnagConfig {
 
 extension CORSMiddleware.Configuration {
     static var current: CORSMiddleware.Configuration {
-        return CORSMiddleware.Configuration(
+        .init(
             allowedOrigin: .all,
             allowedMethods: [.GET, .POST, .PUT, .OPTIONS, .DELETE, .PATCH],
             allowedHeaders: [
@@ -65,7 +65,7 @@ extension CORSMiddleware.Configuration {
 
 extension JWTKeychainConfig where U == AppUser {
     static func current(container: Container) throws -> JWTKeychainConfig<AppUser> {
-        return try JWTKeychainConfig(
+        try .init(
             accessTokenSigner: ExpireableJWTSigner(
                 expirationPeriod: 1.hoursInSecs,
                 signer: .hs256(key: assertEnv(EnvironmentKey.JWTKeychain.accessTokenSignerKey))
@@ -86,7 +86,7 @@ extension MySQLDatabaseConfig {
             let config = try? MySQLDatabaseConfig(url: url)
         else {
             let projectConfig = try ProjectConfig.current()
-            return MySQLDatabaseConfig(
+            return .init(
                 hostname: env(EnvironmentKey.MySQL.hostname, "127.0.0.1"),
                 username: env(EnvironmentKey.MySQL.username, "root"),
                 password: env(EnvironmentKey.MySQL.password, ""),
@@ -103,7 +103,7 @@ extension MySQLDatabaseConfig {
 
 extension NMetaConfig {
     static var current: NMetaConfig {
-        return NMetaConfig(
+        .init(
             exceptPaths: [
                 // favicons
                 "/apple-touch-icon-precomposed.png",
@@ -131,7 +131,7 @@ extension NodesSSOConfig where U == AdminPanelUser {
         environment: Environment
     ) throws -> NodesSSOConfig<AdminPanelUser> {
         let projectConfig = try ProjectConfig.current()
-        return NodesSSOConfig(
+        return .init(
             projectURL: projectConfig.url,
             loginPath: "/admin/sso/login",
             redirectURL: env(EnvironmentKey.NodesSSO.redirectURL, ""),
@@ -146,7 +146,7 @@ extension NodesSSOConfig where U == AdminPanelUser {
 
 extension OffsetPaginatorConfig {
     static var current: OffsetPaginatorConfig {
-        return  OffsetPaginatorConfig(
+        .init(
             perPage: 25,
             defaultPage: 1
         )
@@ -155,7 +155,7 @@ extension OffsetPaginatorConfig {
 
 extension ProjectConfig {
     static func current() throws -> ProjectConfig {
-        return try ProjectConfig(
+        try .init(
             name: assertEnv(EnvironmentKey.Project.name),
             url: env(EnvironmentKey.Project.url, "http://localhost:8080"),
             resetPasswordEmail: .init(
@@ -198,14 +198,14 @@ extension RedisClientConfig {
             }
         }
 
-        return RedisClientConfig(url: url)
+        return .init(url: url)
     }
 }
 
 extension ResetConfig where U == AppUser {
     static func current(container: Container) throws -> ResetConfig<AppUser> {
         let projectConfig = try ProjectConfig.current()
-        return try ResetConfig(
+        return try .init(
             name: projectConfig.name,
             baseURL: projectConfig.url,
             endpoints: .apiPrefixed,
@@ -217,7 +217,7 @@ extension ResetConfig where U == AppUser {
 
 extension ResetResponses {
     static var current: ResetResponses {
-        return .init(
+        .init(
             resetPasswordRequestForm: { req in
                 try HTTPResponse(status: .notFound).encode(for: req)
             },

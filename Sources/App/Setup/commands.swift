@@ -1,5 +1,4 @@
 import AdminPanel
-import Sugar
 import Vapor
 
 func commands(config: inout CommandConfig) {

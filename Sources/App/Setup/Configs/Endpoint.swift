@@ -40,7 +40,7 @@ extension Endpoint.Backend {
 
 extension JWTKeychainEndpoints {
     static var apiPrefixed: JWTKeychainEndpoints {
-        return .init(
+        .init(
             login: Endpoint.API.Users.login,
             me: Endpoint.API.Users.me,
             register: Endpoint.API.Users.register,
@@ -54,7 +54,7 @@ extension JWTKeychainEndpoints {
 
 extension ResetEndpoints {
     static var apiPrefixed: ResetEndpoints {
-        return .init(
+        .init(
             resetPasswordRequest: Endpoint.API.Users.ResetPassword.request,
             renderResetPassword: Endpoint.API.Users.ResetPassword.renderReset,
             resetPassword: Endpoint.API.Users.ResetPassword.reset

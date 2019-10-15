@@ -14,13 +14,15 @@ import Service
 
 // MARK: - Methods
 
-public extension Environment {
+extension Environment {
     /// Loads environment variables from .env files.
     ///
     /// - Parameter filename: name of your env file.
     static func dotenv(filename: String = ".env") {
-        guard let path = getAbsolutePath(for: filename),
-            let contents = try? String(contentsOfFile: path, encoding: .utf8) else {
+        guard
+            let path = getAbsolutePath(for: filename),
+            let contents = try? String(contentsOfFile: path, encoding: .utf8)
+        else {
             return
         }
 
