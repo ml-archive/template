@@ -12,7 +12,7 @@ jobs:
           path: result.xml
   MacOS:
     macos:
-      xcode: "11.1"
+      xcode: "11.0"
     steps:
       - checkout
       - restore_cache:

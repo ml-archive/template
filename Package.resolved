@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/vapor/fluent-mysql.git",
         "state": {
           "branch": null,
-          "revision": "a67a5761859d19dc3e24563f9ab08b4a533adb48",
-          "version": "3.0.2"
+          "revision": "b7b579307e32b479555e05be2ca8c3b3b7c4151a",
+          "version": "3.1.0"
         }
       },
       {
@@ -159,8 +159,8 @@
         "repositoryURL": "https://github.com/vapor/mysql.git",
         "state": {
           "branch": null,
-          "revision": "6e86ff53e18f02faf26c2cbea1c1fb466bff6866",
-          "version": "3.2.6"
+          "revision": "8f2238dc48fa480ce6043ee0022ebe73c8ddc300",
+          "version": "3.3.0"
         }
       },
       {
