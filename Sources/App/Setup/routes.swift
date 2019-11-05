@@ -1,8 +1,12 @@
 import AdminPanel
 import Vapor
+import MySQL
 
 /// Register your application's routes here.
 func routes(_ router: Router, _ container: Container) throws {
+
+    // MARK: robots.txt
+
     if !container.environment.isRelease {
         router.get("robots.txt") { _ in
             return """
@@ -10,6 +14,17 @@ func routes(_ router: Router, _ container: Container) throws {
             Disallow: /"
             """
         }
+    }
+
+    // MARK: Health
+    
+    router.get("health") { req -> Future<Response> in
+        // return req.response(http: HTTPResponse(status: .ok))
+        let sys = System([
+            MySQLDatabase.self
+        ])
+
+        return sys.health(on: req)
     }
 
     // MARK: - Default routes
