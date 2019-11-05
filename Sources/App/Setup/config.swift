@@ -119,7 +119,8 @@ extension NMetaConfig {
                 "/css/*",
                 "/images/*",
                 "/js/*",
-                "/robots.txt"
+                "/robots.txt",
+                "/health"
             ]
         )
     }

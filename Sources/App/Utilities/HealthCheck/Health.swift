@@ -9,6 +9,8 @@ extension MySQLDatabase: HealthIndicatable {
             return database.raw("SHOW TABLES;").all().map { result in
                 return Health.Indicator(id: self.healthId, status: Health.Status.ready.rawValue)
             }
+        }.catchMap { _ in
+            return Health.Indicator(id: self.healthId, status: Health.Status.notReady.rawValue)
         }
     }
 }
@@ -44,7 +46,6 @@ struct System {
                     }
                 }
 
-                // return request.response()
                 return results.encode(status: status, for: request)
             }
     }
