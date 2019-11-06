@@ -14,7 +14,7 @@ protocol HealthComponent {
     // A system component type eg. datastore, system, etc.
     static var componentType: String { get }
 
-    // A descriptive name of the type of masurement made
+    // An optional descriptive name of the type of masurement made eg. connection or uptime
     static var measurementName: String? { get }
 
     // The function that does the heath check on a given service
@@ -29,18 +29,15 @@ protocol HealthComponent {
 extension MySQLDatabase: HealthComponent {
     static var componentName: String { "mysql" }
     static var componentType: String { "datastore" }
-    static var measurementName: String? { "connection" }
+    static var measurementName: String? { nil }
 
     static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator> {
-        return request.databaseConnection(to: .mysql).flatMap { database in
-            return database.raw("SHOW TABLES;").all().map { result in
-                return Health.Indicator(
-                    self,
-                    status: .pass
-                )
+        request.databaseConnection(to: .mysql).flatMap { database in
+            database.raw("SHOW TABLES;").all().map { _ in
+                Health.Indicator(self, status: .pass)
             }
         }.catchMap { error in
-            return Health.Indicator(
+            Health.Indicator(
                 self,
                 status: .fail,
                 output: error.localizedDescription
@@ -52,18 +49,15 @@ extension MySQLDatabase: HealthComponent {
 extension RedisDatabase: HealthComponent {
     static var componentName: String { "redis" }
     static var componentType: String { "datastore" }
-    static var measurementName: String? { "connection" }
+    static var measurementName: String? { nil }
 
     static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator> {
-        return request.withNewConnection(to: .redis) { database in
-            return database.get("test", as: String.self).map { _ in
-                return Health.Indicator(
-                    self,
-                    status: .pass
-                )
+        request.withNewConnection(to: .redis) { database in
+            database.get("test", as: String.self).map { data in
+                Health.Indicator(self, status: .pass)
             }
         }.catchMap { error in
-            return Health.Indicator(
+            Health.Indicator(
                 self,
                 status: .fail,
                 output: error.localizedDescription
@@ -124,16 +118,18 @@ struct Health {
 
         init(status: String, checks: [Indicator]) {
             self.status = status
+
             self.checks = checks.reduce([:], { (result, indicator) in
                 var result = result
                 let key = indicator.key
                 result[key, default: []].append(indicator)
                 return result
             })
+
             self.notes = [
-                "Checks request handling",
-                "Checks mysql connections",
-                "Checks redis connections"
+                "Checks ability to handle requests",
+                "Checks connection to mysql",
+                "Checks connection to redis"
             ]
         }
     }
@@ -157,7 +153,7 @@ struct System {
     }
 
     func health(on request: Request) -> EventLoopFuture<Response> {
-        return self.components.map { $0.isHealthy(on: request) }
+        self.components.map { $0.isHealthy(on: request) }
             .flatten(on: request)
             .flatMap(to: Response.self) { results in
                 var responseStatus: HTTPStatus = .ok
@@ -187,3 +183,18 @@ struct System {
             }
     }
 }
+
+// MARK: Router extension
+public extension Router {
+    func useHealthAPIRoutes(on container: Container) throws {
+        get(Endpoint.health) { container -> Future<Response> in
+            let system = System([
+                MySQLDatabase.self,
+                RedisDatabase.self
+            ])
+
+            return system.health(on: container)
+        }
+    }
+}
+

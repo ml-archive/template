@@ -17,21 +17,10 @@ func routes(_ router: Router, _ container: Container) throws {
         }
     }
 
-    // MARK: Health
-    
-    router.get("health") { req -> Future<Response> in
-        // return req.response(http: HTTPResponse(status: .ok))
-        let sys = System([
-            MySQLDatabase.self,
-            RedisDatabase.self
-        ])
-
-        return sys.health(on: req)
-    }
-
     // MARK: - Default routes
-    let sessionsRouter = router.grouped(SessionsMiddleware.self)
+    try router.useHealthAPIRoutes(on: container)
 
+    let sessionsRouter = router.grouped(SessionsMiddleware.self)
     try sessionsRouter.useAdminPanelRoutes(AdminPanelUser.self, on: container)
     try sessionsRouter.useNodesSSORoutes(AdminPanelUser.self, on: container)
     try sessionsRouter.useResetRoutes(AppUser.self, on: container)
