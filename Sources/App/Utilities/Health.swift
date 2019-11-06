@@ -8,7 +8,7 @@ import Redis
 // MARK: Protocol
 
 protocol HealthComponent {
-    // A system component identifier eg. mysql:connections
+    // A system component identifier eg. mysql or system
     static var componentName: String { get }
 
     // A system component type eg. datastore, system, etc.
@@ -53,7 +53,7 @@ extension RedisDatabase: HealthComponent {
 
     static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator> {
         request.withNewConnection(to: .redis) { database in
-            database.get("test", as: String.self).map { data in
+            database.get("test", as: String.self).map { _ in
                 Health.Indicator(self, status: .pass)
             }
         }.catchMap { error in
@@ -96,22 +96,23 @@ struct Health {
         }
 
         init(
-            _ h: HealthComponent.Type,
+            _ healthComponent: HealthComponent.Type,
             status: Health.Status,
             output: String? = nil
         ) {
-            self.componentName = h.componentName
-            self.componentType = h.componentType
-            self.measurementName = h.measurementName
+            self.componentName = healthComponent.componentName
+            self.componentType = healthComponent.componentType
+            self.measurementName = healthComponent.measurementName
             self.status = status.rawValue
             self.output = output
             self.time = DateFormatters.iso8601.string(from: Date())
         }
     }
 
+    // Health API response type
     struct HealthResponse: Content {
         let status: String
-        let checks: [String:[Indicator]]
+        let checks: [String: [Indicator]]
         let notes: [String]
         let version: Int = 1
         let releaseId: String = "1.0.0"
@@ -143,9 +144,9 @@ struct System {
 
     // Response headers
     let headers: HTTPHeaders = HTTPHeaders([
-        ("Content-Type","application/health+json"),
-        ("Cache-Control","max-age=3600"),
-        ("Connection","close")
+        ("Content-Type", "application/health+json"),
+        ("Cache-Control", "max-age=3600"),
+        ("Connection", "close")
     ])
 
     init(_ components: [HealthComponent.Type]) {
@@ -197,4 +198,3 @@ public extension Router {
         }
     }
 }
-
