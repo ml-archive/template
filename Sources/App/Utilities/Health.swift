@@ -110,6 +110,7 @@ struct Health {
     }
 
     // Health API response type
+
     struct Response: Content {
         let status: String
         let checks: [String: [Check]]
