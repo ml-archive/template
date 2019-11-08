@@ -18,10 +18,10 @@ protocol HealthComponent {
     static var measurementName: String? { get }
 
     // The function that does the heath check on a given service
-    static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator>
+    static func healthCheck(on request: Request) -> EventLoopFuture<Health.Check>
 }
 
-// MARK: Extensions
+// MARK: HealthComponent Extensions
 
 // Extends database services with HealthComponent so we
 // can generate a uniform response in the health API
@@ -31,13 +31,13 @@ extension MySQLDatabase: HealthComponent {
     static var componentType: String { "datastore" }
     static var measurementName: String? { nil }
 
-    static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator> {
+    static func healthCheck(on request: Request) -> EventLoopFuture<Health.Check> {
         request.databaseConnection(to: .mysql).flatMap { database in
             database.raw("SHOW TABLES;").all().map { _ in
-                Health.Indicator(self, status: .pass)
+                Health.Check(self, status: .pass)
             }
         }.catchMap { error in
-            Health.Indicator(
+            Health.Check(
                 self,
                 status: .fail,
                 output: error.localizedDescription
@@ -51,13 +51,13 @@ extension RedisDatabase: HealthComponent {
     static var componentType: String { "datastore" }
     static var measurementName: String? { nil }
 
-    static func isHealthy(on request: Request) -> EventLoopFuture<Health.Indicator> {
+    static func healthCheck(on request: Request) -> EventLoopFuture<Health.Check> {
         request.withNewConnection(to: .redis) { database in
             database.get("test", as: String.self).map { _ in
-                Health.Indicator(self, status: .pass)
+                Health.Check(self, status: .pass)
             }
         }.catchMap { error in
-            Health.Indicator(
+            Health.Check(
                 self,
                 status: .fail,
                 output: error.localizedDescription
@@ -79,7 +79,7 @@ struct Health {
     }
 
     // Health API response type
-    struct Indicator: Content {
+    struct Check: Content {
         let componentName: String
         let componentType: String
         let measurementName: String?
@@ -110,15 +110,20 @@ struct Health {
     }
 
     // Health API response type
-    struct HealthResponse: Content {
+    struct Response: Content {
         let status: String
-        let checks: [String: [Indicator]]
+        let checks: [String: [Check]]
         let notes: [String]
-        let version: Int = 1
-        let releaseId: String = "1.0.0"
+        let version: Int
+        let releaseId: String
 
-        init(status: String, checks: [Indicator]) {
-            self.status = status
+        init(
+            status: Status,
+            checks: [Check],
+            version: Int = 1,
+            releaseId: String = "1.0.0"
+        ) {
+            self.status = status.rawValue
 
             self.checks = checks.reduce([:], { (result, indicator) in
                 var result = result
@@ -132,6 +137,9 @@ struct Health {
                 "Checks connection to mysql",
                 "Checks connection to redis"
             ]
+
+            self.version = version
+            self.releaseId = releaseId
         }
     }
 }
@@ -154,27 +162,27 @@ struct System {
     }
 
     func health(on request: Request) -> EventLoopFuture<Response> {
-        self.components.map { $0.isHealthy(on: request) }
+        self.components.map { $0.healthCheck(on: request) }
             .flatten(on: request)
             .flatMap(to: Response.self) { results in
                 var responseStatus: HTTPStatus = .ok
                 var healthStatus: Health.Status = .pass
 
-                results.forEach { indicator in
-                    if indicator.status == Health.Status.warn.rawValue {
+                results.forEach { check in
+                    if check.status == Health.Status.warn.rawValue {
                         healthStatus = .warn
                     }
                 }
 
-                results.forEach { indicator in
-                    if indicator.status == Health.Status.fail.rawValue {
+                results.forEach { check in
+                    if check.status == Health.Status.fail.rawValue {
                         responseStatus = .internalServerError
                         healthStatus = .fail
                     }
                 }
 
-                return Health.HealthResponse(
-                    status: healthStatus.rawValue,
+                return Health.Response(
+                    status: healthStatus,
                     checks: results
                 ).encode(
                     status: responseStatus,
