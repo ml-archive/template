@@ -74,6 +74,64 @@ To support error reporting to Bugsnag, a project needs to be created on our orga
 
 Remember to update `configure.swift` and set the correct `pathTemplate` for the `S3Driver`. If you're deploying to Vapor Cloud, then `nodestemplate` should be replaced by your app name on Vapor Cloud. If you're deploying to somewhere else than Vapor Cloud, you might want to change the template pattern.
 
+### HealthCheck
+
+The internal HealthCheck package provides a convenient HealthCheck HTTP API based on the proposal [Health Check Response Format for HTTP APIs](https://inadarei.github.io/rfc-healthcheck/). Out of the box an endpoint `/health` is exposed, responding with an overview of the system's health:
+
+```json
+{
+    "status": "pass",
+    "releaseId": "1.0.0",
+    "notes": [
+        "Checks connection to mysql",
+        "Checks connection to redis"
+    ],
+    "checks": {
+        "redis": [
+            {
+                "status": "pass",
+                "time": "2019-11-11T15:04:11+0100",
+                "componentType": "datastore"
+            }
+        ],
+        "mysql": [
+            {
+                "status": "pass",
+                "time": "2019-11-11T15:04:11+0100",
+                "componentType": "datastore"
+            }
+        ]
+    },
+    "version": 1
+}
+```
+
+To override the built in health API:
+
+- disable the original route configuration in `App/Setup/routes.swift`
+
+```
+// try router.useHealthAPIRoutes(on: container)
+```
+
+- conform your services
+```
+extension SomeHealthComponent: HealthComponent { ... }
+extension AnotherHealthComponent: HealthComponent { ... }
+```
+
+- and define your own health check system
+```
+router.get("health") { req -> Future<Response> in
+    let system = HealthCheck.System([
+        SomeHealthComponent.self,
+        AnotherHealthComponent.self
+    ])
+
+    return system.health(on: req)
+}
+```
+
 ## Project layout 🗂
 
 This project template aims to follow the official [Vapor Style guidelines](https://docs.vapor.codes/3.0/extras/style-guide/), with some minor additions/deviations:
