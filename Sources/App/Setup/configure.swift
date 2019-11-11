@@ -23,6 +23,7 @@ func configure(
     try setUpProviders(services: &services, config: &config, environment: env)
 
     // MARK: HealthCheck
+    
     let healthCheckConfig = HealthCheckConfig()
     services.register(healthCheckConfig)
 

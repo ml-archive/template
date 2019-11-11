@@ -7,12 +7,6 @@ struct Endpoint {
     enum Backend {}
 }
 
-// MARK: HealthAPI
-
-extension Endpoint {
-    static let health = "/health"
-}
-
 // MARK: API
 
 extension Endpoint.API {
