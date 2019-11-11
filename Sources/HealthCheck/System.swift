@@ -23,16 +23,14 @@ public struct System {
                 var responseStatus: HTTPStatus = .ok
                 var healthStatus: Health.Status = .pass
 
-                results.forEach { check in
-                    if check.status == Health.Status.warn {
-                        healthStatus = .warn
-                    }
-                }
-
-                results.forEach { check in
-                    if check.status == Health.Status.fail {
-                        responseStatus = .internalServerError
+                forLoop: for check in results {
+                    switch check.status {
+                    case .warn: healthStatus = .warn
+                    case .fail:
                         healthStatus = .fail
+                        responseStatus = .internalServerError
+                        break forLoop
+                    default: break
                     }
                 }
 
