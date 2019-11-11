@@ -1,6 +1,6 @@
 import AdminPanel
-import Vapor
 import HealthCheck
+import Vapor
 
 /// Register your application's routes here.
 func routes(_ router: Router, _ container: Container) throws {

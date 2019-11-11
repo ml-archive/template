@@ -1,11 +1,11 @@
 import FluentMySQL
+import HealthCheck
 import Leaf
 import Paginator
 import Redis
 import Storage
 import Sugar
 import Vapor
-import HealthCheck
 
 /// Called before your application initializes.
 func configure(

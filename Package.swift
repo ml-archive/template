@@ -31,6 +31,7 @@ let package = Package(
             "AdminPanel",
             "Bugsnag",
             "FluentMySQL",
+            "HealthCheck",
             "JWTKeychain",
             "Mailgun",
             "NMeta",
@@ -40,8 +41,7 @@ let package = Package(
             "Storage",
             "Submissions",
             "Sugar",
-            "Vapor",
-            "HealthCheck"
+            "Vapor"
         ]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
