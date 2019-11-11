@@ -1,7 +1,7 @@
 import Vapor
 
 // MARK: System
-struct System {
+public struct System {
     // System components that should respond for proper health check
     var components: [HealthComponent.Type]
 
@@ -12,11 +12,11 @@ struct System {
         ("Connection", "close")
     ])
 
-    init(_ components: [HealthComponent.Type]) {
+    public init(_ components: [HealthComponent.Type]) {
         self.components = components
     }
 
-    func health(on request: Request) -> EventLoopFuture<Response> {
+    public func health(on request: Request) -> EventLoopFuture<Response> {
         self.components.map { $0.healthCheck(on: request) }
             .flatten(on: request)
             .flatMap(to: Response.self) { results in
