@@ -108,28 +108,21 @@ The internal HealthCheck package provides a convenient HealthCheck HTTP API base
 
 To override the built in health API:
 
-- disable the original route configuration in `App/Setup/routes.swift`
-
-```
-// try router.useHealthAPIRoutes(on: container)
-```
-
 - conform your services
-```
+```swift
 extension SomeHealthComponent: HealthComponent { ... }
 extension AnotherHealthComponent: HealthComponent { ... }
 ```
 
-- and define your own health check system
-```
-router.get("health") { req -> Future<Response> in
-    let system = HealthCheck.System([
+- use them with the original route configuration in `App/Setup/routes.swift`
+```swift
+try router.useHealthAPIRoutes(
+    for: [
         SomeHealthComponent.self,
         AnotherHealthComponent.self
-    ])
-
-    return system.health(on: req)
-}
+    ],
+    on: container
+)
 ```
 
 ## Project layout 🗂

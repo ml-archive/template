@@ -49,14 +49,16 @@ extension RedisDatabase: HealthComponent {
 
 // MARK: Router extension
 public extension Router {
-    func useHealthAPIRoutes(on container: Container) throws {
+    func useHealthAPIRoutes(
+        for components: [HealthComponent.Type] = [
+            MySQLDatabase.self,
+            RedisDatabase.self
+        ],
+        on container: Container
+    ) throws {
         let config: HealthCheckConfig = try container.make()
         get(config.endpoints.health) { container -> Future<Response> in
-            let system = System([
-                MySQLDatabase.self,
-                RedisDatabase.self
-            ])
-
+            let system = System(components)
             return system.health(on: container)
         }
     }
