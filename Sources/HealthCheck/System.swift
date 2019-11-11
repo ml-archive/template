@@ -24,13 +24,13 @@ public struct System {
                 var healthStatus: Health.Status = .pass
 
                 results.forEach { check in
-                    if check.status == Health.Status.warn.rawValue {
+                    if check.status == Health.Status.warn {
                         healthStatus = .warn
                     }
                 }
 
                 results.forEach { check in
-                    if check.status == Health.Status.fail.rawValue {
+                    if check.status == Health.Status.fail {
                         responseStatus = .internalServerError
                         healthStatus = .fail
                     }

@@ -9,6 +9,9 @@ public protocol HealthComponent {
     // A system component type eg. datastore, system, etc.
     static var componentType: String { get }
 
+    // A descriptive note stating what this component measures
+    static var note: String { get }
+
     // An optional descriptive name of the type of masurement made eg. connection or uptime
     static var measurementName: String? { get }
 

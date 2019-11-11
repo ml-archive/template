@@ -8,6 +8,7 @@ import Vapor
 extension MySQLDatabase: HealthComponent {
     public static var componentName: String { "mysql" }
     public static var componentType: String { "datastore" }
+    public static var note: String { "Checks connection to mysql" }
     public static var measurementName: String? { nil }
 
     public static func healthCheck(on request: Request) -> EventLoopFuture<Health.Check> {
@@ -28,6 +29,7 @@ extension MySQLDatabase: HealthComponent {
 extension RedisDatabase: HealthComponent {
     public static var componentName: String { "redis" }
     public static var componentType: String { "datastore" }
+    public static var note: String { "Checks connection to redis" }
     public static var measurementName: String? { nil }
 
     public static func healthCheck(on request: Request) -> EventLoopFuture<Health.Check> {

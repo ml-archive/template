@@ -6,7 +6,7 @@ import Vapor
 // Structs for generating the Health API response
 public struct Health {
     // Health status indication options
-    enum Status: String {
+    enum Status: String, Equatable, Content {
         case pass
         case fail
         case warn
@@ -14,12 +14,13 @@ public struct Health {
 
     // Health API response type
     public struct Check: Content {
-        let componentName: String
+        var componentName: String = ""
         let componentType: String
-        let measurementName: String?
-        let status: String
+        var measurementName: String? = ""
+        let status: Status
         let output: String?
         let time: String?
+        var note: String = ""
 
         var key: String {
             if let measurement = measurementName  {
@@ -27,6 +28,13 @@ public struct Health {
             } else {
                 return self.componentName
             }
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case status
+            case time
+            case componentType
+            case output
         }
 
         init(
@@ -37,15 +45,16 @@ public struct Health {
             self.componentName = healthComponent.componentName
             self.componentType = healthComponent.componentType
             self.measurementName = healthComponent.measurementName
-            self.status = status.rawValue
+            self.status = status
             self.output = output
             self.time = DateFormatters.iso8601.string(from: Date())
+            self.note = healthComponent.note
         }
     }
 
     // Health API response type
     struct Response: Content {
-        let status: String
+        let status: Status
         let checks: [String: [Check]]
         let notes: [String]
         let version: Int
@@ -57,20 +66,16 @@ public struct Health {
             version: Int = 1,
             releaseId: String = "1.0.0"
         ) {
-            self.status = status.rawValue
+            self.status = status
 
-            self.checks = checks.reduce([:], { (result, indicator) in
+            self.checks = checks.reduce([:], { (result, check) in
                 var result = result
-                let key = indicator.key
-                result[key, default: []].append(indicator)
+                let key = check.key
+                result[key, default: []].append(check)
                 return result
             })
 
-            self.notes = [
-                "Checks ability to handle requests",
-                "Checks connection to mysql",
-                "Checks connection to redis"
-            ]
+            self.notes = checks.map { $0.note }
 
             self.version = version
             self.releaseId = releaseId
