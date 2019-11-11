@@ -5,6 +5,7 @@ import Redis
 import Storage
 import Sugar
 import Vapor
+import HealthCheck
 
 /// Called before your application initializes.
 func configure(
@@ -20,6 +21,10 @@ func configure(
     // MARK: Providers
 
     try setUpProviders(services: &services, config: &config, environment: env)
+
+    // MARK: HealthCheck
+    let healthCheckConfig = HealthCheckConfig()
+    services.register(healthCheckConfig)
 
     // MARK: Routes
 

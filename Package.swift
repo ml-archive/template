@@ -24,6 +24,9 @@ let package = Package(
         .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
     targets: [
+        .target(name: "HealthCheck", dependencies: [
+            "Vapor"
+        ]),
         .target(name: "App", dependencies: [
             "AdminPanel",
             "Bugsnag",
@@ -37,7 +40,8 @@ let package = Package(
             "Storage",
             "Submissions",
             "Sugar",
-            "Vapor"
+            "Vapor",
+            "HealthCheck"
         ]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
