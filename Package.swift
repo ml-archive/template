@@ -24,10 +24,14 @@ let package = Package(
         .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
     targets: [
+        .target(name: "HealthCheck", dependencies: [
+            "Vapor"
+        ]),
         .target(name: "App", dependencies: [
             "AdminPanel",
             "Bugsnag",
             "FluentMySQL",
+            "HealthCheck",
             "JWTKeychain",
             "Mailgun",
             "NMeta",

@@ -1,4 +1,5 @@
 import FluentMySQL
+import HealthCheck
 import Leaf
 import Paginator
 import Redis
@@ -20,6 +21,11 @@ func configure(
     // MARK: Providers
 
     try setUpProviders(services: &services, config: &config, environment: env)
+
+    // MARK: HealthCheck
+    
+    let healthCheckConfig = HealthCheckConfig()
+    services.register(healthCheckConfig)
 
     // MARK: Routes
 
