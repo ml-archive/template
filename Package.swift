@@ -25,6 +25,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "HealthCheck", dependencies: [
+            "FluentMySQL",
             "Vapor"
         ]),
         .target(name: "App", dependencies: [
