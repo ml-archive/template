@@ -152,7 +152,6 @@ For testing, make sure to have the `MyProject-Package` scheme selected. Then, yo
 ## 🏆 Credits
 
 This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
-The package owner for this project is [Steffen](https://github.com/steffendsommer).
 
 
 ## 📄 License
