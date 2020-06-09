@@ -1,1 +1,1 @@
-// empty file required for Swift 5.1.1
+fatalError("Please use swift test --enable-test-discovery to run the tests instead")

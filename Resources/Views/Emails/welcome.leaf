@@ -1,0 +1,6 @@
+<html>
+    <body>
+        <p>Hi #(name)</p>
+        <a href="#(resetLink)">Set your password</a>
+    </body>
+</html>
