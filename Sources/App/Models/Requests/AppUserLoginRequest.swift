@@ -11,6 +11,6 @@ struct AppUserLoginRequest: Codable, LoginRequest {
     let password: String
 
     func logIn(on request: Request) -> EventLoopFuture<AppUser> {
-        request.repositories.appUser.find(id).unwrap(or: MoodError.incorrectCredentials)
+        request.repositories.appUser.find(id).unwrap(or: AppError.incorrectCredentials)
     }
 }

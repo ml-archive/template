@@ -5,7 +5,7 @@ struct AppUserController {
         AppUserLoginRequest
             .logIn(
                 on: request,
-                errorOnWrongPassword: MoodError.incorrectCredentials,
+                errorOnWrongPassword: AppError.incorrectCredentials,
                 currentDate: request.date.current()
             )
             .flatMapThrowing { try $0.map(AppUserMeResponse.init) }

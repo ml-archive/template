@@ -17,11 +17,11 @@ extension Parameterizable {
     static func find(on request: Request) -> EventLoopFuture<Self> {
         guard let parameterValue = request.parameters.get(parameter, as: ParameterValue.self) else {
             return request.eventLoop.future(
-                error: MoodError.parameterNotFound(parameter, ofType: ParameterValue.self)
+                error: AppError.parameterNotFound(parameter, ofType: ParameterValue.self)
             )
         }
         return find(parameterValue: parameterValue, on: request)
-            .unwrap(or: MoodError.entityNotFound(
+            .unwrap(or: AppError.entityNotFound(
                 ofType: Self.self,
                 withID: parameterValue.description
             ))

@@ -1,6 +1,6 @@
 import Vapor
 
-enum MoodError: Error {
+enum AppError: Error {
     case entityNotFound(ofType: Any.Type, withID: String)
     case incorrectCredentials
     case parameterNotFound(String, ofType: Any.Type)
@@ -9,7 +9,7 @@ enum MoodError: Error {
     case wrongEndpoint(use: String)
 }
 
-extension MoodError: AbortError {
+extension AppError: AbortError {
     var reason: String {
         switch self {
         case let .entityNotFound(entityType, id):
