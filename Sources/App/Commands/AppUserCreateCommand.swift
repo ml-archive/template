@@ -17,7 +17,7 @@ struct AppUserCreateCommand: Command {
     }
 
     var help: String {
-        "Creates a new respondent with the provided userID and password. The provided password has to comply with the `Strong Password` rules"
+        "Creates a new respondent with the provided userID and password.
     }
 
     func run(using context: CommandContext, signature: Signature) throws {
