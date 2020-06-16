@@ -5,8 +5,8 @@ import Vapor
 final class AppUser: Authenticatable, Model {
     static let schema = "AppUsers"
 
-    @ID(custom: "id", generatedBy: .user)
-    var id: String?
+    @ID
+    var id: UUID?
 
     @Field(key: "hashedPassword")
     var hashedPassword: String
@@ -19,7 +19,7 @@ final class AppUser: Authenticatable, Model {
 
     init() {}
 
-    init(id: String, hashedPassword: String) {
+    init(id: UUID?, hashedPassword: String) {
         self.id = id
         self.hashedPassword = hashedPassword
     }

@@ -27,11 +27,10 @@ struct AppUserController {
     }
 
     func list(request: Request) throws -> EventLoopFuture<NodesPage<AppUserResponse>> {
-        let searchterm = try request.query.get(String?.self, at: "searchterm")
         return request
             .repositories
             .appUser
-            .all(searchterm: searchterm, on: request)
+            .all(on: request)
             .flatMapThrowing { paginatedRespondents in
                 try paginatedRespondents.map(AppUserResponse.init)
             }

@@ -2,23 +2,17 @@ import Fluent
 import Vapor
 
 protocol AppUserRepository {
-    func all(searchterm: String?, on request: Request) -> EventLoopFuture<Page<AppUser>>
+    func all(on request: Request) -> EventLoopFuture<Page<AppUser>>
     func delete(_ user: AppUser) -> EventLoopFuture<Void>
-    func find(_ id: AppUser.IDValue) -> EventLoopFuture<AppUser?>
+    func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?>
     func save(_ user: AppUser) -> EventLoopFuture<AppUser>
 }
 
 extension DatabaseRepository: AppUserRepository {
     func all(
-        searchterm: String?,
         on request: Request
     ) -> EventLoopFuture<Page<AppUser>> {
         let query = AppUser.query(on: db)
-
-        if let searchterm = searchterm {
-            query.filter(\.$id ~~ searchterm)
-        }
-
         return query.paginate(for: request)
     }
 
@@ -26,7 +20,7 @@ extension DatabaseRepository: AppUserRepository {
         user.delete(on: db)
     }
 
-    func find(_ id: AppUser.IDValue) -> EventLoopFuture<AppUser?> {
+    func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?> {
         AppUser.find(id, on: db)
     }
 

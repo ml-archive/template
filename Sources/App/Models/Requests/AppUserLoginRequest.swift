@@ -7,7 +7,7 @@ struct AppUserLoginRequest: Codable, LoginRequest {
 
     static let hashedPasswordKey: KeyPath<AppUser, String> = \.hashedPassword
 
-    let id: String
+    let id: UUID
     let password: String
 
     func logIn(on request: Request) -> EventLoopFuture<AppUser> {

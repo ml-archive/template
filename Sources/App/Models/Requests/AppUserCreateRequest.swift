@@ -4,13 +4,13 @@ import Vapor
 struct AppUserCreateRequest: Codable, CreateRequest {
     typealias Model = AppUser
 
-    let userID: String
+    let userID: UUID
     let password: String
 
     func create(on request: Request) -> EventLoopFuture<Model> {
         request.password.async.hash(password).map { hashedPassword in
             AppUser(
-                id: self.userID.trimmingCharacters(in: .whitespacesAndNewlines),
+                id: self.userID,
                 hashedPassword: hashedPassword
             )
         }
@@ -24,7 +24,7 @@ extension AppUserCreateRequest {
         validations.add("password", as: String.self, is: .strongPassword, required: true)
         validations.add("userID", as: String.self, is: .count(8...), required: true)
 
-        let userID = (try? request.content.get(String.self, at: "userID")) ?? ""
+        let userID = try? request.content.get(UUID.self, at: "userID")
         return request.repositories.appUser.find(userID).map { optionalUser in
             validations.add(
                 "userID",

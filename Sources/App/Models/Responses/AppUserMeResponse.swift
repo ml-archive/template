@@ -1,7 +1,7 @@
 import Vapor
 
 struct AppUserMeResponse: Content {
-    let id: String
+    let id: UUID
 }
 
 extension AppUserMeResponse {
