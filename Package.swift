@@ -8,7 +8,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/autimatisering/IkigaJSON.git", from: "2.0.0"),
-        .package(url: "https://github.com/nodes-vapor/bugsnag.git", .branch("shs-vapor-4")),
+        .package(url: "https://github.com/nodes-vapor/bugsnag.git", from: "4.0.0-rc"),
         .package(url: "https://github.com/nodes-vapor/keychain.git", from: "2.0.0-rc"),
         .package(url: "https://github.com/nodes-vapor/submissions.git", from: "3.0.0-rc"),
         .package(url: "https://github.com/vapor-community/VaporMailgunService.git", from: "4.0.0-rc"),
