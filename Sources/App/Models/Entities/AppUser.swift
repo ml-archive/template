@@ -3,26 +3,26 @@ import FluentKit
 import Vapor
 
 final class AppUser: Authenticatable, Model {
-    static let schema = "AppUsers"
+    static let schema = "app_users"
 
     @ID
     var id: UUID?
 
-    @Field(key: "email")
+    @Field(key: .email)
     var email: String
 
-    @Field(key: "hashedPassword")
+    @Field(key: .hashedPassword)
     var hashedPassword: String
 
-    @Timestamp(key: "createdAt", on: .create)
+    @Timestamp(key: .createdAt, on: .create)
     var createdAt: Date?
 
-    @Timestamp(key: "updatedAt", on: .update)
+    @Timestamp(key: .updatedAt, on: .update)
     var updatedAt: Date?
 
     init() {}
 
-    init(id: UUID?, hashedPassword: String) {
+    init(id: UUID? = nil, hashedPassword: String) {
         self.id = id
         self.hashedPassword = hashedPassword
     }

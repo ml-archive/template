@@ -2,17 +2,11 @@ import Submissions
 import Vapor
 
 struct AppUserCreateRequest: Codable, CreateRequest {
-    typealias Model = AppUser
-
-    let userID: UUID
     let password: String
 
-    func create(on request: Request) -> EventLoopFuture<Model> {
+    func create(on request: Request) -> EventLoopFuture<AppUser> {
         request.password.async.hash(password).map { hashedPassword in
-            AppUser(
-                id: self.userID,
-                hashedPassword: hashedPassword
-            )
+            AppUser(hashedPassword: hashedPassword)
         }
     }
 }
