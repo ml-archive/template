@@ -8,6 +8,9 @@ final class AppUser: Authenticatable, Model {
     @ID
     var id: UUID?
 
+    @Field(key: "email")
+    var email: String
+
     @Field(key: "hashedPassword")
     var hashedPassword: String
 

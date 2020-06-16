@@ -7,5 +7,5 @@ func bugsnag(_ app: Application) {
         version: nil, // TODO: Environment.gitHash once available
         keyFilters: ["password", "email"]
     )
-    app.bugsnag.users.use(AppUser.self)
+    app.bugsnag.users.add(AppUser.self)
 }

@@ -16,7 +16,6 @@ struct AppUserController {
         try .init(data: .init(AppUserRefreshKeychainConfig.makeToken(on: request)))
     }
 
-
     func create(request: Request) throws -> EventLoopFuture<Response> {
         AppUserCreateRequest
             .create(on: request)
@@ -30,7 +29,7 @@ struct AppUserController {
         return request
             .repositories
             .appUser
-            .all(on: request)
+            .all(searchterm: request.query.searchTerm, on: request)
             .flatMapThrowing { paginatedRespondents in
                 try paginatedRespondents.map(AppUserResponse.init)
             }
