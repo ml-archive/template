@@ -9,7 +9,7 @@ jobs:
     - name: Select latest available Xcode
       uses: maxim-lobanov/setup-xcode@1.0
       with:
-        xcode-version: latest```
+        xcode-version: latest
     - uses: actions/checkout@v2
     - run: xcrun swift test --enable-test-discovery --sanitize=thread
   vapor_bionic:
