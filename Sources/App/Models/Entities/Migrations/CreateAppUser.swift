@@ -6,7 +6,7 @@ struct CreateAppUser: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database
             .schema(AppUser.schema)
-            .field(.id, .uuid, .identifier(auto: false))
+            .id()
             .field(.email, .string, .required)
             .field(.hashedPassword, .string, .required)
             .field(.createdAt, .datetime)
