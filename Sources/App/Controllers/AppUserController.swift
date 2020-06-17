@@ -51,11 +51,11 @@ struct AppUserController {
             .map(DataWrapper.init)
     }
 
-    func delete(request: Request) throws -> EventLoopFuture<Response> {
+    func delete(request: Request) throws -> EventLoopFuture<HTTPStatus> {
         AppUser
             .find(on: request)
             .flatMap(request.repositories.appUser.delete)
-            .transform(to: Response(status: .noContent))
+            .transform(to: .noContent)
     }
 }
 
