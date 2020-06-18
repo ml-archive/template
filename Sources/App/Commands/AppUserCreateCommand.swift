@@ -11,7 +11,7 @@ struct AppUserCreateCommand: Command {
         @Option(
             name: "password",
             short: "p",
-            help: "Password must have eight symbols"
+            help: "Password must have at least eight characters"
         )
         var password: String?
     }
