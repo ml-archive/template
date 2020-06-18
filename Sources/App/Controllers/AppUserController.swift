@@ -12,6 +12,11 @@ struct AppUserController {
             .map(DataWrapper.init)
     }
 
+    func me(request: Request) throws -> DataWrapper<AppUserResponse> {
+        let user: AppUser = try request.auth.require()
+        return try DataWrapper(data: AppUserMeResponse(user))
+    }
+
     func refreshToken(request: Request) throws -> DataWrapper<RefreshTokenResponse> {
         try .init(data: .init(AppUserRefreshKeychainConfig.makeToken(on: request)))
     }
@@ -62,13 +67,14 @@ struct AppUserController {
 extension AppUserController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         routes.post("login", use: logIn)
-        routes
-            .grouped("me")
-            .grouped(AppUserRefreshKeychainConfig.authenticator)
-            .post("token", use: refreshToken)
+
+        let meRoutes = routes.grouped("me").grouped(AppUserRefreshKeychainConfig.authenticator)
+        meRoutes.get("", use: me)
+        meRoutes.post("token", use: refreshToken)
 
         routes.get("", use: list)
         routes.post("", use: create)
+        
         let singleUser = routes.grouped(AppUser.pathComponent)
         singleUser.get("", use: single)
         singleUser.patch("", use: update)
