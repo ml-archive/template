@@ -32,7 +32,7 @@ Make sure to use unique and strong secrets for the signer keys (ie. the keys end
 
 #### PostgreSQL
 
-For PostgreSQL you can either use a connection string (using the `POSTGRESQL_URL` key) or you can supply hostname, username, password and database individually. These will be set automatically on Vapor Cloud, but they will need to be set when running locally.
+For PostgreSQL you can either use a connection string (using the `POSTGRESQL_URL` key) or you can supply hostname, username, password and database individually.
 
 #### Redis
 
