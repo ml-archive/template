@@ -69,8 +69,9 @@ extension AppUserController: RouteCollection {
 
         routes.get("", use: list)
         routes.post("", use: create)
-        routes.get([.parameter(":userID")], use: single)
-        routes.patch([.parameter(":userID")], use: update)
-        routes.delete([.parameter(":userID")], use: delete)
+        let singleUser = routes.grouped(AppUser.pathComponent)
+        singleUser.get("", use: single)
+        singleUser.patch("", use: update)
+        singleUser.delete("", use: delete)
     }
 }
