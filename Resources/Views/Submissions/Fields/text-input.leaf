@@ -1,3 +1,0 @@
-#set("type") {text}
-
-#embed("Submissions/Fields/input-field")
