@@ -68,14 +68,19 @@ extension AppUserController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         routes.post("login", use: logIn)
 
-        let meRoutes = routes.grouped("me").grouped(AppUserRefreshKeychainConfig.authenticator)
-        meRoutes.get("", use: me)
-        meRoutes.post("token", use: refreshToken)
+        let meRoutes = routes.grouped("me")
+        meRoutes
+            .grouped(AppUserAccessKeychainConfig.authenticator)
+            .get("", use: me)
+        meRoutes
+            .grouped(AppUserRefreshKeychainConfig.authenticator)
+            .post("token", use: refreshToken)
 
-        routes.get("", use: list)
-        routes.post("", use: create)
+        let accessKeychainProtected = routes.grouped(AppUserAccessKeychainConfig.authenticator)
+        accessKeychainProtected.get("", use: list)
+        accessKeychainProtected.post("", use: create)
         
-        let singleUser = routes.grouped(AppUser.pathComponent)
+        let singleUser = accessKeychainProtected.grouped(AppUser.pathComponent)
         singleUser.get("", use: single)
         singleUser.patch("", use: update)
         singleUser.delete("", use: delete)
