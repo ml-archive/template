@@ -13,8 +13,7 @@ struct AppUserController {
     }
 
     func me(request: Request) throws -> DataWrapper<AppUserResponse> {
-        let user: AppUser = try request.auth.require()
-        return try DataWrapper(data: AppUserMeResponse(user))
+        try .init(data: .init(request.auth.require()))
     }
 
     func refreshToken(request: Request) throws -> DataWrapper<RefreshTokenResponse> {

@@ -1,3 +1,4 @@
+import Bugsnag
 import Vapor
 
 func bugsnag(_ app: Application) {
@@ -6,5 +7,5 @@ func bugsnag(_ app: Application) {
         releaseStage: app.environment.name,
         keyFilters: ["password", "email"]
     )
-    app.bugsnag.users.add(AppUser.self)
+    app.bugsnag.users.use(AppUser.self)
 }
