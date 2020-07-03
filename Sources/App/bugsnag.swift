@@ -7,5 +7,5 @@ func bugsnag(_ app: Application) {
         releaseStage: app.environment.name,
         keyFilters: ["password", "email"]
     )
-    app.bugsnag.users.use(AppUser.self)
+    app.bugsnag.users.add(AppUser.self)
 }

@@ -13,4 +13,14 @@ func signers(_ app: Application) {
             expirationTimeInterval: Environment.appUserRefreshTokenExpiration
         )
     )
+    app.keychain.configure(
+        signer: .hs256(key: Environment.appUserResetTokenSignerKey),
+        config: AppUserResetKeychainConfig(
+            emailSender: Environment.appUserResetEmailSender,
+            expirationTimeInterval: Environment.appUserResetTokenExpiration,
+            resetBaseURL: Environment.appUserResetBaseURL,
+            resetEmailSubject: Environment.appUserResetEmailSubject,
+            welcomeEmailSubject: Environment.appUserWelcomeEmailSubject
+        )
+    )
 }
