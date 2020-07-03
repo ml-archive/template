@@ -5,6 +5,7 @@ protocol AppUserRepository {
     func all(searchterm: String?, on request: Request) -> EventLoopFuture<Page<AppUser>>
     func delete(_ user: AppUser) -> EventLoopFuture<Void>
     func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?>
+    func findByEmail(_ email: String) -> EventLoopFuture<AppUser?>
     func save(_ user: AppUser) -> EventLoopFuture<AppUser>
 }
 
@@ -26,6 +27,10 @@ extension DatabaseRepository: AppUserRepository {
 
     func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?> {
         AppUser.find(id, on: db)
+    }
+
+    func findByEmail(_ email: String) -> EventLoopFuture<AppUser?> {
+        AppUser.query(on: db).filter(\.$email == email).first()
     }
 
     func save(_ user: AppUser) -> EventLoopFuture<AppUser> {
