@@ -10,4 +10,18 @@ func routes(_ app: Application) throws {
 
     let appRoutes = apiV1Routes.grouped("app")
     try appRoutes.grouped("users").register(collection: AppUserController())
+
+    try app
+        .grouped(
+            app.sessions.middleware,
+            UserSessionAuthenticator()
+        )
+        .register(collection: AppUserViewController())
+    try app
+        .grouped("dashboard")
+        .grouped(
+            app.sessions.middleware,
+            UserSessionAuthenticator(),
+            AppUser.guardMiddleware()
+        ).register(collection: DashboardViewController())
 }

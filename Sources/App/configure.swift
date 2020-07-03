@@ -10,4 +10,5 @@ public func configure(_ app: Application) throws {
     try databases(app)
     try routes(app)
     views(app)
+    app.sessions.use(.memory)
 }

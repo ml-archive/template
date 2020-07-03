@@ -37,6 +37,7 @@ final class AppUser: Authenticatable, Model {
         self.name = name
         self.email = email
         self.hashedPassword = hashedPassword
+        self.shouldResetPassword = shouldResetPassword
     }
 }
 
