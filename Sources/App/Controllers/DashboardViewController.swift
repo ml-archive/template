@@ -3,7 +3,7 @@ import Vapor
 
 struct DashboardViewController {
     func renderDashboard(request: Request) -> HTML {
-        request.html.dashboard()
+        request.html.dashboard(page: (try? request.query.get(Int.self, at: "page")) ?? 1)
     }
 }
 

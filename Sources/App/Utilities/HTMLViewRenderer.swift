@@ -2,47 +2,28 @@ import Fluent
 import HypertextLiteral
 import Vapor
 
-extension PageMetadata {
-    static func nextAndPreviousLinks(
+fileprivate extension URLComponents {
+    func nextAndPreviousPaginationLinks(
         currentPage: Int,
-        totalPages: Int,
-        url: URL
-    ) throws -> (previous: String?, next: String?) {
-        var previous: String? = nil
-        var next: String? = nil
-
-        if currentPage > 1 {
-            let previousPage = (currentPage <= totalPages) ? currentPage - 1 : totalPages
-            previous = try link(url: url, page: previousPage)
-        }
-
-        if currentPage < totalPages {
-            next = try link(url: url, page: currentPage + 1)
-        }
-
-        return (previous, next)
+        totalPages: Int
+    ) -> (previous: String?, next: String?) {
+        (
+            currentPage > 1 ? paginationLink(forPage: min(currentPage - 1, totalPages)) : nil,
+            currentPage < totalPages ? paginationLink(forPage: currentPage + 1) : nil
+        )
     }
 
-    static func link(url: URL, page: Int) throws -> String {
-        guard
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        else {
-            throw Abort(.internalServerError)
-        }
-
-        var queryItems = components.queryItems?.filter { $0.name != "page" } ?? []
+    func paginationLink(forPage page: Int) -> String {
+        var queryItems = self.queryItems?.filter { $0.name != "page" } ?? []
         queryItems.append(URLQueryItem(name: "page", value: String(page)))
-        components.queryItems = queryItems
 
-        guard let url = components.url?.absoluteString else {
-            throw Abort(.internalServerError)
-        }
-
-        return url
+        var copy = self
+        copy.queryItems = queryItems
+        return copy.url!.relativeString
     }
 }
 
-public struct OffsetPaginatorControlData: Codable {
+struct OffsetPaginatorControlData: Codable {
     struct Control: Codable {
         let url: String
         let page: Int
@@ -58,28 +39,31 @@ public struct OffsetPaginatorControlData: Codable {
     let middle: [Control]
 
     init(metadata: PageMetadata, url: URL) throws {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            // TODO: use custom error
+            throw Abort(.internalServerError)
+        }
 
         let totalPages = max(1, Int(ceil(Double(metadata.total) / Double(metadata.per))))
 
-        let links = try PageMetadata.nextAndPreviousLinks(
+        let links = components.nextAndPreviousPaginationLinks(
             currentPage: metadata.page,
-            totalPages: totalPages,
-            url: url
+            totalPages: totalPages
         )
 
         current = Control(url: url.absoluteString, page: metadata.page)
         previous = links.previous.map { Control(url: $0, page: metadata.page - 1) }
         next = links.next.map { Control(url: $0, page: metadata.page + 1) }
-        first = Control(url: try PageMetadata.link(url: url, page: 1), page: 1)
+        first = Control(url: components.paginationLink(forPage: 1), page: 1)
 
-        let check = try PageMetadata.link(url: url, page: totalPages)
-        last = first.url == check ? nil : Control(url: check, page: totalPages)
+        let lastLink = components.paginationLink(forPage: totalPages)
+        last = first.url == lastLink ? nil : Control(url: lastLink, page: totalPages)
 
         let showDots = totalPages > 9
         left = showDots && metadata.page >= 5
         right = showDots && metadata.page <= totalPages - 5
 
-        var middle: [Control]
+        let middle: [Control]
         if totalPages > 2 {
             let bounds = OffsetPaginatorControlData.bounds(
                 left: left,
@@ -88,10 +72,8 @@ public struct OffsetPaginatorControlData: Codable {
                 total: totalPages
             )
 
-            let range: CountableClosedRange = bounds.lower...bounds.upper
-            let middleLinks = try range.map { try PageMetadata.link(url: url, page: $0) }
-            middle = zip(range, middleLinks).map { (page, url) in
-                Control(url: url, page: page)
+            middle = (bounds.lower...bounds.upper).map {
+                Control(url: components.paginationLink(forPage: $0), page: $0)
             }
         } else {
             middle = []
@@ -187,7 +169,7 @@ extension OffsetPaginatorControlData: HypertextLiteralConvertible {
         )
     }
 
-    public var html: HTML {
+    var html: HTML {
         """
         <nav class="paginator">
             <ul class="pagination justify-content-center table-responsive">
@@ -446,15 +428,15 @@ struct HTMLViewRenderer {
         )
     }
 
-    func dashboard() -> HTML {
+    func dashboard(page: Int) -> HTML {
         let metadata = try! JSONDecoder().decode(
             PageMetadata.self,
-            from: #"{ "page": 1, "per": 10, "total": 154 }"#.data(using: .utf8)!
+            from: #"{ "page": \#(page), "per": 10, "total": 154 }"#.data(using: .utf8)!
         )
 
         let paginatorBar = try! OffsetPaginatorControlData(
             metadata: metadata,
-            url: URL(string: "http://www.example.com/some-page")!
+            url: URL(string: "dashboard", relativeTo: URL(string: "http://localhost:8080"))!
         )
 
         return base(
@@ -465,4 +447,3 @@ struct HTMLViewRenderer {
         )
     }
 }
-
