@@ -114,15 +114,14 @@ public struct OffsetPaginatorControlData: Codable {
     }
 }
 
-
 extension OffsetPaginatorControlData: HypertextLiteralConvertible {
     private var previousSection: HTML {
         let listItemAttributes: [String: Any] = [
-            "class": (previous == nil ? ["disabled"] : []) + ["page-item"]
+            "class": ["page-item", previous == nil ? "disabled" as String : nil].compactMap { $0 }
         ]
 
         let anchorAttributes: [String: Any] = [
-            "href": previous?.url,
+            "href": previous?.url as Any,
             "class": "page-link",
             "rel": "prev",
             "aria-label": "Previous"
@@ -138,9 +137,40 @@ extension OffsetPaginatorControlData: HypertextLiteralConvertible {
         """
     }
 
-    private func pageItem(isActive: Bool = false, text: String, url: String = "#") -> HTML {
+    private var nextSection: HTML {
+        let listItemAttributes: [String: Any] = [
+            "class": ["page-item", next == nil ? "disabled" as String : nil].compactMap { $0 }
+        ]
+
+        let anchorAttributes: [String: Any] = [
+            "href": next?.url as Any,
+            "class": "page-link",
+            "rel": "next",
+            "aria-label": "Next"
+        ].removeNilValues()
+
+        return """
+        <li \(listItemAttributes)>
+            <a \(anchorAttributes)>
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        """
+    }
+
+    private func pageItem(
+        active: Bool = false,
+        disabled: Bool = false,
+        text: String,
+        url: String = "#"
+    ) -> HTML {
         let attributes: [String: Any] = [
-            "class": ["page-item", isActive ? "active" as Any : nil].compactMap { $0 }
+            "class": [
+                "page-item",
+                active ? "active" as String : nil,
+                disabled ? "disabled" as String : nil
+            ].compactMap { $0 }
         ]
         return """
         <li \(attributes)>
@@ -149,40 +179,25 @@ extension OffsetPaginatorControlData: HypertextLiteralConvertible {
         """
     }
 
+    private func pageItem(control: Control) -> HTML {
+        pageItem(
+            active: current.page == control.page,
+            text: control.page.description,
+            url: control.url
+        )
+    }
+
     public var html: HTML {
-
-
-
         """
         <nav class="paginator">
             <ul class="pagination justify-content-center table-responsive">
                 \(previousSection)
-                \(pageItem())
-                <li class="page-item #if(current.page == first.page) { active }"><a href="#(first.url)" class="page-link">#(first.page)</a></li>
-
-                #if(left) {
-                    <li class="disabled page-item"><a href="#" class="page-link">...</a></li>
-                }
-
-                #for(control in middle) {
-                    <li class="page-item #if(current.page == control.page) { active }"><a href="#(control.url)" class="page-link">#(control.page)</a></li>
-                }
-
-                #if(right) {
-                    <li class="disabled page-item"><a href="#" class="page-link">...</a></li>
-                }
-
-                #if(last) {
-                    <li class="page-item #if(current.page == last.page) { active }"><a href="#(last.url)" class="page-link">#(last.page)</a></li>
-                }
-
-                <li class="#if(next == nil) { disabled } page-item">
-                    <a #if(next) { href="#(next.url)" } class="page-link" rel="next" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-
+                \(pageItem(control: first))
+                \(left ? pageItem(disabled: true, text: "...") : "")
+                \(middle.map(pageItem))
+                \(right ? pageItem(disabled: true, text: "...") : "")
+                \(last.map(pageItem) ?? "")
+                \(nextSection)
             </ul>
         </nav>
         """
@@ -286,6 +301,8 @@ extension Dictionary where Value == Any {
             switch $0 as Any {
             case Optional<Any>.none:
                 return nil
+            case Optional<Any>.some(let value):
+                return value
             default:
                 return $0
             }
@@ -430,10 +447,20 @@ struct HTMLViewRenderer {
     }
 
     func dashboard() -> HTML {
-        base(
+        let metadata = try! JSONDecoder().decode(
+            PageMetadata.self,
+            from: #"{ "page": 1, "per": 10, "total": 154 }"#.data(using: .utf8)!
+        )
+
+        let paginatorBar = try! OffsetPaginatorControlData(
+            metadata: metadata,
+            url: URL(string: "http://www.example.com/some-page")!
+        )
+
+        return base(
             title: "Dashboard",
             body: """
-            TO DO
+            \(paginatorBar.html)
             """
         )
     }
