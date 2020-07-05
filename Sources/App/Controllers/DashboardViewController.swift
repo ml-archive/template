@@ -2,8 +2,9 @@ import HypertextLiteral
 import Vapor
 
 struct DashboardViewController {
-    func renderDashboard(request: Request) -> HTML {
-        request.html.dashboard(page: (try? request.query.get(Int.self, at: "page")) ?? 1)
+    func renderDashboard(request: Request) throws -> HTML {
+        // hard-code total number of results for demo purposes
+        try request.html.dashboard(url: request.url, totalResults: 153)
     }
 }
 

@@ -2,28 +2,23 @@ import Fluent
 import HypertextLiteral
 import Vapor
 
-fileprivate extension URLComponents {
-    func nextAndPreviousPaginationLinks(
-        currentPage: Int,
-        totalPages: Int
-    ) -> (previous: String?, next: String?) {
-        (
-            currentPage > 1 ? paginationLink(forPage: min(currentPage - 1, totalPages)) : nil,
-            currentPage < totalPages ? paginationLink(forPage: currentPage + 1) : nil
-        )
-    }
-
-    func paginationLink(forPage page: Int) -> String {
-        var queryItems = self.queryItems?.filter { $0.name != "page" } ?? []
-        queryItems.append(URLQueryItem(name: "page", value: String(page)))
-
-        var copy = self
-        copy.queryItems = queryItems
-        return copy.url!.relativeString
-    }
-}
-
 struct OffsetPaginatorControlData: Codable {
+    private struct _URLQueryContainer: URLQueryContainer {
+        var url: URI
+
+        func decode<D>(_ decodable: D.Type, using decoder: URLQueryDecoder) throws -> D
+            where D: Decodable
+        {
+            return try decoder.decode(D.self, from: self.url)
+        }
+
+        mutating func encode<E>(_ encodable: E, using encoder: URLQueryEncoder) throws
+            where E: Encodable
+        {
+            try encoder.encode(encodable, to: &self.url)
+        }
+    }
+
     struct Control: Codable {
         let url: String
         let page: Int
@@ -38,47 +33,39 @@ struct OffsetPaginatorControlData: Codable {
     let right: Bool
     let middle: [Control]
 
-    init(metadata: PageMetadata, url: URL) throws {
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            // TODO: use custom error
-            throw Abort(.internalServerError)
+    init(url: URI, totalResults: Int) throws {
+        var queryContainer = _URLQueryContainer(url: url)
+        let pageRequest = try queryContainer.decode(PageRequest.self)
+        let currentPage = pageRequest.page
+
+        func link(page: Int) throws -> String {
+            try queryContainer.encode(["page": page])
+            return queryContainer.url.description
         }
 
-        let totalPages = max(1, Int(ceil(Double(metadata.total) / Double(metadata.per))))
+        func control(page: Int) throws -> Control {
+            Control(url: try link(page: page), page: page)
+        }
 
-        let links = components.nextAndPreviousPaginationLinks(
-            currentPage: metadata.page,
-            totalPages: totalPages
-        )
+        let totalPages = max(1, Int(ceil(Double(totalResults) / Double(pageRequest.per))))
 
-        current = Control(url: url.absoluteString, page: metadata.page)
-        previous = links.previous.map { Control(url: $0, page: metadata.page - 1) }
-        next = links.next.map { Control(url: $0, page: metadata.page + 1) }
-        first = Control(url: components.paginationLink(forPage: 1), page: 1)
+        current = Control(url: url.description, page: currentPage)
+        previous = current.page > 1 ? try control(page: min(currentPage - 1, totalPages)) : nil
+        next = currentPage < totalPages ? try control(page: currentPage + 1) : nil
+        first = try control(page: 1)
 
-        let lastLink = components.paginationLink(forPage: totalPages)
-        last = first.url == lastLink ? nil : Control(url: lastLink, page: totalPages)
+        last = totalPages == 1 ? nil : try control(page: totalPages)
 
         let showDots = totalPages > 9
-        left = showDots && metadata.page >= 5
-        right = showDots && metadata.page <= totalPages - 5
-
-        let middle: [Control]
-        if totalPages > 2 {
-            let bounds = OffsetPaginatorControlData.bounds(
+        left = showDots && currentPage >= 5
+        right = showDots && currentPage <= totalPages - 5
+        middle = totalPages <= 2 ? [] : try OffsetPaginatorControlData
+            .bounds(
                 left: left,
                 right: right,
-                current: metadata.page,
+                current: currentPage,
                 total: totalPages
-            )
-
-            middle = (bounds.lower...bounds.upper).map {
-                Control(url: components.paginationLink(forPage: $0), page: $0)
-            }
-        } else {
-            middle = []
-        }
-        self.middle = middle
+            ).map(control)
     }
 
     private static func bounds(
@@ -86,12 +73,12 @@ struct OffsetPaginatorControlData: Codable {
         right: Bool,
         current: Int,
         total: Int
-    ) -> (lower: Int, upper: Int) {
+    ) -> ClosedRange<Int> {
         switch (left, right) {
-        case (false, false): return (min(total, 2), total - 1)
-        case (false, true): return (2, min(7, total))
-        case (true, true): return (current - 2, current + 2)
-        case (true, false): return (max(1, total - 6), total - 1)
+        case (false, false): return min(total, 2)...total - 1
+        case (false, true): return 2...min(7, total)
+        case (true, true): return current - 2...current + 2
+        case (true, false): return max(1, total - 6)...total - 1
         }
     }
 }
@@ -428,16 +415,8 @@ struct HTMLViewRenderer {
         )
     }
 
-    func dashboard(page: Int) -> HTML {
-        let metadata = try! JSONDecoder().decode(
-            PageMetadata.self,
-            from: #"{ "page": \#(page), "per": 10, "total": 154 }"#.data(using: .utf8)!
-        )
-
-        let paginatorBar = try! OffsetPaginatorControlData(
-            metadata: metadata,
-            url: URL(string: "dashboard", relativeTo: URL(string: "http://localhost:8080"))!
-        )
+    func dashboard(url: URI, totalResults: Int) throws -> HTML {
+        let paginatorBar = try OffsetPaginatorControlData(url: url, totalResults: totalResults)
 
         return base(
             title: "Dashboard",
