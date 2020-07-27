@@ -8,7 +8,7 @@ struct AppUserViewController {
 
     func logIn(request: Request) throws -> EventLoopFuture<Response> {
         request.eventLoop
-            .future(result: .init { try AppUserViewLoginRequest.validate(request) })
+            .future(result: .init { try AppUserViewLoginRequest.validate(content: request) })
             .flatMapThrowing { try request.content.decode(AppUserViewLoginRequest.self) }
             .flatMap { loginRequest in
                 request.repositories.appUser
