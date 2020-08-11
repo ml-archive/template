@@ -61,8 +61,3 @@ To support error reporting to Bugsnag, a project needs to be created on our orga
 ## 🏆 Credits
 
 This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
-
-
-## 📄 License
-
-This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
