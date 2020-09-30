@@ -9,6 +9,5 @@ public func configure(_ app: Application) throws {
     signers(app)
     try databases(app)
     try routes(app)
-    views(app)
     app.sessions.use(.memory)
 }

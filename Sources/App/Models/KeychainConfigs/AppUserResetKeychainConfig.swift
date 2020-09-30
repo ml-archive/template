@@ -1,4 +1,5 @@
 import JWT
+import HypertextLiteral
 import Keychain
 import Mailgun
 import Vapor
@@ -16,6 +17,11 @@ struct AppUserResetKeychainConfig: KeychainConfig {
 }
 
 extension AppUserResetKeychainConfig {
+
+    private func resetLink(forToken token: String) -> String {
+        "\(resetBaseURL)/\(token)"
+    }
+
     func sendPasswordResetEmail(
         for user: AppUser,
         token: String,
@@ -23,9 +29,11 @@ extension AppUserResetKeychainConfig {
     ) -> EventLoopFuture<Void> {
         sendEmail(
             to: user,
-            token: token,
-            view: "resetPassword",
-            emailSubject: self.resetEmailSubject,
+            html: request.html.passwordResetEmail(
+                name: user.name,
+                resetLink: resetLink(forToken: token)
+            ),
+            emailSubject: resetEmailSubject,
             on: request
         )
     }
@@ -38,8 +46,12 @@ extension AppUserResetKeychainConfig {
         do {
             return sendEmail(
                 to: user,
-                token: try makeToken(for: user, on: request, currentDate: currentDate),
-                view: "welcome",
+                html: request.html.welcomeEmail(
+                    name: user.name,
+                    resetLink: resetLink(
+                        forToken: try makeToken(for: user, on: request, currentDate: currentDate)
+                    )
+                ),
                 emailSubject: self.welcomeEmailSubject,
                 on: request
             )
@@ -50,25 +62,19 @@ extension AppUserResetKeychainConfig {
 
     private func sendEmail(
         to user: AppUser,
-        token: String,
-        view: String,
+        html: HTML,
         emailSubject: String,
         on request: Request
     ) -> EventLoopFuture<Void> {
         request
-            .view
-            .render("Emails/\(view)", [
-                "name": user.name,
-                "resetLink": "\(resetBaseURL)/\(token)"
-            ]).flatMap { html in
-                let message = MailgunMessage(
-                    from: self.emailSender,
-                    to: user.email,
-                    subject: emailSubject,
-                    text: "",
-                    html: String(data: Data(html.data.readableBytesView), encoding: .utf8)
-                )
-                return request.mailgun().send(message).transform(to: ())
-            }
+            .mailgun()
+            .send(.init(
+                from: emailSender,
+                to: user.email,
+                subject: emailSubject,
+                text: "",
+                html: html.description
+            ))
+            .transform(to: ())
     }
 }
