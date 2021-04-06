@@ -1,6 +1,13 @@
 name: Nodes Template
 variables: []
 files:
+  - folder: .github
+    files:
+      - folder: workflows
+        files:
+          - swiftlint.yml
+          - test.yml
+      - pull-request-template.md
   - folder: Resources
     files:
       - folder: Views
@@ -104,6 +111,5 @@ files:
   - .swiftlint.yml
   - docker-compose.yml
   - Dockerfile
-  - LICENSE
   - Package.swift
   - README.md
