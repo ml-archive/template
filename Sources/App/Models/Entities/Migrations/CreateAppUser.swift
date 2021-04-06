@@ -15,6 +15,12 @@ struct CreateAppUser: Migration {
             .field(.updatedAt, .datetime)
             .unique(on: .id, .email)
             .create()
+            .flatMap {
+                database.createIndex(for: .email)
+            }
+            .flatMap {
+                database.createIndex(for: .name)
+            }
     }
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
