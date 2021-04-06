@@ -2,11 +2,17 @@ import Submissions
 import Vapor
 
 struct AppUserCreateRequest: Codable, CreateRequest {
+    let name: String
+    let email: String
     let password: String
 
     func create(on request: Request) -> EventLoopFuture<AppUser> {
         request.password.async.hash(password).map { hashedPassword in
-            AppUser(hashedPassword: hashedPassword)
+            AppUser(
+                name: self.name,
+                email: self.email,
+                hashedPassword: hashedPassword
+            )
         }
     }
 }
@@ -15,15 +21,17 @@ extension AppUserCreateRequest {
     static func validations(on request: Request) -> EventLoopFuture<Validations> {
         var validations = Validations()
 
-        validations.add("password", as: String.self, is: .strongPassword, required: true)
-        validations.add("userID", as: String.self, is: .count(8...), required: true)
+        validations.add("password", is: .strongPassword)
+        validations.add("email", is: .email)
 
-        let userID = try? request.content.get(UUID.self, at: "userID")
-        return request.repositories.appUser.find(userID).map { optionalUser in
+        guard let email = try? request.content.get(String.self, at: "email") else {
+            return request.eventLoop.future(validations)
+        }
+        
+        return request.repositories.appUser.findAppUserByEmail(email).map { optionalUser in
             validations.add(
-                "userID",
-                result: ValidatorResults
-                    .UniqueUser(isUniqueUser: optionalUser == nil)
+                "email",
+                result: ValidatorResults.UniqueUser(isUniqueUser: optionalUser == nil)
             )
 
             return validations

@@ -29,6 +29,23 @@ extension Environment {
     }
 }
 
+// MARK: App User (Re)set Token
+extension Environment {
+    static var appUserResetTokenSignerKey: Data {
+        assertGet("APP_USER_RESET_TOKEN_SIGNER_KEY").data(using: .utf8)!
+    }
+
+    static var appUserResetTokenExpiration: TimeInterval {
+        self.get("APP_USER_RESET_TOKEN_EXPIRATION")
+            .flatMap { TimeInterval($0) } ?? 3600 * 24 * 365
+    }
+
+    static var appUserResetEmailSender: String { assertGet("APP_USER_RESET_EMAIL_SENDER") }
+    static var appUserResetEmailSubject: String { assertGet("APP_USER_RESET_EMAIL_SUBJECT") }
+    static var appUserResetBaseURL: String { assertGet("APP_USER_RESET_BASE_URL") }
+    static var appUserWelcomeEmailSubject: String { assertGet("APP_USER_WELCOME_EMAIL_SUBJECT") }
+}
+
 // MARK: Mailgun
 extension Environment {
     static var mailgunPassword: String { assertGet("MAILGUN_PASSWORD") }

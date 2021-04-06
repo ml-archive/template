@@ -1,0 +1,117 @@
+name: Nodes Template
+variables: []
+files:
+  - folder: .github
+    files:
+      - folder: workflows
+        files:
+          - swiftlint.yml
+          - test.yml
+      - pull-request-template.md
+  - folder: Resources
+    files:
+      - folder: Views
+        files:
+          - folder: Emails
+            files:
+              - resetPassword.leaf
+              - welcome.leaf
+  - folder: Sources
+    files:
+      - folder: App
+        files:
+          - folder: Commands
+            files:
+              - AppUserCreateCommand.swift
+          - folder: Configuration
+            files:
+              - Environment.swift
+              - FieldKey.swift
+          - folder: Controllers
+            files:
+              - AppUserController.swift
+          - folder: Errors
+            files:
+              - AppError.swift
+          - folder: Models
+            files:
+              - folder: Entities
+                files:
+                  - folder: Migrations
+                    files:
+                      - CreateAppUser.swift
+                  - AppUser.swift
+              - folder: KeychainConfigs
+                files:
+                  - AppUserAccessKeychainConfig.swift
+                  - AppUserRefreshKeychainConfig.swift
+                  - AppUserResetKeychainConfig.swift
+              - folder: KeychainPayloads
+                files:
+                  - AppUserJWTPayload.swift
+              - folder: Requests
+                files:
+                  - AppUserCreateRequest.swift
+                  - AppUserLoginRequest.swift
+                  - AppUserUpdateRequest.swift
+              - folder: Responses
+                files:
+                  - AppUserCreateResponse.swift
+                  - AppUserLoginResponse.swift
+                  - AppUserMeResponse.swift
+                  - AppUserResponse.swift
+                  - AppUserUpdateResponse.swift
+                  - DataWrapper.swift
+                  - RefreshTokenResponse.swift
+          - folder: Repositories
+            files:
+              - AppUserRepository.swift
+              - DatabaseRepository.swift
+          - folder: Services
+            files:
+              - folder: Date
+                files:
+                  - Application+date.swift
+                  - Request+date.swift
+              - folder: Repositories
+                files:
+                  - Application+repositories.swift
+                  - Request+repositories.swift
+          - folder: Utilities
+            files:
+              - Database+indexes.swift
+              - Environment+assertGet.swift
+              - NodesPage.swift
+              - Parameterizable.swift
+              - Storage+orSetDefault.swift
+              - QueryBuilder+caseInsensitiveContains.swift
+              - URLQueryContainer.swift
+          - folder: Validations
+            files:
+              - ValidatorResults+Password.swift
+              - ValidatorResults+UniqueUser.swift
+          - bugsnag.swift
+          - commands.swift
+          - configure.swift
+          - databases.swift
+          - mail.swift
+          - middleware.swift
+          - migrations.swift
+          - routes.swift
+          - signers.swift
+          - views.swift
+      - folder: Run
+        files:
+          - main.swift
+  - folder: Tests
+    files:
+      - folder: AppTests
+        files:
+          - AppTests.swift
+  - .env.example
+  - .gitignore
+  - .swiftlint.yml
+  - docker-compose.yml
+  - Dockerfile
+  - Package.swift
+  - README.md

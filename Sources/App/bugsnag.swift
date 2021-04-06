@@ -1,3 +1,4 @@
+import Bugsnag
 import Vapor
 
 func bugsnag(_ app: Application) {

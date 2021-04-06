@@ -12,7 +12,7 @@ struct AppUserJWTPayload: KeychainPayload {
     }
 
     func findUser(request: Request) -> EventLoopFuture<AppUser> {
-        request.repositories.appUser.find(UUID(uuidString: sub.value))
+        request.repositories.appUser.findAppUser(UUID(uuidString: sub.value))
             .unwrap(or: AppError.entityNotFound(ofType: AppUser.self, withID: self.sub.value))
     }
 
