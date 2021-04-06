@@ -16,7 +16,10 @@ extension DatabaseRepository: AppUserRepository {
     ) -> EventLoopFuture<Page<AppUser>> {
         let query = AppUser.query(on: db)
         if let searchterm = searchterm {
-            query.filter(\.$email ~~ searchterm)
+            query.group(.or) { query in
+                query.caseInsensitiveContains(\.$email, searchterm)
+                query.caseInsensitiveContains(\.$name, searchterm)
+            }
         }
         return query.paginate(for: request)
     }

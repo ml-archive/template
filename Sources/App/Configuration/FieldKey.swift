@@ -1,7 +1,6 @@
 import FluentKit
 
 extension FieldKey {
-    static let description: FieldKey = "description"
     static let email: FieldKey = "email"
     static let hashedPassword: FieldKey = "hashed_password"
     static let name: FieldKey = "name"

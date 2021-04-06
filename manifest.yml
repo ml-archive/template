@@ -79,10 +79,12 @@ files:
                   - Request+repositories.swift
           - folder: Utilities
             files:
+              - Database+indexes.swift
               - Environment+assertGet.swift
               - NodesPage.swift
               - Parameterizable.swift
               - Storage+orSetDefault.swift
+              - QueryBuilder+caseInsensitiveContains.swift
               - URLQueryContainer.swift
           - folder: Validations
             files:
