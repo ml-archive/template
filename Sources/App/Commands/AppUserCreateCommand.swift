@@ -45,7 +45,7 @@ struct AppUserCreateCommand: Command {
             .application
             .repositories
             .appUser(context.application.db)
-            .save(user)
+            .saveAppUser(user)
             .map { user in
                 context.console.info("Created new app user with:")
                 context.console.info(" - name: \(user.name)")

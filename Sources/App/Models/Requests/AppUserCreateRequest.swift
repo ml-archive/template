@@ -28,7 +28,7 @@ extension AppUserCreateRequest {
             return request.eventLoop.future(validations)
         }
         
-        return request.repositories.appUser.findByEmail(email).map { optionalUser in
+        return request.repositories.appUser.findAppUserByEmail(email).map { optionalUser in
             validations.add(
                 "email",
                 result: ValidatorResults.UniqueUser(isUniqueUser: optionalUser == nil)

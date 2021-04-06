@@ -2,15 +2,15 @@ import Fluent
 import Vapor
 
 protocol AppUserRepository {
-    func all(searchterm: String?, on request: Request) -> EventLoopFuture<Page<AppUser>>
-    func delete(_ user: AppUser) -> EventLoopFuture<Void>
-    func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?>
-    func findByEmail(_ email: String) -> EventLoopFuture<AppUser?>
-    func save(_ user: AppUser) -> EventLoopFuture<AppUser>
+    func paginateAppUsers(searchterm: String?, on request: Request) -> EventLoopFuture<Page<AppUser>>
+    func deleteAppUser(_ user: AppUser) -> EventLoopFuture<Void>
+    func findAppUser(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?>
+    func findAppUserByEmail(_ email: String) -> EventLoopFuture<AppUser?>
+    func saveAppUser(_ user: AppUser) -> EventLoopFuture<AppUser>
 }
 
 extension DatabaseRepository: AppUserRepository {
-    func all(
+    func paginateAppUsers(
         searchterm: String?,
         on request: Request
     ) -> EventLoopFuture<Page<AppUser>> {
@@ -21,19 +21,19 @@ extension DatabaseRepository: AppUserRepository {
         return query.paginate(for: request)
     }
 
-    func delete(_ user: AppUser) -> EventLoopFuture<Void> {
+    func deleteAppUser(_ user: AppUser) -> EventLoopFuture<Void> {
         user.delete(on: db)
     }
 
-    func find(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?> {
+    func findAppUser(_ id: AppUser.IDValue?) -> EventLoopFuture<AppUser?> {
         AppUser.find(id, on: db)
     }
 
-    func findByEmail(_ email: String) -> EventLoopFuture<AppUser?> {
+    func findAppUserByEmail(_ email: String) -> EventLoopFuture<AppUser?> {
         AppUser.query(on: db).filter(\.$email == email).first()
     }
 
-    func save(_ user: AppUser) -> EventLoopFuture<AppUser> {
+    func saveAppUser(_ user: AppUser) -> EventLoopFuture<AppUser> {
         user.save(on: db).transform(to: user)
     }
 }

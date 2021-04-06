@@ -23,7 +23,7 @@ struct AppUserController {
     func create(request: Request) throws -> EventLoopFuture<Response> {
         AppUserCreateRequest
             .create(on: request)
-            .flatMap(request.repositories.appUser.save)
+            .flatMap(request.repositories.appUser.saveAppUser)
             .flatMapThrowing(AppUserCreateResponse.init)
             .map(DataWrapper.init)
             .encodeResponse(status: .created, for: request)
@@ -33,7 +33,7 @@ struct AppUserController {
         return request
             .repositories
             .appUser
-            .all(searchterm: request.query.searchTerm, on: request)
+            .paginateAppUsers(searchterm: request.query.searchTerm, on: request)
             .flatMapThrowing { paginatedRespondents in
                 try paginatedRespondents.map(AppUserResponse.init)
             }
@@ -50,7 +50,7 @@ struct AppUserController {
     func update(request: Request) throws -> EventLoopFuture<DataWrapper<AppUserUpdateResponse>> {
         AppUserUpdateRequest
             .update(on: request)
-            .flatMap(request.repositories.appUser.save)
+            .flatMap(request.repositories.appUser.saveAppUser)
             .flatMapThrowing(AppUserUpdateResponse.init)
             .map(DataWrapper.init)
     }
@@ -58,7 +58,7 @@ struct AppUserController {
     func delete(request: Request) throws -> EventLoopFuture<HTTPStatus> {
         AppUser
             .find(on: request)
-            .flatMap(request.repositories.appUser.delete)
+            .flatMap(request.repositories.appUser.deleteAppUser)
             .transform(to: .noContent)
     }
 }
