@@ -7,13 +7,13 @@ jobs:
   vapor_macos:
     runs-on: macos-latest
     env:
-      DEVELOPER_DIR: /Applications/Xcode_12.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
     steps:
     - uses: actions/checkout@v2
     - run: xcrun swift test --enable-test-discovery --sanitize=thread
   vapor_bionic:
     container: 
-      image: vapor/swift:5.3-bionic
+      image: swift:5.3-focal
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
