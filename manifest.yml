@@ -1,4 +1,5 @@
 name: Nodes Template
+variables:
 files:
   - folder: Resources
     files:
