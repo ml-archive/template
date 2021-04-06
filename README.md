@@ -15,7 +15,7 @@ A Vapor template for convenient and fast scaffolding 🏎
 
 You can create a new project using the [Vapor toolbox](https://vapor.github.io/documentation/getting-started/install-toolbox.html).
 ```bash
-vapor new MyApp --template https://www.github.com/nodes-vapor/template --no-commit
+vapor new MyApp --template https://www.github.com/nodes-vapor/template
 ```
 
 ## Getting started 🚀
