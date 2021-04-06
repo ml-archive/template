@@ -1,5 +1,5 @@
 name: Nodes Template
-variables:
+variables: []
 files:
   - folder: Resources
     files:
