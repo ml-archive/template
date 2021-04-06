@@ -8,8 +8,6 @@ extension FieldKey {
     static let shouldResetPassword: FieldKey = "should_reset_password"
     static let title: FieldKey = "title"
 
-
-
     static let createdAt: FieldKey = "created_at"
     static let updatedAt: FieldKey = "updated_at"
 }
