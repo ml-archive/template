@@ -82,7 +82,6 @@ files:
               - Database+indexes.swift
               - Environment+assertGet.swift
               - EventLoopFuture+unwrap.swift
-              - NodesPage.swift
               - Parameterfindable.swift
               - Parameterizable.swift
               - Storage+orSetDefault.swift

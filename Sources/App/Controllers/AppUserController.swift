@@ -30,7 +30,7 @@ struct AppUserController {
             .encodeResponse(status: .created, for: request)
     }
 
-    func list(request: Request) throws -> EventLoopFuture<NodesPage<AppUserResponse>> {
+    func list(request: Request) throws -> EventLoopFuture<Page<AppUserResponse>> {
         request
             .repositories
             .appUser
@@ -38,7 +38,6 @@ struct AppUserController {
             .flatMapThrowing { paginatedRespondents in
                 try paginatedRespondents.map(AppUserResponse.init)
             }
-            .map(NodesPage.init)
     }
 
     func single(request: Request) -> EventLoopFuture<DataWrapper<AppUserResponse>> {
