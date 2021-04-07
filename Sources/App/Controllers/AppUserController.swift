@@ -1,3 +1,4 @@
+import Fluent
 import Vapor
 
 struct AppUserController {
@@ -30,7 +31,7 @@ struct AppUserController {
     }
 
     func list(request: Request) throws -> EventLoopFuture<NodesPage<AppUserResponse>> {
-        return request
+        request
             .repositories
             .appUser
             .paginateAppUsers(searchterm: request.query.searchTerm, on: request)
@@ -43,6 +44,7 @@ struct AppUserController {
     func single(request: Request) -> EventLoopFuture<DataWrapper<AppUserResponse>> {
         AppUser
             .find(on: request)
+            .unwrap()
             .flatMapThrowing(AppUserCreateResponse.init)
             .map(DataWrapper.init)
     }
@@ -58,6 +60,7 @@ struct AppUserController {
     func delete(request: Request) throws -> EventLoopFuture<HTTPStatus> {
         AppUser
             .find(on: request)
+            .unwrap()
             .flatMap(request.repositories.appUser.deleteAppUser)
             .transform(to: .noContent)
     }

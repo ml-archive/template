@@ -1,14 +1,18 @@
-import Foundation
 import Vapor
 
 struct DataWrapper<T> {
     let data: T?
 }
 
-extension DataWrapper: Decodable where T: Decodable {}
 extension DataWrapper: Encodable where T: Encodable {}
-extension DataWrapper: Content where T: Content {}
-extension DataWrapper: RequestDecodable where T: Content {}
-extension DataWrapper: ResponseEncodable where T: Content {}
-
-extension DataWrapper: Equatable where T: Equatable {}
+extension DataWrapper: ResponseEncodable where T: Encodable {
+    func encodeResponse(for request: Request) -> EventLoopFuture<Response> {
+        do {
+            let response = Response()
+            try response.content.encode(self, as: .json)
+            return request.eventLoop.future(response)
+        } catch {
+            return request.eventLoop.makeFailedFuture(error)
+        }
+    }
+}

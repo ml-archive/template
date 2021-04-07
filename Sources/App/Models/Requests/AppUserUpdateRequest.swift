@@ -5,7 +5,7 @@ struct AppUserUpdateRequest: Codable, UpdateRequest {
     let password: String
 
     static func find(on request: Request) -> EventLoopFuture<AppUser> {
-        Model.find(on: request)
+        Model.find(on: request).unwrap()
     }
 
     func update(_ user: AppUser, on request: Request) -> EventLoopFuture<AppUser> {

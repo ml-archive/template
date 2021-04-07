@@ -1,6 +1,6 @@
 import Vapor
 
-struct AppUserMeResponse: Content {
+struct AppUserMeResponse: Codable {
     let id: UUID
 }
 

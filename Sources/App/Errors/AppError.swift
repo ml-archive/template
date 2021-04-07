@@ -1,7 +1,7 @@
 import Vapor
 
 enum AppError: Error {
-    case entityNotFound(ofType: Any.Type, withID: String)
+    case entityNotFound(ofType: Any.Type, withID: String? = nil)
     case incorrectCredentials
     case parameterNotFound(String, ofType: Any.Type)
     case passwordsDoNotMatch
@@ -13,7 +13,7 @@ extension AppError: AbortError {
     var reason: String {
         switch self {
         case let .entityNotFound(entityType, id):
-            return "Entity of type \(entityType) with id \(id) not found."
+            return "Entity of type \(entityType) \(id.map { "with id \($0)" } ?? "")not found."
         case .incorrectCredentials:
             return "Incorrect credentials"
         case let .parameterNotFound(parameter, ofType: parameterType):

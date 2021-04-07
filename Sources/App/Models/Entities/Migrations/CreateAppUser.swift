@@ -16,10 +16,10 @@ struct CreateAppUser: Migration {
             .unique(on: .id, .email)
             .create()
             .flatMap {
-                database.createIndex(for: .email)
+                database.createIndex(for: .email, onTable: AppUser.schema)
             }
             .flatMap {
-                database.createIndex(for: .name)
+                database.createIndex(for: .name, onTable: AppUser.schema)
             }
     }
 
