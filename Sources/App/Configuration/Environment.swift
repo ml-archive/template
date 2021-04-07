@@ -24,8 +24,7 @@ extension Environment {
     }
 
     static var appUserRefreshTokenExpiration: TimeInterval {
-        self.get("APP_USER_REFRESH_TOKEN_EXPIRATION")
-            .flatMap { TimeInterval($0) } ?? 3600 * 24 * 365
+        self.get("APP_USER_REFRESH_TOKEN_EXPIRATION").flatMap { TimeInterval($0) } ?? 3600 * 24 * 365
     }
 }
 
@@ -36,8 +35,7 @@ extension Environment {
     }
 
     static var appUserResetTokenExpiration: TimeInterval {
-        self.get("APP_USER_RESET_TOKEN_EXPIRATION")
-            .flatMap { TimeInterval($0) } ?? 3600 * 24 * 365
+        self.get("APP_USER_RESET_TOKEN_EXPIRATION").flatMap { TimeInterval($0) } ?? 3600
     }
 
     static var appUserResetEmailSender: String { assertGet("APP_USER_RESET_EMAIL_SENDER") }
