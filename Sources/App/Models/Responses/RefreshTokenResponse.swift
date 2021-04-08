@@ -1,6 +1,6 @@
 import Vapor
 
-struct RefreshTokenResponse: Content {
+struct RefreshTokenResponse: Encodable {
     let refreshToken: String
 
     init(_ refreshToken: String) {

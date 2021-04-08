@@ -1,5 +1,5 @@
 import Vapor
 
 func migrations(_ app: Application) {
-    app.migrations.add(CreateAppUser())
+    app.migrations.add(AppUser.Create())
 }

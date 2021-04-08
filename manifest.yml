@@ -81,7 +81,8 @@ files:
             files:
               - Database+indexes.swift
               - Environment+assertGet.swift
-              - NodesPage.swift
+              - EventLoopFuture+unwrap.swift
+              - Parameterfindable.swift
               - Parameterizable.swift
               - Storage+orSetDefault.swift
               - QueryBuilder+caseInsensitiveContains.swift

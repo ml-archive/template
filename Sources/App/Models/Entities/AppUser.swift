@@ -52,3 +52,5 @@ extension AppUser: Parameterizable {
         request.repositories.appUser.findAppUser(id)
     }
 }
+
+extension AppUser: ParameterFindable {}
