@@ -1,5 +1,3 @@
-import Vapor
-
 struct AppUserMeResponse: Codable {
     let id: UUID
 }

@@ -1,11 +1,6 @@
 import Mailgun
 import Vapor
 
-// MARK: Database
-extension Environment {
-    static var postgreSQLURL: String { assertGet("POSTGRESQL_URL") }
-}
-
 // MARK: App User Access Token
 extension Environment {
     static var appUserAccessTokenSignerKey: Data {
@@ -44,6 +39,11 @@ extension Environment {
     static var appUserWelcomeEmailSubject: String { assertGet("APP_USER_WELCOME_EMAIL_SUBJECT") }
 }
 
+// MARK: Bugsnag
+extension Environment {
+    static var bugsnagAPIKey: String { assertGet("BUGSNAG_API_KEY") }
+}
+
 // MARK: Mailgun
 extension Environment {
     static var mailgunPassword: String { assertGet("MAILGUN_PASSWORD") }
@@ -51,7 +51,7 @@ extension Environment {
     static var mailgunRegion: MailgunRegion { MailgunRegion(rawValue: assertGet("MAILGUN_REGION")) ?? .us }
 }
 
-// MARK: Bugsnag
+// MARK: PostgreSQL
 extension Environment {
-    static var bugsnagAPIKey: String { assertGet("BUGSNAG_API_KEY") }
+    static var postgreSQLURL: String { assertGet("POSTGRESQL_URL") }
 }

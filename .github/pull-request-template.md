@@ -1,11 +1,11 @@
-**Acceptance criteria:**  
-- [ ] PR title includes ticket reference
+**Acceptance criteria:**
+- [ ] PR title or branch name includes ticket reference
 - [ ] Updated API spec
 - [ ] Updated additional documentation (with links if applicable)
 - [ ] Includes tests
 - [ ] Update any new or changed environment variables on the server(s)
 - [ ] ...
 
-**Related to other PRs:**   
+**Related to other PRs:**
 
-**Notes for reviewers:**  
+**Notes for reviewers:**

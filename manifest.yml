@@ -39,7 +39,7 @@ files:
                 files:
                   - folder: Migrations
                     files:
-                      - CreateAppUser.swift
+                      - AppUser.Create.swift
                   - AppUser.swift
               - folder: KeychainConfigs
                 files:

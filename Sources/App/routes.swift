@@ -10,4 +10,6 @@ func routes(_ app: Application) throws {
 
     let appRoutes = apiV1Routes.grouped("app")
     try appRoutes.grouped("users").register(collection: AppUserController())
+
+    let protected = routes.grouped(AppUserAccessKeychainConfig.authenticator, AppUser.guardMiddleware())
 }

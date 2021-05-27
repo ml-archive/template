@@ -47,10 +47,10 @@ extension AppUser: BugsnagUser {
 
 extension AppUser: Parameterizable {
     static var parameter: String { "userID" }
+}
 
+extension AppUser: ParameterFindable {
     static func find(parameterValue id: IDValue, on request: Request) -> EventLoopFuture<AppUser?> {
         request.repositories.appUser.findAppUser(id)
     }
 }
-
-extension AppUser: ParameterFindable {}

@@ -1,5 +1,3 @@
-import Vapor
-
 struct RefreshTokenResponse: Encodable {
     let refreshToken: String
 
