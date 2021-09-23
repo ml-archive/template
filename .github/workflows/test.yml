@@ -12,7 +12,7 @@ jobs:
     - run: xcrun swift test --enable-test-discovery --sanitize=thread
   vapor_bionic:
     container: 
-      image: swift:5.3-focal
+      image: swift:5.4-focal
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
