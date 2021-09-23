@@ -1,5 +1,5 @@
 # Nodes Vapor Template
-[![Swift Version](https://img.shields.io/badge/Swift-5.2-brightgreen.svg)](http://swift.org)
+[![Swift Version](https://img.shields.io/badge/Swift-5.4-brightgreen.svg)](http://swift.org)
 [![Vapor Version](https://img.shields.io/badge/Vapor-4-30B6FC.svg)](http://vapor.codes)
 [![codebeat badge](https://codebeat.co/badges/3a24a136-5aa1-4622-a875-69d0552202c7)](https://codebeat.co/projects/github-com-nodes-vapor-template-master)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/template)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/template)
@@ -50,14 +50,19 @@ For generating tokens, a couple of signers need to be set for JWT Keychain. Thes
 
 For handling reset of passwords, Reset also needs a couple of signers to be set (similar to JWT Keychain).
 
-#### Nodes SSO
-
-To enable Nodes SSO on Admin Panel the project needs to be [created on Ournodes](https://github.com/nodes-projects/readme/blob/master/server-side/nodes-sso.md) (private link) and the environment variables needs to be set up in the project. Be aware when using SSO locally to specify the PROJECT_URL environment variable with `http`
-
 #### Bugsnag
 
 To support error reporting to Bugsnag, a project needs to be created on our organization and the API key needs to be added to the project.
 
+#### NMeta
+
+For better tracking of who consumes the API. NMeta enforces clients to send a specific header in all requests:
+
+```
+NMeta: [PLATFORM];[ENVIRONMENT];[APP_VERSION];[DEVICE_OS];[DEVICE]
+```
+Additionally, NMeta adds another layer of protection to the API against unwanted users trying to get access. 
+
 ## 🏆 Credits
 
-This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
+This package is developed and maintained by the Vapor team at [MonstarLab](https://www.monstar-lab.com).

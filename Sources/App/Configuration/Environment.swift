@@ -1,57 +1,78 @@
 import Mailgun
 import Vapor
 
-// MARK: App User Access Token
+
 extension Environment {
-    static var appUserAccessTokenSignerKey: Data {
-        assertGet("APP_USER_ACCESS_TOKEN_SIGNER_KEY").data(using: .utf8)!
+    struct AppUser {
+
+        // MARK: App User Access Token
+
+        struct AccessToken {
+            static var signerKey: Data {
+                assertGet("APP_USER_ACCESS_TOKEN_SIGNER_KEY").data(using: .utf8)!
+            }
+
+            static var expiration: TimeInterval {
+                TimeInterval(assertGet("APP_USER_ACCESS_TOKEN_EXPIRATION")) ?? 3600
+            }
+        }
+
+        // MARK: App User Refresh Token
+
+        struct RefreshToken {
+            static var signerKey: Data {
+                assertGet("APP_USER_REFRESH_TOKEN_SIGNER_KEY").data(using: .utf8)!
+            }
+
+            static var expiration: TimeInterval {
+                TimeInterval(assertGet("APP_USER_REFRESH_TOKEN_EXPIRATION")) ?? 3600 * 24 * 365
+            }
+        }
+
+        // MARK: App User (Re)set Token
+
+        struct ResetToken {
+            static var signerKey: Data {
+                assertGet("APP_USER_RESET_TOKEN_SIGNER_KEY").data(using: .utf8)!
+            }
+
+            static var expiration: TimeInterval {
+                TimeInterval(assertGet("APP_USER_RESET_TOKEN_EXPIRATION")) ?? 3600
+            }
+        }
+
+        // MARK: App User (Re)set Email
+
+        struct Reset {
+            static var emailSender: String { assertGet("APP_USER_RESET_EMAIL_SENDER") }
+            static var emailSubject: String { assertGet("APP_USER_RESET_EMAIL_SUBJECT") }
+            static var baseURL: String { assertGet("APP_USER_RESET_BASE_URL") }
+        }
+
+        // MARK: App User Welcome Email
+        
+        struct Welcome {
+            static var emailSubject: String { assertGet("APP_USER_WELCOME_EMAIL_SUBJECT") }
+        }
     }
 
-    static var appUserAccessTokenExpiration: TimeInterval {
-        self.get("APP_USER_ACCESS_TOKEN_EXPIRATION").flatMap { TimeInterval($0) } ?? 3600
-    }
-}
+    // MARK: Bugsnag
 
-// MARK: App User Refresh Token
-extension Environment {
-    static var appUserRefreshTokenSignerKey: Data {
-        assertGet("APP_USER_REFRESH_TOKEN_SIGNER_KEY").data(using: .utf8)!
+    struct Bugsnag {
+        static var apiKey: String { assertGet("BUGSNAG_API_KEY") }
     }
 
-    static var appUserRefreshTokenExpiration: TimeInterval {
-        self.get("APP_USER_REFRESH_TOKEN_EXPIRATION").flatMap { TimeInterval($0) } ?? 3600 * 24 * 365
-    }
-}
+    // MARK: Mailgun
 
-// MARK: App User (Re)set Token
-extension Environment {
-    static var appUserResetTokenSignerKey: Data {
-        assertGet("APP_USER_RESET_TOKEN_SIGNER_KEY").data(using: .utf8)!
+    struct Mailgun {
+        static var apiKey: String { assertGet("MAILGUN_API_KEY") }
+        static var defaultDomain: String { assertGet("MAILGUN_DEFAULT_DOMAIN") }
+        static var region: MailgunRegion { MailgunRegion(rawValue: assertGet("MAILGUN_REGION")) ?? .us }
     }
 
-    static var appUserResetTokenExpiration: TimeInterval {
-        self.get("APP_USER_RESET_TOKEN_EXPIRATION").flatMap { TimeInterval($0) } ?? 3600
+    // MARK: PostgreSQL
+
+    struct PostgreSQL {
+        static var url: String { assertGet("POSTGRESQL_URL") }
     }
-
-    static var appUserResetEmailSender: String { assertGet("APP_USER_RESET_EMAIL_SENDER") }
-    static var appUserResetEmailSubject: String { assertGet("APP_USER_RESET_EMAIL_SUBJECT") }
-    static var appUserResetBaseURL: String { assertGet("APP_USER_RESET_BASE_URL") }
-    static var appUserWelcomeEmailSubject: String { assertGet("APP_USER_WELCOME_EMAIL_SUBJECT") }
-}
-
-// MARK: Bugsnag
-extension Environment {
-    static var bugsnagAPIKey: String { assertGet("BUGSNAG_API_KEY") }
-}
-
-// MARK: Mailgun
-extension Environment {
-    static var mailgunPassword: String { assertGet("MAILGUN_PASSWORD") }
-    static var mailgunDefaultDomain: String { assertGet("MAILGUN_DEFAULT_DOMAIN") }
-    static var mailgunRegion: MailgunRegion { MailgunRegion(rawValue: assertGet("MAILGUN_REGION")) ?? .us }
-}
-
-// MARK: PostgreSQL
-extension Environment {
-    static var postgreSQLURL: String { assertGet("POSTGRESQL_URL") }
 }
