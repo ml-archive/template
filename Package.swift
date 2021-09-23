@@ -11,7 +11,7 @@ let warnAboutLongTypeChecking = SwiftSetting.unsafeFlags(
 )
 
 let package = Package(
-    name: "nodes-template",
+    name: "monstar-lab-template",
     platforms: [
        .macOS(.v10_15)
     ],
