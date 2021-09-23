@@ -40,8 +40,6 @@ let package = Package(
                 "Core",
                 "User",
                 .product(name: "Bugsnag", package: "bugsnag"),
-                .product(name: "Fluent", package: "fluent"), // remove
-                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"), // remove
                 .product(name: "Keychain", package: "keychain"),
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Mailgun", package: "mailgun"),
