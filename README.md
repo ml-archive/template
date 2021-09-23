@@ -63,6 +63,27 @@ NMeta: [PLATFORM];[ENVIRONMENT];[APP_VERSION];[DEVICE_OS];[DEVICE]
 ```
 Additionally, NMeta adds another layer of protection to the API against unwanted users trying to get access. 
 
+# Architecture
+
+```
+ _________________________________________________
+|                                                 |
+|                      Run                        | <- Application entry point
+|_________________________________________________|
+|                                                 |
+|                      App                        | <- Configuration
+|_________________________________________________|
+|     |       |         |                         |
+|     |       | Auth    |        Other APIs       | <- APIs
+|     |  User |_________|_________________________|
+|     |                 |                         |
+|     |_________________|                         |
+|                                                 |
+|                      Core                       |
+|                                                 | <- Models and shared services and utilities
+|_________________________________________________|
+```
+
 ## 🏆 Credits
 
 This package is developed and maintained by the Vapor team at [MonstarLab](https://www.monstar-lab.com).
