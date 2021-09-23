@@ -3,17 +3,10 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  vapor_macos:
-    runs-on: macos-latest
-    env:
-      DEVELOPER_DIR: /Applications/Xcode_12.4.app/Contents/Developer
-    steps:
-    - uses: actions/checkout@v2
-    - run: xcrun swift test --enable-test-discovery --sanitize=thread
-  vapor_bionic:
+  vapor_focal:
     container: 
       image: swift:5.4-focal
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: swift test --enable-test-discovery --sanitize=thread
+    - run: swift test --sanitize=thread
