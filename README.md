@@ -22,7 +22,8 @@ vapor new MyApp --template https://www.github.com/nodes-vapor/template
 
 ### Project name
 
-Before building your project you need to change the name of the project in `Package.swift`. Look for `name: "NodesTemplate"` and adjust it to fit your project.
+Before building your project you need to change the name of the project in `Package.swift`. Look for `name: "monstar-lab-template"` and adjust it to fit your project.
+At the same time, update the image name in your docker-compose file to match your project name.
 
 ### Environment variables
 
