@@ -5,7 +5,7 @@ on:
 jobs:
   vapor_focal:
     container: 
-      image: swift:5.4-focal
+      image: swift:5.5-focal
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

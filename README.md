@@ -1,5 +1,5 @@
 # Nodes Vapor Template
-[![Swift Version](https://img.shields.io/badge/Swift-5.4-brightgreen.svg)](http://swift.org)
+[![Swift Version](https://img.shields.io/badge/Swift-5.5-brightgreen.svg)](http://swift.org)
 [![Vapor Version](https://img.shields.io/badge/Vapor-4-30B6FC.svg)](http://vapor.codes)
 [![codebeat badge](https://codebeat.co/badges/3a24a136-5aa1-4622-a875-69d0552202c7)](https://codebeat.co/projects/github-com-nodes-vapor-template-master)
 [![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/template)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/template)
