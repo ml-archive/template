@@ -10,10 +10,10 @@ struct AppUserLoginRequest: Codable, LoginRequest {
 
     static let hashedPasswordKey: KeyPath<AppUser, String> = \.hashedPassword
 
-    let id: UUID
+    let email: string
     let password: String
 
     func logIn(on request: Request) -> EventLoopFuture<AppUser> {
-        request.repositories.appUser.findAppUser(id).unwrap(or: CoreError.incorrectCredentials)
+        request.repositories.appUser.findAppUserByEmail(email).unwrap(or: CoreError.incorrectCredentials)
     }
 }

@@ -16,9 +16,9 @@ extension Vapor.Routes {
         try appRoutes.grouped("auth").register(collection: Auth.Routes())
         try appRoutes.grouped("users").register(collection: User.Routes.Unprotected())
 
-        let protected = apiV1Routes
+        let protectedApp = appRoutes
             .grouped(Auth.AppUserAccessKeychainConfig.authenticator, AppUser.guardMiddleware())
 
-        try protected.grouped("users").register(collection: User.Routes.Protected())
+        try protectedApp.grouped("users").register(collection: User.Routes.Protected())
     }
 }

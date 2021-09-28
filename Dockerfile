@@ -37,7 +37,7 @@ RUN cp "$(swift build --package-path /build -c release --show-bin-path)/Run" ./
 # ================================
 # Run image
 # ================================
-FROM swift:5.4-focal-slim
+FROM swift:5.5-focal-slim
 
 # Make sure all system packages are up to date.
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
